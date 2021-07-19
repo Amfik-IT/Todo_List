@@ -7,6 +7,7 @@ const taskerApp = (function () {
 
             this.container = container;
 
+            // HomePage
             this.HomePageComponent = {
                 id: "homepage",
                 title: "Tasker",
@@ -18,7 +19,9 @@ const taskerApp = (function () {
                             <button class="head__setupButton">...</button>
                         </div>
                         <div class="tasks"></div>
-                        <div class="lists"></div>
+                        <div class="lists">
+                            <div class="listsTitle">Lists</div>
+                        </div>
                         <button class="addButton">+</button>
                     </main>
                   `;
@@ -48,12 +51,38 @@ const taskerApp = (function () {
 
         createContent(storageInfo) {
 
+            let divHeadDay = document.querySelector('.head__day');
+            divHeadDay.innerHTML = storageInfo[0].day;
+
             let tasksList = document.createElement('ul');
             tasksList.setAttribute("class", "tasks__list");
+
+            console.log(storageInfo);
+
             let tasks = storageInfo[0].tasks;
             for (let i = 0; i < tasks.length; i++) {
                 let li = document.createElement('li');
-                li.innerHTML = tasks[i];
+                let input = document.createElement('input');
+                input.setAttribute("type", "checkbox");
+                input.setAttribute("data-parent", tasks[i].parent);
+
+                let pText = document.createElement('p');
+                let spanText = document.createElement('span');
+                spanText.setAttribute("class", "taskText");
+                spanText.innerHTML = tasks[i].text;
+                pText.append(spanText);
+                if (!!tasks[i].time) {
+                    let spanTime = document.createElement('span');
+                    spanTime.setAttribute("class", "taskTime");
+                    spanTime.innerHTML = tasks[i].time;
+                    pText.append(spanTime);
+                }
+
+                let spanColor = document.createElement('span');
+                spanColor.setAttribute("class", `${tasks[i].parent}_color`);
+                li.append(input);
+                li.append(pText);
+                li.append(spanColor);
                 tasksList.append(li);
             }
             let divTasks = document.querySelector('.tasks');
@@ -64,7 +93,17 @@ const taskerApp = (function () {
             let lists = storageInfo[0].lists;
             for (let i = 0; i < lists.length; i++) {
                 let li = document.createElement('li');
-                li.innerHTML = lists[i];
+
+                let spanText = document.createElement('span');
+                spanText.setAttribute("class", "listText");
+                spanText.innerHTML = lists[i].category;
+
+                let spanCountTask = document.createElement('span');
+                spanCountTask.setAttribute("class", "listCountTask");
+                spanCountTask.innerHTML = `${lists[i].count} ${lists[i].count < 2 ? "task" : "tasks"}`;
+
+                li.append(spanText);
+                li.append(spanCountTask);
                 listsList.append(li);
             }
             let divLists = document.querySelector('.lists');
@@ -105,9 +144,50 @@ const taskerApp = (function () {
             if (window.localStorage.getItem("UserTaskInfo") === null) {
                 let storage = [{
                     day: "Today",
-                    tasks: ["Start making a presentation", "Pay for rent", "Buy a milk", "Don’t forget to pick up Mickael from school", "Buy a chocolate for Charlotte"],
-                    lists: ["Inbox", "Work", "Shopping", "Family"],
-                }, ]
+                    tasks: [{
+                            text: "Start making a presentation",
+                            parent: "Work",
+                            time: "",
+                        },
+                        {
+                            text: "Pay for rent",
+                            parent: "Shopping",
+                            time: "7 pm",
+                        },
+                        {
+                            text: "Buy a milk",
+                            parent: "Shopping",
+                            time: "",
+                        },
+                        {
+                            text: "Don’t forget to pick up Mickael from school",
+                            parent: "Inbox",
+                            time: "",
+                        },
+                        {
+                            text: "Buy a chocolate for Charlotte",
+                            parent: "Family",
+                            time: "",
+                        }
+                    ],
+                    lists: [{
+                            category: "Inbox",
+                            count: 1,
+                        },
+                        {
+                            category: "Work",
+                            count: 1,
+                        },
+                        {
+                            category: "Shopping",
+                            count: 2,
+                        },
+                        {
+                            category: "Family",
+                            count: 1,
+                        }
+                    ],
+                }, ];
                 window.localStorage.setItem("UserTaskInfo", JSON.stringify(storage));
             }
 
