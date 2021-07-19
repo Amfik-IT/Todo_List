@@ -16,7 +16,11 @@ const taskerApp = (function () {
                     <main class="${className}">
                         <div class="head">
                             <div class="head__day">${rest[0][0].day}</div>
-                            <button class="head__setupButton">...</button>
+                            <a class="head__setupButton">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            </a>
                         </div>
                         <div class="tasks"></div>
                         <div class="lists">
@@ -57,7 +61,7 @@ const taskerApp = (function () {
             let tasksList = document.createElement('ul');
             tasksList.setAttribute("class", "tasks__list");
 
-            console.log(storageInfo);
+            // console.log(storageInfo);
 
             let tasks = storageInfo[0].tasks;
             for (let i = 0; i < tasks.length; i++) {
@@ -65,6 +69,7 @@ const taskerApp = (function () {
                 let input = document.createElement('input');
                 input.setAttribute("type", "checkbox");
                 input.setAttribute("data-parent", tasks[i].parent);
+                input.checked = tasks[i].checked;
 
                 let pText = document.createElement('p');
                 let spanText = document.createElement('span');
@@ -148,6 +153,7 @@ const taskerApp = (function () {
                             text: "Start making a presentation",
                             parent: "Work",
                             time: "",
+                            checked: false,
                         },
                         {
                             text: "Pay for rent",
@@ -158,16 +164,19 @@ const taskerApp = (function () {
                             text: "Buy a milk",
                             parent: "Shopping",
                             time: "",
+                            checked: true,
                         },
                         {
                             text: "Don’t forget to pick up Mickael from school",
                             parent: "Inbox",
                             time: "",
+                            checked: false,
                         },
                         {
                             text: "Buy a chocolate for Charlotte",
                             parent: "Family",
                             time: "",
+                            checked: false,
                         }
                     ],
                     lists: [{
