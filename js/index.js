@@ -11,12 +11,12 @@ const taskerApp = (function () {
             this.HomePageComponent = {
                 id: "homepage",
                 title: "Tasker",
-                render: (className = "taskerPage", ...rest) => {
+                render: (className = "tasker-Page", ...rest) => {
                     return `
                     <main class="${className}">
                         <div class="head">
-                            <div class="head__day">${rest[0][0].day}</div>
-                            <a class="head__setupButton">
+                            <div class="head__day"></div>
+                            <a class="head__setup-button">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -24,9 +24,9 @@ const taskerApp = (function () {
                         </div>
                         <div class="tasks"></div>
                         <div class="lists">
-                            <div class="listsTitle">Lists</div>
+                            <div class="lists__title">Lists</div>
                         </div>
-                        <button class="addButton">+</button>
+                        <a class="add-button">+</a>
                     </main>
                   `;
                 }
@@ -42,7 +42,7 @@ const taskerApp = (function () {
             return false;
         }
 
-        renderContent(hashPageName, storageInfo) {
+        renderContent(hashPageName) {
             let routeName = "default";
 
             if (hashPageName.length > 0) {
@@ -50,7 +50,7 @@ const taskerApp = (function () {
             }
 
             window.document.title = this.router[routeName].title;
-            this.container.innerHTML = this.router[routeName].render(`${routeName}-page`, storageInfo);
+            this.container.innerHTML = this.router[routeName].render(`${routeName}-page`);
         }
 
         createContent(storageInfo) {
@@ -66,6 +66,7 @@ const taskerApp = (function () {
             let tasks = storageInfo[0].tasks;
             for (let i = 0; i < tasks.length; i++) {
                 let li = document.createElement('li');
+                li.setAttribute("class", "tasks__list-item");
                 let input = document.createElement('input');
                 input.setAttribute("type", "checkbox");
                 input.setAttribute("data-parent", tasks[i].parent);
@@ -73,18 +74,19 @@ const taskerApp = (function () {
 
                 let pText = document.createElement('p');
                 let spanText = document.createElement('span');
-                spanText.setAttribute("class", "taskText");
+                spanText.setAttribute("class", "task-text");
                 spanText.innerHTML = tasks[i].text;
                 pText.append(spanText);
                 if (!!tasks[i].time) {
                     let spanTime = document.createElement('span');
-                    spanTime.setAttribute("class", "taskTime");
+                    spanTime.setAttribute("class", "task-time");
                     spanTime.innerHTML = tasks[i].time;
                     pText.append(spanTime);
                 }
 
                 let spanColor = document.createElement('span');
-                spanColor.setAttribute("class", `${tasks[i].parent}_color`);
+                spanColor.setAttribute("class", `${tasks[i].parent}-color`);
+                spanColor.setAttribute("style", `background-color: ${tasks[i].color}`);
                 li.append(input);
                 li.append(pText);
                 li.append(spanColor);
@@ -98,13 +100,15 @@ const taskerApp = (function () {
             let lists = storageInfo[0].lists;
             for (let i = 0; i < lists.length; i++) {
                 let li = document.createElement('li');
+                li.setAttribute("class", "lists__list-item");
+                li.setAttribute("style", `background-color: ${lists[i].color}`);
 
                 let spanText = document.createElement('span');
-                spanText.setAttribute("class", "listText");
+                spanText.setAttribute("class", "list-text");
                 spanText.innerHTML = lists[i].category;
 
                 let spanCountTask = document.createElement('span');
-                spanCountTask.setAttribute("class", "listCountTask");
+                spanCountTask.setAttribute("class", "list-count-task");
                 spanCountTask.innerHTML = `${lists[i].count} ${lists[i].count < 2 ? "task" : "tasks"}`;
 
                 li.append(spanText);
@@ -132,9 +136,9 @@ const taskerApp = (function () {
             this.view.createContent(storageInfo);
         }
 
-        updateState(storageInfo) {
+        updateState() {
             const hashPageName = window.location.hash.slice(1).toLowerCase();
-            this.view.renderContent(hashPageName, storageInfo);
+            this.view.renderContent(hashPageName);
         }
     };
 
@@ -152,29 +156,34 @@ const taskerApp = (function () {
                     tasks: [{
                             text: "Start making a presentation",
                             parent: "Work",
+                            color: "#61dea4",
                             time: "",
                             checked: false,
                         },
                         {
                             text: "Pay for rent",
                             parent: "Shopping",
+                            color: "#f45e6d",
                             time: "7 pm",
                         },
                         {
                             text: "Buy a milk",
                             parent: "Shopping",
+                            color: "#f45e6d",
                             time: "",
                             checked: true,
                         },
                         {
                             text: "Don’t forget to pick up Mickael from school",
                             parent: "Inbox",
+                            color: "#ebeff5",
                             time: "",
                             checked: false,
                         },
                         {
                             text: "Buy a chocolate for Charlotte",
                             parent: "Family",
+                            color: "#ffe761;",
                             time: "",
                             checked: false,
                         }
@@ -182,18 +191,22 @@ const taskerApp = (function () {
                     lists: [{
                             category: "Inbox",
                             count: 1,
+                            color: "#ebeff5"
                         },
                         {
                             category: "Work",
                             count: 1,
+                            color: "#61dea4"
                         },
                         {
                             category: "Shopping",
                             count: 2,
+                            color: "#f45e6d"
                         },
                         {
                             category: "Family",
                             count: 1,
+                            color: "#ffe761;"
                         }
                     ],
                 }, ];
