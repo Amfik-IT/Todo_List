@@ -157,6 +157,7 @@ const taskerApp = (function () {
                 let storage = [{
                     day: "Today",
                     tasks: [{
+                            id: 1,
                             text: "Start making a presentation",
                             parent: "Work",
                             color: "#61dea4",
@@ -164,6 +165,7 @@ const taskerApp = (function () {
                             checked: false,
                         },
                         {
+                            id: 2,
                             text: "Pay for rent",
                             parent: "Shopping",
                             color: "#f45e6d",
@@ -171,6 +173,7 @@ const taskerApp = (function () {
                             checked: false,
                         },
                         {
+                            id: 3,
                             text: "Buy a milk",
                             parent: "Shopping",
                             color: "#f45e6d",
@@ -178,6 +181,7 @@ const taskerApp = (function () {
                             checked: false,
                         },
                         {
+                            id: 4,
                             text: "Don’t forget to pick up Mickael from school",
                             parent: "Inbox",
                             color: "#ebeff5",
@@ -185,6 +189,7 @@ const taskerApp = (function () {
                             checked: false,
                         },
                         {
+                            id: 5,
                             text: "Buy a chocolate for Charlotte",
                             parent: "Family",
                             color: "#ffe761;",
@@ -218,6 +223,16 @@ const taskerApp = (function () {
             }
 
             this.initialLoad();
+
+            let tasksList = document.querySelector(".tasks__list");
+            tasksList.addEventListener('click', (e) => {
+                let target = e.target;
+                console.log(target);
+
+                if (target.className === 'custom-checkbox') {
+
+                };
+            })
         }
 
         initialLoad() {
