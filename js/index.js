@@ -2,16 +2,13 @@
 const taskerApp = (function () {
 
     class TaskerView {
-
         constructor(container) {
-
             this.container = container;
-
-            // HomePage
+         
             this.HomePageComponent = {
                 id: "homepage",
                 title: "Tasker",
-                render: (className = "tasker-Page", ...rest) => {
+                render: (className = "tasker-page", ...rest) => {
                     return `
                     <main class="${className}">
                         <div class="head">
@@ -54,14 +51,11 @@ const taskerApp = (function () {
         }
 
         createContent(storageInfo) {
-
             let divHeadDay = document.querySelector('.head__day');
             divHeadDay.innerHTML = storageInfo[0].day;
 
             let tasksList = document.createElement('ul');
             tasksList.setAttribute("class", "tasks__list");
-
-            // console.log(storageInfo);
 
             let tasks = storageInfo[0].tasks;
             for (let i = 0; i < tasks.length; i++) {
@@ -71,6 +65,7 @@ const taskerApp = (function () {
                 input.setAttribute("type", "checkbox");
                 input.setAttribute("data-parent", tasks[i].parent);
                 input.setAttribute("class", "custom-checkbox");
+                input.setAttribute("id", `${tasks[i].id}`);
                 input.checked = tasks[i].checked;
 
                 let pText = document.createElement('p');
@@ -125,7 +120,6 @@ const taskerApp = (function () {
     };
 
     class TaskerModel {
-
         constructor(view) {
             this.view = view;
         }
@@ -135,7 +129,7 @@ const taskerApp = (function () {
         }
 
         initialLoad() {
-            let storageInfo = JSON.parse(window.localStorage.getItem("user-task-info"));
+            let storageInfo = JSON.parse(window.localStorage.getItem("userTaskInfo"));
             this.view.createContent(storageInfo);
         }
 
@@ -143,17 +137,29 @@ const taskerApp = (function () {
             const hashPageName = window.location.hash.slice(1).toLowerCase();
             this.view.renderContent(hashPageName);
         }
+
+        updateData(targetID) {
+            let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
+            for(let i=0; i<storage[0].tasks.length; i++) {
+                let chek = storage[0].tasks[i].checked;
+                
+                if (storage[0].tasks[i].id === targetID) {
+                    storage[0].tasks[i].checked = !chek;
+                };
+            }
+            localStorage.setItem("userTaskInfo", JSON.stringify(storage));
+        }
     };
 
     class TaskerController {
-
         constructor(model, container) {
             this.model = model;
             this.container = container;
         }
 
         init() {
-            if (window.localStorage.getItem("user-task-info") === null) {
+            const storageData = localStorage.getItem("userTaskInfo");
+            if (storageData === null) {
                 let storage = [{
                     day: "Today",
                     tasks: [{
@@ -219,7 +225,7 @@ const taskerApp = (function () {
                         }
                     ],
                 }, ];
-                window.localStorage.setItem("user-task-info", JSON.stringify(storage));
+                localStorage.setItem("userTaskInfo", JSON.stringify(storage));
             }
 
             this.initialLoad();
@@ -227,16 +233,19 @@ const taskerApp = (function () {
             let tasksList = document.querySelector(".tasks__list");
             tasksList.addEventListener('click', (e) => {
                 let target = e.target;
-                console.log(target);
-
+                let targetID = +e.toElement.id;
                 if (target.className === 'custom-checkbox') {
-
+                    this.updateData(targetID);
                 };
             })
         }
 
         initialLoad() {
             this.model.initialLoad();
+        }
+
+        updateData(targetID) {
+            this.model.updateData(targetID);
         }
     };
 

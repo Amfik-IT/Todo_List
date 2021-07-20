@@ -4,6 +4,18 @@
     }
 }
 
+$mainBack: #ffffff;
+$title: #252a31;
+$dots: #006cff;
+$hr: rgba(37, 42, 49, 0.1);
+$pText: #252a31;
+$inputBack: #ffffff;
+$inputBorder: #cccccc;
+$addBack: #ffffff;
+$addText: #006cff;
+$addShadow: rgba(21, 35, 56, 0.16);
+$timeText: rgba(37, 42, 49, 0.3);
+
 body {
     display: flex;
     justify-content: center;
@@ -12,7 +24,7 @@ body {
 #container {
     position: relative;
     width: 375px;
-    background: #ffffff;
+    background: $mainBack;
 }
 
 .head {
@@ -31,7 +43,7 @@ body {
     font-size: 32px;
     line-height: 41px;
     letter-spacing: 0.01em;
-    color: #252a31;
+    color: $title;
 }
 
 .head__setup-button {
@@ -47,7 +59,7 @@ body {
         width: 5px;
         height: 5px;
         border-radius: 50%;
-        background-color: #006cff;
+        background-color: $dots;
     }
 }
 
@@ -70,12 +82,12 @@ body {
         flex-direction: column;
         width: 100%;
         padding: 19px 44px 19px 0;
-        border-bottom: solid 1px rgba(37, 42, 49, 0.1);
+        border-bottom: solid 1px $hr;
         font-family: "SFProText";
         font-size: 18px;
         line-height: 21px;
         letter-spacing: -0.02em;
-        color: #252a31;
+        color: $pText;
 
         span {
             &:first-child:before {
@@ -84,9 +96,9 @@ body {
                 display: block;
                 width: 24px;
                 height: 24px;
-                background: #fff;
+                background: $inputBack;
                 margin-right: 5px;
-                border: 1px solid #ccc;
+                border: 1px solid $inputBorder;
                 border-radius: 50%;
                 left: -34px;
                 top: 29%;
@@ -118,7 +130,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.385882px;
-    color: #252a31;
+    color: $pText;
     mix-blend-mode: normal;
     opacity: 0.3;
 }
@@ -137,7 +149,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 19px;
     line-height: 23px;
     letter-spacing: -0.458235px;
-    color: #252a31;
+    color: $pText;
     mix-blend-mode: normal;
     opacity: 0.9;
 }
@@ -147,7 +159,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 14px;
     line-height: 17px;
     letter-spacing: -0.337647px;
-    color: #252a31;
+    color: $pText;
     mix-blend-mode: normal;
     opacity: 0.5;
 }
@@ -162,9 +174,9 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     right: 16px;
     bottom: 44px;
     font-size: 30px;
-    color: #006cff;
-    background-color: #ffffff;
-    box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
+    color: $addText;
+    background-color: $addBack;
+    box-shadow: 0px 24px 32px $addShadow;
     border-radius: 50%;
     cursor: pointer;
 }
@@ -179,7 +191,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 14px;
     line-height: 16px;
     letter-spacing: -0.337647px;
-    color: rgba(37, 42, 49, 0.3);
+    color: $timeText;
     mix-blend-mode: normal;
     padding-left: 18px;
     margin-top: 5px;
@@ -192,7 +204,6 @@ input[type="checkbox"]:checked + p > span:first-child:before {
         display: block;
         width: 15px;
         height: 15px;
-        background: #fff;
         margin-right: 5px;
         background-image: url(../img/clock.png);
         background-position: center;
