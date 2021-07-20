@@ -23,6 +23,12 @@ const taskerApp = (function () {
                         <div class="lists">
                             <div class="lists__title">Lists</div>
                         </div>
+                        <div class="modal-add hidden">
+                            <div class="modal-add-buttons">
+                                <a class="add-task">Task</a>
+                                <a class="add-list">List</a>
+                            </div>
+                        </div>
                         <a class="add-button">+</a>
                     </main>
                   `;
@@ -117,6 +123,11 @@ const taskerApp = (function () {
             let divLists = document.querySelector('.lists');
             divLists.append(listsList);
         }
+
+        visibleToggle() {
+            let modal = document.querySelector(".modal-add");
+            modal.classList.toggle("hidden")
+        }
     };
 
     class TaskerModel {
@@ -148,6 +159,10 @@ const taskerApp = (function () {
                 };
             }
             localStorage.setItem("userTaskInfo", JSON.stringify(storage));
+        }
+
+        visibleToggle() {
+            this.view.visibleToggle();
         }
     };
 
@@ -238,6 +253,11 @@ const taskerApp = (function () {
                     this.updateData(targetID);
                 };
             })
+
+            let addButton = document.querySelector(".add-button");
+            addButton.addEventListener('click', (e) => {
+                this.visibleToggle();
+            })
         }
 
         initialLoad() {
@@ -246,6 +266,10 @@ const taskerApp = (function () {
 
         updateData(targetID) {
             this.model.updateData(targetID);
+        }
+
+        visibleToggle() {
+            this.model.visibleToggle();
         }
     };
 
