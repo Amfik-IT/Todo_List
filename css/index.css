@@ -48,6 +48,7 @@ body {
   .tasks__list-item input {
     margin: 0 18px; }
   .tasks__list-item p {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -58,6 +59,22 @@ body {
     line-height: 21px;
     letter-spacing: -0.02em;
     color: #252a31; }
+    .tasks__list-item p span:first-child:before {
+      content: " ";
+      position: absolute;
+      display: block;
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      margin-right: 5px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      left: -34px;
+      top: 29%; }
+
+input[type="checkbox"]:checked + p > span:first-child:before {
+  background-image: url("../img/arrow.svg");
+  background-position: center; }
 
 .Work-color,
 .Shopping-color,
@@ -121,5 +138,33 @@ body {
   box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
   border-radius: 50%;
   cursor: pointer; }
+
+.custom-checkbox {
+  position: relative; }
+
+.task-time {
+  position: relative;
+  font-family: "SFProText";
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.337647px;
+  color: rgba(37, 42, 49, 0.3);
+  mix-blend-mode: normal;
+  padding-left: 18px;
+  margin-top: 5px; }
+  .task-time::before {
+    position: absolute;
+    left: 0px;
+    top: 0;
+    content: " ";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    margin-right: 5px;
+    background-image: url(../img/clock.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px; }
 
 /*# sourceMappingURL=index.css.map */

@@ -70,6 +70,7 @@ const taskerApp = (function () {
                 let input = document.createElement('input');
                 input.setAttribute("type", "checkbox");
                 input.setAttribute("data-parent", tasks[i].parent);
+                input.setAttribute("class", "custom-checkbox");
                 input.checked = tasks[i].checked;
 
                 let pText = document.createElement('p');
@@ -90,7 +91,10 @@ const taskerApp = (function () {
                 li.append(input);
                 li.append(pText);
                 li.append(spanColor);
-                tasksList.append(li);
+
+                let label = document.createElement('label');
+                label.append(li);
+                tasksList.append(label);
             }
             let divTasks = document.querySelector('.tasks');
             divTasks.append(tasksList);
@@ -127,12 +131,11 @@ const taskerApp = (function () {
         }
 
         init() {
-            return false;
+            this.updateState();
         }
 
-        firstLoad() {
-            let storageInfo = JSON.parse(window.localStorage.getItem("UserTaskInfo"));
-            this.updateState(storageInfo);
+        initialLoad() {
+            let storageInfo = JSON.parse(window.localStorage.getItem("user-task-info"));
             this.view.createContent(storageInfo);
         }
 
@@ -150,7 +153,7 @@ const taskerApp = (function () {
         }
 
         init() {
-            if (window.localStorage.getItem("UserTaskInfo") === null) {
+            if (window.localStorage.getItem("user-task-info") === null) {
                 let storage = [{
                     day: "Today",
                     tasks: [{
@@ -165,13 +168,14 @@ const taskerApp = (function () {
                             parent: "Shopping",
                             color: "#f45e6d",
                             time: "7 pm",
+                            checked: false,
                         },
                         {
                             text: "Buy a milk",
                             parent: "Shopping",
                             color: "#f45e6d",
                             time: "",
-                            checked: true,
+                            checked: false,
                         },
                         {
                             text: "Don’t forget to pick up Mickael from school",
@@ -210,15 +214,14 @@ const taskerApp = (function () {
                         }
                     ],
                 }, ];
-                window.localStorage.setItem("UserTaskInfo", JSON.stringify(storage));
+                window.localStorage.setItem("user-task-info", JSON.stringify(storage));
             }
 
-            this.firstLoad();
+            this.initialLoad();
         }
 
-        firstLoad() {
-            this.model.firstLoad();
-            // this.model.updateState();
+        initialLoad() {
+            this.model.initialLoad();
         }
     };
 

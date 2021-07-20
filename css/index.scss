@@ -5,28 +5,13 @@
 }
 
 body {
-    // позиционирование
-
-    // блочная модель
     display: flex;
     justify-content: center;
-
-    // позиционирование
-
-    // типографика
-
-    // офоррмление
-
-    // анимация
-
-    // разное
 }
 
 #container {
     position: relative;
-
     width: 375px;
-
     background: #ffffff;
 }
 
@@ -35,7 +20,6 @@ body {
     left: 0%;
     right: 0%;
     top: 0%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,7 +27,6 @@ body {
 
 .head__day {
     margin: 16px 0px 16px 60px;
-
     font-family: "SFProDisplay";
     font-size: 32px;
     line-height: 41px;
@@ -58,13 +41,11 @@ body {
     width: 24px;
     height: 24px;
     margin-right: 12px;
-
     cursor: pointer;
 
     span {
         width: 5px;
         height: 5px;
-
         border-radius: 50%;
         background-color: #006cff;
     }
@@ -76,7 +57,6 @@ body {
 
 .tasks__list-item {
     position: relative;
-
     display: flex;
     align-items: center;
 
@@ -85,20 +65,39 @@ body {
     }
 
     p {
+        position: relative;
         display: flex;
         flex-direction: column;
         width: 100%;
         padding: 19px 44px 19px 0;
-
         border-bottom: solid 1px rgba(37, 42, 49, 0.1);
-
         font-family: "SFProText";
         font-size: 18px;
         line-height: 21px;
         letter-spacing: -0.02em;
-
         color: #252a31;
+
+        span {
+            &:first-child:before {
+                content: " ";
+                position: absolute;
+                display: block;
+                width: 24px;
+                height: 24px;
+                background: #fff;
+                margin-right: 5px;
+                border: 1px solid #ccc;
+                border-radius: 50%;
+                left: -34px;
+                top: 29%;
+            }
+        }
     }
+}
+
+input[type="checkbox"]:checked + p > span:first-child:before {
+    background-image: url('../img/arrow.svg');
+    background-position: center;
 }
 
 .Work-color,
@@ -107,24 +106,19 @@ body {
 .Family-color {
     position: absolute;
     right: 16px;
-
     margin-left: 16px;
     width: 12px;
     height: 12px;
-
     border-radius: 50%;
 }
 
 .lists__title {
     padding: 32px 0 15px 60px;
-
     font-family: SFProText;
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.385882px;
-
     color: #252a31;
-
     mix-blend-mode: normal;
     opacity: 0.3;
 }
@@ -132,12 +126,9 @@ body {
 .lists__list-item {
     display: flex;
     flex-direction: column;
-
     margin: 0 16px 8px 58px;
     padding: 12px 16px;
-
     border-radius: 10px;
-
     cursor: pointer;
 }
 
@@ -145,11 +136,8 @@ body {
     font-family: "SFProText";
     font-size: 19px;
     line-height: 23px;
-
     letter-spacing: -0.458235px;
-
     color: #252a31;
-
     mix-blend-mode: normal;
     opacity: 0.9;
 }
@@ -158,18 +146,14 @@ body {
     font-family: "SFProText";
     font-size: 14px;
     line-height: 17px;
-
     letter-spacing: -0.337647px;
-
     color: #252a31;
-
     mix-blend-mode: normal;
     opacity: 0.5;
 }
 
 .add-button {
     position: absolute;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,13 +161,43 @@ body {
     height: 64px;
     right: 16px;
     bottom: 44px;
-
     font-size: 30px;
     color: #006cff;
-
     background-color: #ffffff;
     box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
     border-radius: 50%;
-
     cursor: pointer;
+}
+
+.custom-checkbox {
+    position: relative;
+}
+
+.task-time {
+    position: relative;
+    font-family: "SFProText";
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -0.337647px;
+    color: rgba(37, 42, 49, 0.3);
+    mix-blend-mode: normal;
+    padding-left: 18px;
+    margin-top: 5px;
+
+    &::before {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        content: " ";
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        margin-right: 5px;
+        background-image: url(../img/clock.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 13px;
+
+    }
 }
