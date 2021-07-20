@@ -65,9 +65,9 @@ body {
       display: block;
       width: 24px;
       height: 24px;
-      background: #fff;
+      background: #ffffff;
       margin-right: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid #cccccc;
       border-radius: 50%;
       left: -34px;
       top: 29%; }
@@ -160,7 +160,6 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     display: block;
     width: 15px;
     height: 15px;
-    background: #fff;
     margin-right: 5px;
     background-image: url(../img/clock.png);
     background-position: center;
