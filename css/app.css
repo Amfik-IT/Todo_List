@@ -133,7 +133,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   align-items: center;
   width: 64px;
   height: 64px;
-  left: 69%;
+  margin-left: 294px;
   bottom: 44px;
   font-size: 30px;
   color: #006cff;
