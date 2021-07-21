@@ -4,7 +4,8 @@ const taskerApp = (function () {
     class TaskerView {
         constructor(container) {
             this.container = container;
-         
+            this.openModal = false;
+
             this.HomePageComponent = {
                 id: "homepage",
                 title: "Tasker",
@@ -22,6 +23,12 @@ const taskerApp = (function () {
                         <div class="tasks"></div>
                         <div class="lists">
                             <div class="lists__title">Lists</div>
+                        </div>
+                        <div class="modal-add hidden">
+                            <div class="modal-add-buttons">
+                                <a class="add-task">Task</a>
+                                <a class="add-list">List</a>
+                            </div>
                         </div>
                         <a class="add-button">+</a>
                     </main>
@@ -117,6 +124,25 @@ const taskerApp = (function () {
             let divLists = document.querySelector('.lists');
             divLists.append(listsList);
         }
+
+        visibleToggle() {
+            let modalButton = document.querySelector('.add-button');
+            let modal = document.querySelector(".modal-add");
+            
+            if (this.openModal) {
+                this.openModal = false;
+                modalButton.style.transform = 'rotate(0deg)';
+                setTimeout(() => {
+                    modal.classList.toggle("hidden");
+                }, 600);
+                modal.style.opacity = 0;
+            } else {
+                this.openModal = true;
+                modalButton.style.transform = 'rotate(135deg)';
+                modal.classList.toggle("hidden");
+                modal.style.opacity = 1;
+            }
+        }
     };
 
     class TaskerModel {
@@ -138,16 +164,20 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
         }
 
-        updateData(targetID) {
+        updateData(targetId) {
             let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
             for(let i=0; i<storage[0].tasks.length; i++) {
                 let chek = storage[0].tasks[i].checked;
                 
-                if (storage[0].tasks[i].id === targetID) {
+                if (storage[0].tasks[i].id === targetId) {
                     storage[0].tasks[i].checked = !chek;
                 };
             }
             localStorage.setItem("userTaskInfo", JSON.stringify(storage));
+        }
+
+        visibleToggle() {
+            this.view.visibleToggle();
         }
     };
 
@@ -233,10 +263,15 @@ const taskerApp = (function () {
             let tasksList = document.querySelector(".tasks__list");
             tasksList.addEventListener('click', (e) => {
                 let target = e.target;
-                let targetID = +e.toElement.id;
                 if (target.className === 'custom-checkbox') {
-                    this.updateData(targetID);
+                    let targetId = Number(target.id);
+                    this.updateData(targetId);
                 };
+            })
+
+            let addButton = document.querySelector(".add-button");
+            addButton.addEventListener('click', (e) => {
+                this.model.visibleToggle();
             })
         }
 
@@ -244,8 +279,8 @@ const taskerApp = (function () {
             this.model.initialLoad();
         }
 
-        updateData(targetID) {
-            this.model.updateData(targetID);
+        updateData(targetId) {
+            this.model.updateData(targetId);
         }
     };
 

@@ -4,18 +4,6 @@
     }
 }
 
-$mainBack: #ffffff;
-$title: #252a31;
-$dots: #006cff;
-$hr: rgba(37, 42, 49, 0.1);
-$pText: #252a31;
-$inputBack: #ffffff;
-$inputBorder: #cccccc;
-$addBack: #ffffff;
-$addText: #006cff;
-$addShadow: rgba(21, 35, 56, 0.16);
-$timeText: rgba(37, 42, 49, 0.3);
-
 body {
     display: flex;
     justify-content: center;
@@ -107,6 +95,10 @@ body {
     }
 }
 
+.custom-checkbox {
+    visibility: hidden;
+}
+
 input[type="checkbox"]:checked + p > span:first-child:before {
     background-image: url('../img/arrow.svg');
     background-position: center;
@@ -165,20 +157,21 @@ input[type="checkbox"]:checked + p > span:first-child:before {
 }
 
 .add-button {
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 64px;
     height: 64px;
-    right: 16px;
+    margin-left: 294px;
     bottom: 44px;
     font-size: 30px;
-    color: $addText;
-    background-color: $addBack;
+    color: #006cff;
+    background-color: #ffffff;
     box-shadow: 0px 24px 32px $addShadow;
     border-radius: 50%;
     cursor: pointer;
+    transition-duration: 0.6s;
 }
 
 .custom-checkbox {
@@ -205,10 +198,87 @@ input[type="checkbox"]:checked + p > span:first-child:before {
         width: 15px;
         height: 15px;
         margin-right: 5px;
-        background-image: url(../img/clock.png);
+        background-image: url(../img/clock.svg);
         background-position: center;
         background-repeat: no-repeat;
         background-size: 13px;
 
     }
+}
+
+.modal-add {
+    width: 375px;
+    height: 100vh;
+    background-color: $modalBack;
+    position: fixed;
+    top: 0;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.6s;
+}
+
+.modal-add-buttons {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 37.07%;
+    right: 4.27%;
+    top: 67.26%;
+    filter: drop-shadow(0px 10px 30px $modalAddButtonsShadow);
+    border-radius: 10px;
+}
+
+.add-task,
+.add-list {
+    position: relative;
+    padding: 19px 0 19px 54px;
+    font-family: SF Pro Text;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.43px;
+    color: $addListColor;
+    background-color: $addListBack;
+    box-shadow: inset 0px -1px 0px $addListShadow;
+    cursor: pointer;
+}
+
+.add-task {
+    border-radius: 10px 10px 0 0;
+    &::before {
+        position: absolute;
+        left: 19px;
+        top: 19px;
+        content: " ";
+        display: block;
+        width: 22px;
+        height: 22px;
+        background-image: url(../img/task.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 22px;
+    }
+}
+
+.add-list {
+    border-radius: 0 0 10px 10px;
+    &::before {
+        position: absolute;
+        left: 19px;
+        top: 19px;
+        content: " ";
+        display: block;
+        width: 22px;
+        height: 22px;
+        background-image: url(../img/list.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 22px;
+    }
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.3s;
 }
