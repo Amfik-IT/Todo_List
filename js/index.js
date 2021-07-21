@@ -2,9 +2,11 @@
 const taskerApp = (function () {
 
     class TaskerView {
+        
         constructor(container) {
             this.container = container;
-         
+            this.openModal = false;
+
             this.HomePageComponent = {
                 id: "homepage",
                 title: "Tasker",
@@ -125,8 +127,22 @@ const taskerApp = (function () {
         }
 
         visibleToggle() {
+            let modalButton = document.querySelector('.add-button');
             let modal = document.querySelector(".modal-add");
-            modal.classList.toggle("hidden")
+            
+            if (this.openModal) {
+                this.openModal = false;
+                modalButton.style.transform = 'rotate(0deg)';
+                setTimeout(() => {
+                    modal.classList.toggle("hidden");
+                }, 600);
+                modal.style.opacity = 0;
+            } else {
+                this.openModal = true;
+                modalButton.style.transform = 'rotate(135deg)';
+                modal.classList.toggle("hidden");
+                modal.style.opacity = 1;
+            }
         }
     };
 
@@ -248,15 +264,15 @@ const taskerApp = (function () {
             let tasksList = document.querySelector(".tasks__list");
             tasksList.addEventListener('click', (e) => {
                 let target = e.target;
-                let targetID = +e.toElement.id;
                 if (target.className === 'custom-checkbox') {
+                    let targetID = +target.id;
                     this.updateData(targetID);
                 };
             })
 
             let addButton = document.querySelector(".add-button");
             addButton.addEventListener('click', (e) => {
-                this.visibleToggle();
+                this.model.visibleToggle();
             })
         }
 
@@ -268,9 +284,9 @@ const taskerApp = (function () {
             this.model.updateData(targetID);
         }
 
-        visibleToggle() {
-            this.model.visibleToggle();
-        }
+        // visibleToggle() {
+        //     this.model.visibleToggle();
+        // }
     };
 
     return {

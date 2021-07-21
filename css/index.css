@@ -72,6 +72,9 @@ body {
       left: -34px;
       top: 29%; }
 
+.custom-checkbox {
+  visibility: hidden; }
+
 input[type="checkbox"]:checked + p > span:first-child:before {
   background-image: url("../img/arrow.svg");
   background-position: center; }
@@ -130,14 +133,15 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   align-items: center;
   width: 64px;
   height: 64px;
-  right: 16px;
+  left: 69%;
   bottom: 44px;
   font-size: 30px;
   color: #006cff;
   background-color: #ffffff;
   box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
   border-radius: 50%;
-  cursor: pointer; }
+  cursor: pointer;
+  transition-duration: 0.6s; }
 
 .custom-checkbox {
   position: relative; }
@@ -161,21 +165,23 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     width: 15px;
     height: 15px;
     margin-right: 5px;
-    background-image: url(../img/clock.png);
+    background-image: url(../img/clock.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 13px; }
 
 .modal-add {
-  width: 100%;
+  width: 375px;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.4);
   position: fixed;
   top: 0;
-  left: 0; }
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.6s; }
 
 .modal-add-buttons {
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
   left: 37.07%;
@@ -191,7 +197,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   font-family: SF Pro Text;
   font-size: 18px;
   line-height: 21px;
-  letter-spacing: -0.434118px;
+  letter-spacing: -0.43px;
   color: #006CFF;
   background-color: #FFFFFF;
   box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1);
@@ -207,7 +213,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     display: block;
     width: 22px;
     height: 22px;
-    background-image: url(../img/task.png);
+    background-image: url(../img/task.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 22px; }
@@ -222,12 +228,15 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     display: block;
     width: 22px;
     height: 22px;
-    background-image: url(../img/list.png);
+    background-image: url(../img/list.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 22px; }
 
 .hidden {
-  visibility: hidden; }
+  visibility: hidden;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.3s; }
 
 /*# sourceMappingURL=index.css.map */
