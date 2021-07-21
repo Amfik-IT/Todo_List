@@ -2,7 +2,6 @@
 const taskerApp = (function () {
 
     class TaskerView {
-        
         constructor(container) {
             this.container = container;
             this.openModal = false;
@@ -165,12 +164,12 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
         }
 
-        updateData(targetID) {
+        updateData(targetid) {
             let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
             for(let i=0; i<storage[0].tasks.length; i++) {
                 let chek = storage[0].tasks[i].checked;
                 
-                if (storage[0].tasks[i].id === targetID) {
+                if (storage[0].tasks[i].id === targetid) {
                     storage[0].tasks[i].checked = !chek;
                 };
             }
@@ -265,8 +264,8 @@ const taskerApp = (function () {
             tasksList.addEventListener('click', (e) => {
                 let target = e.target;
                 if (target.className === 'custom-checkbox') {
-                    let targetID = +target.id;
-                    this.updateData(targetID);
+                    let targetid = Number(target.id);
+                    this.updateData(targetid);
                 };
             })
 
@@ -280,13 +279,9 @@ const taskerApp = (function () {
             this.model.initialLoad();
         }
 
-        updateData(targetID) {
-            this.model.updateData(targetID);
+        updateData(targetid) {
+            this.model.updateData(targetid);
         }
-
-        // visibleToggle() {
-        //     this.model.visibleToggle();
-        // }
     };
 
     return {
