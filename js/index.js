@@ -26,7 +26,7 @@ const taskerApp = (function () {
                         </div>
                         <div class="modal-add hidden">
                             <div class="modal-add-buttons">
-                                <a class="add-task">Task</a>
+                                <a class="add-task" href="#createtask">Task</a>
                                 <a class="add-list">List</a>
                             </div>
                         </div>
@@ -36,8 +36,40 @@ const taskerApp = (function () {
                 }
             };
 
+            this.CreateTask = {
+                id: "createtask",
+                title: "Tasker",
+                render: (className = "create-task-page", ...rest) => {
+                    return `
+                    <main class="${className}">
+                        <div class="head-create-task">
+                            <a class="cancel-butoon" href="#homepage">Cancel</a>
+                            <a class="done-butoon" href="#homepage">Done</a>
+                        </div>
+                        <div class="task">
+                            <input type="checkbox" class="custom-checkbox">
+                            <div>
+                                <input type="text" class="input-text" placeholder="What do you want to do?">
+                            </div>
+                            <span class="category-color"></span>
+                        </div>
+                        <div class="create-task-buttons">
+                            <div>
+                                <a class="calendar-butoon"><img src="img/calendar.svg" alt="calendar" title="calendar"></a>
+                                <a class="clock-butoon"><img src="img/alarm.svg" alt="clock" title="clock"></a>
+                            </div>
+                            <div>
+                                <a class="category-butoon">Inbox <span class="Inbox-color" style="background-color: #ebeff5"></span></a>
+                            </div>
+                        </div>
+                    </main>
+                  `;
+                }
+            };
+
             this.router = {
                 homepage: this.HomePageComponent,
+                createtask: this.CreateTask,
                 default: this.HomePageComponent,
             };
         }
@@ -162,6 +194,7 @@ const taskerApp = (function () {
         updateState() {
             const hashPageName = window.location.hash.slice(1).toLowerCase();
             this.view.renderContent(hashPageName);
+            if (hashPageName === "" || hashPageName === "homepage") this.initialLoad();
         }
 
         updateData(targetId) {
@@ -258,25 +291,22 @@ const taskerApp = (function () {
                 localStorage.setItem("userTaskInfo", JSON.stringify(storage));
             }
 
-            this.initialLoad();
+            this.model.updateState();
 
-            let tasksList = document.querySelector(".tasks__list");
-            tasksList.addEventListener('click', (e) => {
+            window.addEventListener("hashchange", () => this.model.updateState());
+
+            
+            this.container.addEventListener('click', (e) => {
                 let target = e.target;
                 if (target.className === 'custom-checkbox') {
                     let targetId = Number(target.id);
                     this.updateData(targetId);
                 };
+                
+                if (target.className === 'add-button' || target.className === "add-task" || target.className === "add-list") {
+                    this.model.visibleToggle();
+                };
             })
-
-            let addButton = document.querySelector(".add-button");
-            addButton.addEventListener('click', (e) => {
-                this.model.visibleToggle();
-            })
-        }
-
-        initialLoad() {
-            this.model.initialLoad();
         }
 
         updateData(targetId) {
