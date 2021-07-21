@@ -164,12 +164,12 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
         }
 
-        updateData(targetid) {
+        updateData(targetId) {
             let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
             for(let i=0; i<storage[0].tasks.length; i++) {
                 let chek = storage[0].tasks[i].checked;
                 
-                if (storage[0].tasks[i].id === targetid) {
+                if (storage[0].tasks[i].id === targetId) {
                     storage[0].tasks[i].checked = !chek;
                 };
             }
@@ -264,8 +264,8 @@ const taskerApp = (function () {
             tasksList.addEventListener('click', (e) => {
                 let target = e.target;
                 if (target.className === 'custom-checkbox') {
-                    let targetid = Number(target.id);
-                    this.updateData(targetid);
+                    let targetId = Number(target.id);
+                    this.updateData(targetId);
                 };
             })
 
@@ -279,8 +279,8 @@ const taskerApp = (function () {
             this.model.initialLoad();
         }
 
-        updateData(targetid) {
-            this.model.updateData(targetid);
+        updateData(targetId) {
+            this.model.updateData(targetId);
         }
     };
 
