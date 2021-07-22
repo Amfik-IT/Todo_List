@@ -282,3 +282,124 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     transition-property: opacity;
     transition-duration: 0.3s;
 }
+
+.createtask-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.head-create-task {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.cancel-butoon {
+    font-family: "SFProText";
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.43px;
+    color: $cancelDoneButton;
+}
+
+.task {
+    display: flex;
+    padding: 18px;
+    align-items: center;
+
+    label {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        padding-right: 18px;
+
+        input {
+            position: absolute;
+            top: 27%;
+            left: 15%;
+        }
+    }
+}
+
+input[type="checkbox"]:checked + span {
+    background-image: url(../img/arrow.svg);
+    background-position: center;
+}
+
+.category-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.task-checkbox {
+    width: 22px;
+    height: 22px;
+    background: $inputBack;
+    margin-right: 5px;
+    border: 1px solid $inputBorder;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.done-butoon {
+    font-family: "SFProText";
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.43px;
+    color: $cancelDoneButton;
+}
+
+.input-text {
+    font-family: "SFProText";
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+    color: $pText;
+    border: none;
+    outline:none;
+    caret-color: $caretColor;
+
+    &::placeholder {
+        color: $pText;
+        opacity: 0.4;
+    }
+}
+
+.create-task-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 14px;
+    border-top: solid 1px $hr;
+}
+
+.calendar-butoon {
+    cursor: pointer;
+    img {
+        margin-right: 23px;
+    }
+}
+
+.clock-butoon {
+    cursor: pointer;
+}
+
+.category-butoon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.category-butoon-text {
+    padding-right: 20px;
+    font-family: "SFProText";
+    font-size: 15px;
+    line-height: 18px;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: $pText;
+    opacity: 0.4;
+}

@@ -30,7 +30,7 @@ const taskerApp = (function () {
                                 <a class="add-list">List</a>
                             </div>
                         </div>
-                        <a class="add-button">+</a>
+                        <a class="add-button"><img src="img/plus.svg" alt="add" title="add"></a>
                     </main>
                   `;
                 }
@@ -42,16 +42,21 @@ const taskerApp = (function () {
                 render: (className = "create-task-page", ...rest) => {
                     return `
                     <main class="${className}">
-                        <div class="head-create-task">
-                            <a class="cancel-butoon" href="#homepage">Cancel</a>
-                            <a class="done-butoon" href="#homepage">Done</a>
-                        </div>
-                        <div class="task">
-                            <input type="checkbox" class="custom-checkbox">
-                            <div>
-                                <input type="text" class="input-text" placeholder="What do you want to do?">
+                        <div>
+                            <div class="head-create-task">
+                                <a class="cancel-butoon" href="#homepage">Cancel</a>
+                                <a class="done-butoon" href="#homepage">Done</a>
                             </div>
-                            <span class="category-color"></span>
+                            <div class="task">
+                                <label>
+                                    <input type="checkbox" class="custom-checkbox">
+                                    <span class="task-checkbox"></span>
+                                </label>
+                                <div>
+                                    <input type="text" class="input-text" placeholder="What do you want to do?">
+                                </div>
+                                <span class="Inbox-color" style="background-color: #ebeff5"></span>
+                            </div>
                         </div>
                         <div class="create-task-buttons">
                             <div>
@@ -59,7 +64,7 @@ const taskerApp = (function () {
                                 <a class="clock-butoon"><img src="img/alarm.svg" alt="clock" title="clock"></a>
                             </div>
                             <div>
-                                <a class="category-butoon">Inbox <span class="Inbox-color" style="background-color: #ebeff5"></span></a>
+                                <a class="category-butoon"><span class="category-butoon-text">Inbox</span><span class="Inbox-color" style="background-color: #ebeff5"></span></a>
                             </div>
                         </div>
                     </main>
@@ -92,11 +97,10 @@ const taskerApp = (function () {
         createContent(storageInfo) {
             let divHeadDay = document.querySelector('.head__day');
             divHeadDay.innerHTML = storageInfo[0].day;
-
             let tasksList = document.createElement('ul');
             tasksList.setAttribute("class", "tasks__list");
-
             let tasks = storageInfo[0].tasks;
+
             for (let i = 0; i < tasks.length; i++) {
                 let li = document.createElement('li');
                 li.setAttribute("class", "tasks__list-item");
@@ -112,6 +116,7 @@ const taskerApp = (function () {
                 spanText.setAttribute("class", "task-text");
                 spanText.innerHTML = tasks[i].text;
                 pText.append(spanText);
+
                 if (!!tasks[i].time) {
                     let spanTime = document.createElement('span');
                     spanTime.setAttribute("class", "task-time");
@@ -130,12 +135,14 @@ const taskerApp = (function () {
                 label.append(li);
                 tasksList.append(label);
             }
+
             let divTasks = document.querySelector('.tasks');
             divTasks.append(tasksList);
 
             let listsList = document.createElement('ul');
             listsList.setAttribute("class", "lists__list");
             let lists = storageInfo[0].lists;
+
             for (let i = 0; i < lists.length; i++) {
                 let li = document.createElement('li');
                 li.setAttribute("class", "lists__list-item");
@@ -153,6 +160,7 @@ const taskerApp = (function () {
                 li.append(spanCountTask);
                 listsList.append(li);
             }
+
             let divLists = document.querySelector('.lists');
             divLists.append(listsList);
         }
@@ -194,11 +202,13 @@ const taskerApp = (function () {
         updateState() {
             const hashPageName = window.location.hash.slice(1).toLowerCase();
             this.view.renderContent(hashPageName);
+
             if (hashPageName === "" || hashPageName === "homepage") this.initialLoad();
         }
 
         updateData(targetId) {
             let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
+
             for(let i=0; i<storage[0].tasks.length; i++) {
                 let chek = storage[0].tasks[i].checked;
                 
@@ -222,6 +232,7 @@ const taskerApp = (function () {
 
         init() {
             const storageData = localStorage.getItem("userTaskInfo");
+
             if (storageData === null) {
                 let storage = [{
                     day: "Today",
@@ -295,9 +306,9 @@ const taskerApp = (function () {
 
             window.addEventListener("hashchange", () => this.model.updateState());
 
-            
             this.container.addEventListener('click', (e) => {
                 let target = e.target;
+
                 if (target.className === 'custom-checkbox') {
                     let targetId = Number(target.id);
                     this.updateData(targetId);
