@@ -191,7 +191,7 @@ const taskerApp = (function () {
         }
 
         init() {
-            const storageData = localStorage.getItem("userTaskInfo");
+            const storageData = localStorage.getItem("userInfo");
 
             if (storageData === null) {
                 let storage = [{
@@ -259,14 +259,14 @@ const taskerApp = (function () {
                         }
                     ],
                 }, ];
-                localStorage.setItem("userTaskInfo", JSON.stringify(storage));
+                localStorage.setItem("userInfo", JSON.stringify(storage));
             }
 
             this.updateState();
         }
 
         initialLoad() {
-            let storageInfo = JSON.parse(window.localStorage.getItem("userTaskInfo"));
+            let storageInfo = JSON.parse(window.localStorage.getItem("userInfo"));
             this.view.createContent(storageInfo);
         }
 
@@ -278,7 +278,7 @@ const taskerApp = (function () {
         }
 
         updateData(targetId) {
-            let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
+            let storage = JSON.parse(window.localStorage.getItem("userInfo"));
 
             for(let i=0; i<storage[0].tasks.length; i++) {
                 let chek = storage[0].tasks[i].checked;
@@ -287,7 +287,7 @@ const taskerApp = (function () {
                     storage[0].tasks[i].checked = !chek;
                 };
             }
-            localStorage.setItem("userTaskInfo", JSON.stringify(storage));
+            localStorage.setItem("userInfo", JSON.stringify(storage));
         }
 
         visibleToggle() {
