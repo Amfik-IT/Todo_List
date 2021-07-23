@@ -191,7 +191,6 @@ const taskerApp = (function () {
         }
 
         init() {
-            localStorage.removeItem("userTaskInfo"); // эта строка на время разработки что бы избежать багов при дебаге
             const storageData = localStorage.getItem("userTaskInfo");
 
             if (storageData === null) {
