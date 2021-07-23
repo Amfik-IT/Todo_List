@@ -104,10 +104,10 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     background-position: center;
 }
 
-.Work-color,
-.Shopping-color,
-.Inbox-color,
-.Family-color {
+.work-color,
+.shopping-color,
+.inbox-color,
+.family-color {
     position: absolute;
     right: 16px;
     margin-left: 16px;
@@ -283,20 +283,20 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     transition-duration: 0.3s;
 }
 
-.createtask-page {
+.createTask-page {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
 }
 
-.head-create-task {
+.create-task__header {
     display: flex;
     justify-content: space-between;
     padding: 16px;
 }
 
-.cancel-butoon {
+.cancel-button {
     font-family: "SFProText";
     font-size: 18px;
     line-height: 21px;
@@ -304,7 +304,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     color: $cancelDoneButton;
 }
 
-.task {
+.create-task__body {
     display: flex;
     padding: 18px;
     align-items: center;
@@ -344,7 +344,7 @@ input[type="checkbox"]:checked + span {
     display: inline-block;
 }
 
-.done-butoon {
+.done-button {
     font-family: "SFProText";
     font-size: 18px;
     line-height: 21px;
@@ -368,7 +368,7 @@ input[type="checkbox"]:checked + span {
     }
 }
 
-.create-task-buttons {
+.create-task__buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -376,24 +376,24 @@ input[type="checkbox"]:checked + span {
     border-top: solid 1px $hr;
 }
 
-.calendar-butoon {
+.calendar-button {
     cursor: pointer;
     img {
         margin-right: 23px;
     }
 }
 
-.clock-butoon {
+.clock-button {
     cursor: pointer;
 }
 
-.category-butoon {
+.category-button {
     cursor: pointer;
     display: flex;
     align-items: center;
 }
 
-.category-butoon-text {
+.category-button_text {
     padding-right: 20px;
     font-family: "SFProText";
     font-size: 15px;
