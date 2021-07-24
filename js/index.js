@@ -66,6 +66,7 @@ const taskerApp = (function () {
                                 <a class="category-button"><span class="category-button__text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
                             </div>
                         </div>
+                        <div class="category-сhoose"></div>
                     </main>
                   `;
                 }
