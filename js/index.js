@@ -7,7 +7,7 @@ const taskerApp = (function () {
             this.openModal = false;
 
             this.HomePageComponent = {
-                id: "homepage",
+                id: "homePage",
                 title: "Tasker",
                 render: (className = "tasker-page", ...rest) => {
                     return `
@@ -26,18 +26,55 @@ const taskerApp = (function () {
                         </div>
                         <div class="modal-add hidden">
                             <div class="modal-add-buttons">
-                                <a class="add-task">Task</a>
+                                <a class="add-task" href="#createTask">Task</a>
                                 <a class="add-list">List</a>
                             </div>
                         </div>
-                        <a class="add-button">+</a>
+                        <a class="add-button"><img src="img/plus.svg" alt="add" title="add"></a>
+                    </main>
+                  `;
+                }
+            };
+
+            this.CreateTask = {
+                id: "createTask",
+                title: "Tasker",
+                render: (className = "create-task-page", ...rest) => {
+                    return `
+                    <main class="${className}">
+                        <div>
+                            <div class="create-task__header">
+                                <a class="cancel-button" href="#homePage">Cancel</a>
+                                <a class="done-button" href="#homePage">Done</a>
+                            </div>
+                            <div class="create-task__body">
+                                <label>
+                                    <input type="checkbox" class="custom-checkbox">
+                                    <span class="task-checkbox"></span>
+                                </label>
+                                <div>
+                                    <input type="text" class="input-text" placeholder="What do you want to do?">
+                                </div>
+                                <span class="inbox-color" style="background-color: #ebeff5"></span>
+                            </div>
+                        </div>
+                        <div class="create-task__buttons">
+                            <div>
+                                <a class="calendar-button"><img src="img/calendar.svg" alt="calendar" title="calendar"></a>
+                                <a class="clock-button"><img src="img/alarm.svg" alt="clock" title="clock"></a>
+                            </div>
+                            <div>
+                                <a class="category-button"><span class="category-button__text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
+                            </div>
+                        </div>
                     </main>
                   `;
                 }
             };
 
             this.router = {
-                homepage: this.HomePageComponent,
+                homePage: this.HomePageComponent,
+                createTask: this.CreateTask,
                 default: this.HomePageComponent,
             };
         }
@@ -60,11 +97,10 @@ const taskerApp = (function () {
         createContent(storageInfo) {
             let divHeadDay = document.querySelector('.head__day');
             divHeadDay.innerHTML = storageInfo[0].day;
-
             let tasksList = document.createElement('ul');
             tasksList.setAttribute("class", "tasks__list");
-
             let tasks = storageInfo[0].tasks;
+
             for (let i = 0; i < tasks.length; i++) {
                 let li = document.createElement('li');
                 li.setAttribute("class", "tasks__list-item");
@@ -80,6 +116,7 @@ const taskerApp = (function () {
                 spanText.setAttribute("class", "task-text");
                 spanText.innerHTML = tasks[i].text;
                 pText.append(spanText);
+
                 if (!!tasks[i].time) {
                     let spanTime = document.createElement('span');
                     spanTime.setAttribute("class", "task-time");
@@ -98,12 +135,14 @@ const taskerApp = (function () {
                 label.append(li);
                 tasksList.append(label);
             }
+
             let divTasks = document.querySelector('.tasks');
             divTasks.append(tasksList);
 
             let listsList = document.createElement('ul');
             listsList.setAttribute("class", "lists__list");
             let lists = storageInfo[0].lists;
+
             for (let i = 0; i < lists.length; i++) {
                 let li = document.createElement('li');
                 li.setAttribute("class", "lists__list-item");
@@ -121,6 +160,7 @@ const taskerApp = (function () {
                 li.append(spanCountTask);
                 listsList.append(li);
             }
+
             let divLists = document.querySelector('.lists');
             divLists.append(listsList);
         }
@@ -151,29 +191,101 @@ const taskerApp = (function () {
         }
 
         init() {
+            const storage = localStorage.getItem("userInfo");
+
+            if (storage === null) {
+                let storageData = [{
+                    day: "Today",
+                    tasks: [{
+                            id: 1,
+                            text: "Start making a presentation",
+                            parent: "work",
+                            color: "#61dea4",
+                            time: "",
+                            checked: false,
+                        },
+                        {
+                            id: 2,
+                            text: "Pay for rent",
+                            parent: "shopping",
+                            color: "#f45e6d",
+                            time: "7 pm",
+                            checked: false,
+                        },
+                        {
+                            id: 3,
+                            text: "Buy a milk",
+                            parent: "shopping",
+                            color: "#f45e6d",
+                            time: "",
+                            checked: false,
+                        },
+                        {
+                            id: 4,
+                            text: "Don’t forget to pick up Mickael from school",
+                            parent: "inbox",
+                            color: "#ebeff5",
+                            time: "",
+                            checked: false,
+                        },
+                        {
+                            id: 5,
+                            text: "Buy a chocolate for Charlotte",
+                            parent: "family",
+                            color: "#ffe761;",
+                            time: "",
+                            checked: false,
+                        }
+                    ],
+                    lists: [{
+                            category: "inbox",
+                            count: 1,
+                            color: "#ebeff5"
+                        },
+                        {
+                            category: "work",
+                            count: 1,
+                            color: "#61dea4"
+                        },
+                        {
+                            category: "shopping",
+                            count: 2,
+                            color: "#f45e6d"
+                        },
+                        {
+                            category: "family",
+                            count: 1,
+                            color: "#ffe761;"
+                        }
+                    ],
+                }, ];
+                localStorage.setItem("userInfo", JSON.stringify(storageData));
+            }
+
             this.updateState();
         }
 
         initialLoad() {
-            let storageInfo = JSON.parse(window.localStorage.getItem("userTaskInfo"));
-            this.view.createContent(storageInfo);
+            const storage = JSON.parse(localStorage.getItem("userInfo"));
+            this.view.createContent(storage);
         }
 
         updateState() {
-            const hashPageName = window.location.hash.slice(1).toLowerCase();
+            const hashPageName = window.location.hash.slice(1);
             this.view.renderContent(hashPageName);
+
+            if (!hashPageName || hashPageName === "homePage") this.initialLoad();
         }
 
         updateData(targetId) {
-            let storage = JSON.parse(window.localStorage.getItem("userTaskInfo"));
-            for(let i=0; i<storage[0].tasks.length; i++) {
-                let chek = storage[0].tasks[i].checked;
-                
+            const storage = JSON.parse(localStorage.getItem("userInfo"));
+
+            for(let i=0; i < storage[0].tasks.length; i++) {
                 if (storage[0].tasks[i].id === targetId) {
-                    storage[0].tasks[i].checked = !chek;
+                    storage[0].tasks[i].checked = !(storage[0].tasks[i].checked);
                 };
             }
-            localStorage.setItem("userTaskInfo", JSON.stringify(storage));
+            localStorage.setItem("userInfo", JSON.stringify(storage));
         }
 
         visibleToggle() {
@@ -188,95 +300,20 @@ const taskerApp = (function () {
         }
 
         init() {
-            const storageData = localStorage.getItem("userTaskInfo");
-            if (storageData === null) {
-                let storage = [{
-                    day: "Today",
-                    tasks: [{
-                            id: 1,
-                            text: "Start making a presentation",
-                            parent: "Work",
-                            color: "#61dea4",
-                            time: "",
-                            checked: false,
-                        },
-                        {
-                            id: 2,
-                            text: "Pay for rent",
-                            parent: "Shopping",
-                            color: "#f45e6d",
-                            time: "7 pm",
-                            checked: false,
-                        },
-                        {
-                            id: 3,
-                            text: "Buy a milk",
-                            parent: "Shopping",
-                            color: "#f45e6d",
-                            time: "",
-                            checked: false,
-                        },
-                        {
-                            id: 4,
-                            text: "Don’t forget to pick up Mickael from school",
-                            parent: "Inbox",
-                            color: "#ebeff5",
-                            time: "",
-                            checked: false,
-                        },
-                        {
-                            id: 5,
-                            text: "Buy a chocolate for Charlotte",
-                            parent: "Family",
-                            color: "#ffe761;",
-                            time: "",
-                            checked: false,
-                        }
-                    ],
-                    lists: [{
-                            category: "Inbox",
-                            count: 1,
-                            color: "#ebeff5"
-                        },
-                        {
-                            category: "Work",
-                            count: 1,
-                            color: "#61dea4"
-                        },
-                        {
-                            category: "Shopping",
-                            count: 2,
-                            color: "#f45e6d"
-                        },
-                        {
-                            category: "Family",
-                            count: 1,
-                            color: "#ffe761;"
-                        }
-                    ],
-                }, ];
-                localStorage.setItem("userTaskInfo", JSON.stringify(storage));
-            }
+            this.model.updateState();
 
-            this.initialLoad();
+            window.addEventListener("hashchange", () => this.model.updateState());
 
-            let tasksList = document.querySelector(".tasks__list");
-            tasksList.addEventListener('click', (e) => {
-                let target = e.target;
-                if (target.className === 'custom-checkbox') {
-                    let targetId = Number(target.id);
+            this.container.addEventListener('click', (e) => {
+                if (e.target.className === 'custom-checkbox') {
+                    const targetId = Number(e.target.id);
                     this.updateData(targetId);
                 };
+                
+                if (e.target.className === 'add-button' || e.target.className === "add-task" || e.target.className === "add-list") {
+                    this.model.visibleToggle();
+                };
             })
-
-            let addButton = document.querySelector(".add-button");
-            addButton.addEventListener('click', (e) => {
-                this.model.visibleToggle();
-            })
-        }
-
-        initialLoad() {
-            this.model.initialLoad();
         }
 
         updateData(targetId) {

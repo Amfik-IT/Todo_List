@@ -1,5 +1,5 @@
 /*
-Error: Undefined variable: "$mainBack".
+Error: Undefined variable: "$white".
         on line 15 of D:\Todo_List\css\index.scss
 
 10: }
@@ -7,7 +7,7 @@ Error: Undefined variable: "$mainBack".
 12: #container {
 13:     position: relative;
 14:     width: 375px;
-15:     background: $mainBack;
+15:     background: $white;
 16: }
 17: 
 18: .head {
@@ -62,4 +62,4 @@ C:/Program Files (x86)/Koala/bin/sass:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$mainBack\".\A         on line 15 of D:\Todo_List\css\index.scss\A \A 10: }\A 11: \A 12: #container {\A 13:     position: relative;\A 14:     width: 375px;\A 15:     background: $mainBack;\A 16: }\A 17: \A 18: .head {\A 19:     position: absolute;\A 20:     left: 0%;"; }
+  content: "Error: Undefined variable: \"$white\".\A         on line 15 of D:\Todo_List\css\index.scss\A \A 10: }\A 11: \A 12: #container {\A 13:     position: relative;\A 14:     width: 375px;\A 15:     background: $white;\A 16: }\A 17: \A 18: .head {\A 19:     position: absolute;\A 20:     left: 0%;"; }

@@ -12,7 +12,7 @@ body {
 #container {
     position: relative;
     width: 375px;
-    background: $mainBack;
+    background: $white;
 }
 
 .head {
@@ -31,7 +31,7 @@ body {
     font-size: 32px;
     line-height: 41px;
     letter-spacing: 0.01em;
-    color: $title;
+    color: $blackText;
 }
 
 .head__setup-button {
@@ -47,7 +47,7 @@ body {
         width: 5px;
         height: 5px;
         border-radius: 50%;
-        background-color: $dots;
+        background-color: $blue;
     }
 }
 
@@ -75,7 +75,7 @@ body {
         font-size: 18px;
         line-height: 21px;
         letter-spacing: -0.02em;
-        color: $pText;
+        color: $blackText;
 
         span {
             &:first-child:before {
@@ -84,7 +84,7 @@ body {
                 display: block;
                 width: 24px;
                 height: 24px;
-                background: $inputBack;
+                background: $white;
                 margin-right: 5px;
                 border: 1px solid $inputBorder;
                 border-radius: 50%;
@@ -104,10 +104,10 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     background-position: center;
 }
 
-.Work-color,
-.Shopping-color,
-.Inbox-color,
-.Family-color {
+.work-color,
+.shopping-color,
+.inbox-color,
+.family-color {
     position: absolute;
     right: 16px;
     margin-left: 16px;
@@ -122,7 +122,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.385882px;
-    color: $pText;
+    color: $blackText;
     mix-blend-mode: normal;
     opacity: 0.3;
 }
@@ -141,7 +141,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 19px;
     line-height: 23px;
     letter-spacing: -0.458235px;
-    color: $pText;
+    color: $blackText;
     mix-blend-mode: normal;
     opacity: 0.9;
 }
@@ -151,7 +151,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 14px;
     line-height: 17px;
     letter-spacing: -0.337647px;
-    color: $pText;
+    color: $blackText;
     mix-blend-mode: normal;
     opacity: 0.5;
 }
@@ -236,8 +236,8 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 18px;
     line-height: 21px;
     letter-spacing: -0.43px;
-    color: $addListColor;
-    background-color: $addListBack;
+    color: $blue;
+    background-color: $white;
     box-shadow: inset 0px -1px 0px $addListShadow;
     cursor: pointer;
 }
@@ -281,4 +281,125 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     opacity: 0;
     transition-property: opacity;
     transition-duration: 0.3s;
+}
+
+.createTask-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.create-task__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.cancel-button {
+    font-family: "SFProText";
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.43px;
+    color: $blue;
+}
+
+.create-task__body {
+    display: flex;
+    padding: 18px;
+    align-items: center;
+
+    label {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        padding-right: 18px;
+
+        input {
+            position: absolute;
+            top: 27%;
+            left: 15%;
+        }
+    }
+}
+
+input[type="checkbox"]:checked + span {
+    background-image: url(../img/arrow.svg);
+    background-position: center;
+}
+
+.category-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.task-checkbox {
+    width: 22px;
+    height: 22px;
+    background: $white;
+    margin-right: 5px;
+    border: 1px solid $inputBorder;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.done-button {
+    font-family: "SFProText";
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.43px;
+    color: $blue;
+}
+
+.input-text {
+    font-family: "SFProText";
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+    color: $blackText;
+    border: none;
+    outline:none;
+    caret-color: $blue;
+
+    &::placeholder {
+        color: $blackText;
+        opacity: 0.4;
+    }
+}
+
+.create-task__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 14px;
+    border-top: solid 1px $hr;
+}
+
+.calendar-button {
+    cursor: pointer;
+    img {
+        margin-right: 23px;
+    }
+}
+
+.clock-button {
+    cursor: pointer;
+}
+
+.category-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.category-button__text {
+    padding-right: 20px;
+    font-family: "SFProText";
+    font-size: 15px;
+    line-height: 18px;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: $blackText;
+    opacity: 0.4;
 }
