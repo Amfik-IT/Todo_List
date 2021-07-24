@@ -64,7 +64,7 @@ const taskerApp = (function () {
                                 <a class="clock-button"><img src="img/alarm.svg" alt="clock" title="clock"></a>
                             </div>
                             <div>
-                                <a class="category-button"><span class="category-button_text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
+                                <a class="category-button"><span class="category-button__text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
                             </div>
                         </div>
                     </main>
@@ -191,10 +191,10 @@ const taskerApp = (function () {
         }
 
         init() {
-            const storageData = localStorage.getItem("userInfo");
+            const storage = localStorage.getItem("userInfo");
 
-            if (storageData === null) {
-                let storage = [{
+            if (storage === null) {
+                let storageData = [{
                     day: "Today",
                     tasks: [{
                             id: 1,
@@ -259,32 +259,30 @@ const taskerApp = (function () {
                         }
                     ],
                 }, ];
-                localStorage.setItem("userInfo", JSON.stringify(storage));
+                localStorage.setItem("userInfo", JSON.stringify(storageData));
             }
 
             this.updateState();
         }
 
         initialLoad() {
-            let storageInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-            this.view.createContent(storageInfo);
+            const storage = JSON.parse(localStorage.getItem("userInfo"));
+            this.view.createContent(storage);
         }
 
         updateState() {
             const hashPageName = window.location.hash.slice(1);
             this.view.renderContent(hashPageName);
 
-            if (hashPageName === "" || hashPageName === "homePage") this.initialLoad();
+            if (!hashPageName || hashPageName === "homePage") this.initialLoad();
         }
 
         updateData(targetId) {
-            let storage = JSON.parse(window.localStorage.getItem("userInfo"));
+            const storage = JSON.parse(localStorage.getItem("userInfo"));
 
-            for(let i=0; i<storage[0].tasks.length; i++) {
-                let chek = storage[0].tasks[i].checked;
-                
+            for(let i=0; i < storage[0].tasks.length; i++) {
                 if (storage[0].tasks[i].id === targetId) {
-                    storage[0].tasks[i].checked = !chek;
+                    storage[0].tasks[i].checked = !(storage[0].tasks[i].checked);
                 };
             }
             localStorage.setItem("userInfo", JSON.stringify(storage));
@@ -307,14 +305,12 @@ const taskerApp = (function () {
             window.addEventListener("hashchange", () => this.model.updateState());
 
             this.container.addEventListener('click', (e) => {
-                let target = e.target;
-
-                if (target.className === 'custom-checkbox') {
-                    let targetId = Number(target.id);
+                if (e.target.className === 'custom-checkbox') {
+                    const targetId = Number(e.target.id);
                     this.updateData(targetId);
                 };
                 
-                if (target.className === 'add-button' || target.className === "add-task" || target.className === "add-list") {
+                if (e.target.className === 'add-button' || e.target.className === "add-task" || e.target.className === "add-list") {
                     this.model.visibleToggle();
                 };
             })
