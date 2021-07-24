@@ -4,7 +4,7 @@ body {
 
 #container {
   position: relative;
-  width: 375px;
+  max-width: 546px;
   background: #ffffff; }
 
 .head {
@@ -135,31 +135,13 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   align-items: center;
   width: 64px;
   height: 64px;
-  margin-left: 294px;
+  right: 16px;
   font-size: 30px;
   color: #006cff;
   background-color: #ffffff;
   box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
   border-radius: 50%;
   transition-duration: 0.6s; }
-  @media only screen and (max-width: 375px) {
-    .add-button {
-      margin-left: 277px; } }
-  @media only screen and (max-width: 360px) {
-    .add-button {
-      margin-left: 278px; } }
-  @media only screen and (max-width: 350px) {
-    .add-button {
-      margin-left: 250px; } }
-  @media only screen and (max-width: 340px) {
-    .add-button {
-      margin-left: 242px; } }
-  @media only screen and (max-width: 330px) {
-    .add-button {
-      margin-left: 232px; } }
-  @media only screen and (max-width: 320px) {
-    .add-button {
-      margin-left: 239px; } }
 
 .add-button__img {
   background-color: transparent;
@@ -193,7 +175,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     background-size: 13px; }
 
 .modal-add {
-  width: 375px;
+  width: 100vw;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.4);
   position: fixed;
@@ -202,39 +184,16 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   transition-property: opacity;
   transition-duration: 0.6s; }
 
-.modal-add-buttons {
-  position: absolute;
+.modal-add__buttons {
+  position: fixed;
+  right: -64%;
+  bottom: 124px;
   display: flex;
   flex-direction: column;
-  left: 37.07%;
-  right: 4.27%;
-  top: 67.26%;
+  width: 58.66%;
   filter: drop-shadow(0px 10px 30px rgba(19, 28, 41, 0.2));
-  border-radius: 10px; }
-  @media only screen and (max-width: 375px) {
-    .modal-add-buttons {
-      left: 37.07%;
-      right: 5.27%;
-      top: 65.26%; } }
-  @media only screen and (max-width: 360px) {
-    .modal-add-buttons {
-      left: 37.07%;
-      right: 8.27%;
-      top: 63.26%; } }
-  @media only screen and (max-width: 350px) {
-    .modal-add-buttons {
-      right: 4.27%; } }
-  @media only screen and (max-width: 340px) {
-    .modal-add-buttons {
-      right: 4.27%; } }
-  @media only screen and (max-width: 330px) {
-    .modal-add-buttons {
-      right: 4.27%; } }
-  @media only screen and (max-width: 320px) {
-    .modal-add-buttons {
-      left: 37.07%;
-      right: 19.27%;
-      top: 59.26%; } }
+  border-radius: 10px;
+  transition-duration: 0.6s; }
 
 .add-task,
 .add-list {

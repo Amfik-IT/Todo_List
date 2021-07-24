@@ -24,11 +24,10 @@ const taskerApp = (function () {
                         <div class="lists">
                             <div class="lists__title">Lists</div>
                         </div>
-                        <div class="modal-add hidden">
-                            <div class="modal-add-buttons">
+                        <div class="modal-add hidden"></div>
+                        <div class="modal-add__buttons">
                                 <a class="add-task" href="#createTask">Task</a>
                                 <a class="add-list">List</a>
-                            </div>
                         </div>
                         <a class="add-button"><img class="add-button__img" src="img/plus.svg" alt="add" title="add"></a>
                     </main>
@@ -169,12 +168,14 @@ const taskerApp = (function () {
             let modalButton = document.querySelector('.add-button');
             let modal = document.querySelector(".modal-add");
             let plus = document.querySelector('.add-button__img');
+            let modalAddButton = document.querySelector('.modal-add__buttons');
             
             if (this.openModal) {
                 this.openModal = false;
                 modalButton.style.backgroundColor = "#ffffff";
                 plus.setAttribute("src", "img/plus.svg");
                 plus.style.transform = 'rotate(0deg)';
+                modalAddButton.style.right = "-64%"
                 setTimeout(() => {
                     modal.classList.toggle("hidden");
                 }, 600);
@@ -186,6 +187,7 @@ const taskerApp = (function () {
                 plus.style.transform = 'rotate(135deg)';
                 modal.classList.toggle("hidden");
                 modal.style.opacity = 1;
+                modalAddButton.style.right = "16px"
             }
         }
     };

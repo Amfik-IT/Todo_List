@@ -11,7 +11,7 @@ body {
 
 #container {
     position: relative;
-    width: 375px;
+    max-width: 546px;
     background: $white;
 }
 
@@ -157,25 +157,6 @@ input[type="checkbox"]:checked + p > span:first-child:before {
 }
 
 .add-button {
-    @include only(375px) {
-        margin-left: 277px;
-    }
-    @include only(360px) {
-        margin-left: 278px;
-    }
-    @include only(350px) {
-        margin-left: 250px;
-    }
-    @include only(340px) {
-        margin-left: 242px;
-    }
-    @include only(330px) {
-        margin-left: 232px;
-    }
-    @include only(320px) {
-        margin-left: 239px;
-    }
-
     cursor: pointer;
     position: fixed;
     bottom: 44px;
@@ -184,7 +165,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     align-items: center;
     width: 64px;
     height: 64px;
-    margin-left: 294px;
+    right: 16px;
     font-size: 30px;
     color: #006cff;
     background-color: $white;
@@ -231,7 +212,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
 }
 
 .modal-add {
-    width: 375px;
+    width: 100vw;
     height: 100vh;
     background-color: $modalBack;
     position: fixed;
@@ -241,40 +222,16 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     transition-duration: 0.6s;
 }
 
-.modal-add-buttons {
-     @include only(375px) {
-        left: 37.07%;
-        right: 5.27%;
-        top: 65.26%;
-    }
-    @include only(360px) {
-        left: 37.07%;
-        right: 8.27%;
-        top: 63.26%;
-    }
-    @include only(350px) {
-        right: 4.27%;
-    }
-    @include only(340px) {
-        right: 4.27%;
-    }
-    @include only(330px) {
-        right: 4.27%;
-    }
-    @include only(320px) {
-        left: 37.07%;
-        right: 19.27%;
-        top: 59.26%;
-    }
-
-    position: absolute;
+.modal-add__buttons {
+    position: fixed;
+    right: -64%;
+    bottom: 124px;
     display: flex;
     flex-direction: column;
-    left: 37.07%;
-    right: 4.27%;
-    top: 67.26%;
+    width: 58.66%;
     filter: drop-shadow(0px 10px 30px $modalAddButtonsShadow);
     border-radius: 10px;
+    transition-duration: 0.6s;
 }
 
 .add-task,
