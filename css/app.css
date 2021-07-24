@@ -4,7 +4,7 @@ body {
 
 #container {
   position: relative;
-  width: 375px;
+  max-width: 546px;
   background: #ffffff; }
 
 .head {
@@ -25,13 +25,13 @@ body {
   color: #252a31; }
 
 .head__setup-button {
+  cursor: pointer;
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 24px;
   height: 24px;
-  margin-right: 12px;
-  cursor: pointer; }
+  margin-right: 12px; }
   .head__setup-button span {
     width: 5px;
     height: 5px;
@@ -101,12 +101,12 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   opacity: 0.3; }
 
 .lists__list-item {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   margin: 0 16px 8px 58px;
   padding: 12px 16px;
-  border-radius: 10px;
-  cursor: pointer; }
+  border-radius: 10px; }
 
 .list-text {
   font-family: "SFProText";
@@ -127,20 +127,24 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   opacity: 0.5; }
 
 .add-button {
+  cursor: pointer;
   position: fixed;
+  right: 16px;
+  bottom: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 64px;
   height: 64px;
-  margin-left: 294px;
-  bottom: 44px;
   font-size: 30px;
   color: #006cff;
   background-color: #ffffff;
   box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
   border-radius: 50%;
-  cursor: pointer;
+  transition-duration: 0.6s; }
+
+.add-button__img {
+  background-color: transparent;
   transition-duration: 0.6s; }
 
 .custom-checkbox {
@@ -171,7 +175,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     background-size: 13px; }
 
 .modal-add {
-  width: 375px;
+  width: 100vw;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.4);
   position: fixed;
@@ -180,28 +184,29 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   transition-property: opacity;
   transition-duration: 0.6s; }
 
-.modal-add-buttons {
-  position: absolute;
+.modal-add__buttons {
+  position: fixed;
+  right: -64%;
+  bottom: 124px;
   display: flex;
   flex-direction: column;
-  left: 37.07%;
-  right: 4.27%;
-  top: 67.26%;
+  width: 58.66%;
   filter: drop-shadow(0px 10px 30px rgba(19, 28, 41, 0.2));
-  border-radius: 10px; }
+  border-radius: 10px;
+  transition-duration: 0.6s; }
 
 .add-task,
 .add-list {
+  cursor: pointer;
   position: relative;
   padding: 19px 0 19px 54px;
-  font-family: SF Pro Text;
+  font-family: "SFProText";
   font-size: 18px;
   line-height: 21px;
   letter-spacing: -0.43px;
   color: #006CFF;
   background-color: #ffffff;
-  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1);
-  cursor: pointer; }
+  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1); }
 
 .add-task {
   border-radius: 10px 10px 0 0; }

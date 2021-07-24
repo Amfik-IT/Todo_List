@@ -24,13 +24,12 @@ const taskerApp = (function () {
                         <div class="lists">
                             <div class="lists__title">Lists</div>
                         </div>
-                        <div class="modal-add hidden">
-                            <div class="modal-add-buttons">
+                        <div class="modal-add hidden"></div>
+                        <div class="modal-add__buttons">
                                 <a class="add-task" href="#createTask">Task</a>
                                 <a class="add-list">List</a>
-                            </div>
                         </div>
-                        <a class="add-button"><img src="img/plus.svg" alt="add" title="add"></a>
+                        <a class="add-button"><img class="add-button__img" src="img/plus.svg" alt="add" title="add"></a>
                     </main>
                   `;
                 }
@@ -168,19 +167,27 @@ const taskerApp = (function () {
         visibleToggle() {
             let modalButton = document.querySelector('.add-button');
             let modal = document.querySelector(".modal-add");
+            let plus = document.querySelector('.add-button__img');
+            let modalAddButton = document.querySelector('.modal-add__buttons');
             
             if (this.openModal) {
                 this.openModal = false;
-                modalButton.style.transform = 'rotate(0deg)';
+                modalButton.style.backgroundColor = "#ffffff";
+                plus.setAttribute("src", "img/plus.svg");
+                plus.style.transform = 'rotate(0deg)';
+                modalAddButton.style.right = "-100%"
                 setTimeout(() => {
                     modal.classList.toggle("hidden");
                 }, 600);
                 modal.style.opacity = 0;
             } else {
                 this.openModal = true;
-                modalButton.style.transform = 'rotate(135deg)';
+                modalButton.style.backgroundColor = "#006CFF";
+                plus.setAttribute("src", "img/plusOpen.svg");
+                plus.style.transform = 'rotate(135deg)';
                 modal.classList.toggle("hidden");
                 modal.style.opacity = 1;
+                modalAddButton.style.right = "16px"
             }
         }
     };
@@ -310,7 +317,8 @@ const taskerApp = (function () {
                     this.updateData(targetId);
                 };
                 
-                if (e.target.className === 'add-button' || e.target.className === "add-task" || e.target.className === "add-list") {
+                if (e.target.className === 'add-button' || e.target.className === "add-task" 
+                    || e.target.className === "add-list" || e.target.className === "add-button__img") {
                     this.model.visibleToggle();
                 };
             })
