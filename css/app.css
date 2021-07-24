@@ -5,6 +5,7 @@ body {
 #container {
   position: relative;
   max-width: 546px;
+  width: 100%;
   background: #ffffff; }
 
 .head {
@@ -186,7 +187,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
 
 .modal-add__buttons {
   position: fixed;
-  right: -64%;
+  right: -100%;
   bottom: 124px;
   display: flex;
   flex-direction: column;
