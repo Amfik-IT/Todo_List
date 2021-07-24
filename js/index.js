@@ -180,6 +180,7 @@ const taskerApp = (function () {
                     modal.classList.toggle("hidden");
                 }, 600);
                 modal.style.opacity = 0;
+                
             } else {
                 this.openModal = true;
                 modalButton.style.backgroundColor = "#006CFF";
