@@ -129,13 +129,13 @@ input[type="checkbox"]:checked + p > span:first-child:before {
 .add-button {
   cursor: pointer;
   position: fixed;
+  right: 16px;
   bottom: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 64px;
   height: 64px;
-  right: 16px;
   font-size: 30px;
   color: #006cff;
   background-color: #ffffff;

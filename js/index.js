@@ -175,7 +175,7 @@ const taskerApp = (function () {
                 modalButton.style.backgroundColor = "#ffffff";
                 plus.setAttribute("src", "img/plus.svg");
                 plus.style.transform = 'rotate(0deg)';
-                modalAddButton.style.right = "-64%"
+                modalAddButton.style.right = "-100%"
                 setTimeout(() => {
                     modal.classList.toggle("hidden");
                 }, 600);
