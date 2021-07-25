@@ -379,7 +379,7 @@ input[type="checkbox"]:checked + span {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 17px 14px;
+    padding: 20px 14px;
     border-top: solid 1px $hr;
 }
 
@@ -409,4 +409,38 @@ input[type="checkbox"]:checked + span {
     letter-spacing: -0.02em;
     color: $blackText;
     opacity: 0.4;
+}
+
+.category-сhoose {
+    height: 0px;
+    overflow: scroll;
+    transition-property: height;
+    transition-duration: 0.6s;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+}
+
+.category-сhoose .lists__list .lists__list-item {
+    position: relative;
+    margin: 0 16px 8px 16px;
+}
+
+.selected {
+    &::before {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        content: " ";
+        display: block;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-image: url(../img/checked.svg);
+        background-color: $white;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 22px;
+    }
 }

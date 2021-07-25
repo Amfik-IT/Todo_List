@@ -5,6 +5,7 @@ const taskerApp = (function () {
         constructor(container) {
             this.container = container;
             this.openModal = false;
+            this.listsListHeight = null;
 
             this.HomePageComponent = {
                 id: "homePage",
@@ -57,16 +58,19 @@ const taskerApp = (function () {
                                 <span class="inbox-color" style="background-color: #ebeff5"></span>
                             </div>
                         </div>
-                        <div class="create-task__buttons">
-                            <div>
-                                <a class="calendar-button"><img src="img/calendar.svg" alt="calendar" title="calendar"></a>
-                                <a class="clock-button"><img src="img/alarm.svg" alt="clock" title="clock"></a>
+                        <div>
+                            <div class="create-task__buttons">
+                                <div>
+                                    <a class="calendar-button"><img src="img/calendar.svg" alt="calendar" title="calendar"></a>
+                                    <a class="clock-button"><img src="img/alarm.svg" alt="clock" title="clock"></a>
+                                </div>
+                                <div>
+                                    <a class="category-button"><span class="category-button__text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
+                                </div>
                             </div>
-                            <div>
-                                <a class="category-button"><span class="category-button__text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
-                            </div>
+                            <div class="category-сhoose"></div>
                         </div>
-                        <div class="category-сhoose"></div>
+                        
                     </main>
                   `;
                 }
@@ -94,9 +98,33 @@ const taskerApp = (function () {
             this.container.innerHTML = this.router[routeName].render(`${routeName}-page`);
         }
 
-        createContent(storageInfo) {
-            let divHeadDay = document.querySelector('.head__day');
-            divHeadDay.innerHTML = storageInfo[0].day;
+        getListsList(storageInfo) {
+            let listsList = document.createElement('ul');
+            listsList.setAttribute("class", "lists__list");
+            let lists = storageInfo[0].lists;
+
+            for (let i = 0; i < lists.length; i++) {
+                let li = document.createElement('li');
+                li.setAttribute("class", "lists__list-item");
+                li.setAttribute("style", `background-color: ${lists[i].color}`);
+                li.setAttribute("data-category", `${lists[i].category}`);
+
+                let spanText = document.createElement('span');
+                spanText.setAttribute("class", "list-text");
+                spanText.innerHTML = lists[i].category;
+
+                let spanCountTask = document.createElement('span');
+                spanCountTask.setAttribute("class", "list-count-task");
+                spanCountTask.innerHTML = `${lists[i].count} ${lists[i].count < 2 ? "task" : "tasks"}`;
+
+                li.append(spanText);
+                li.append(spanCountTask);
+                listsList.append(li);
+            }
+            return listsList;
+        }
+
+        getTasksList(storageInfo) {
             let tasksList = document.createElement('ul');
             tasksList.setAttribute("class", "tasks__list");
             let tasks = storageInfo[0].tasks;
@@ -125,7 +153,7 @@ const taskerApp = (function () {
                 }
 
                 let spanColor = document.createElement('span');
-                spanColor.setAttribute("class", `${tasks[i].parent}-color`);
+                spanColor.setAttribute("class", `${tasks[i].parent.toLowerCase()}-color`);
                 spanColor.setAttribute("style", `background-color: ${tasks[i].color}`);
                 li.append(input);
                 li.append(pText);
@@ -135,34 +163,41 @@ const taskerApp = (function () {
                 label.append(li);
                 tasksList.append(label);
             }
+            return tasksList;
+        }
 
+        createContent(storage) {
+            let divHeadDay = document.querySelector('.head__day');
+            divHeadDay.innerHTML = storage[0].day;
+
+            let tasksList = this.getTasksList(storage);
             let divTasks = document.querySelector('.tasks');
             divTasks.append(tasksList);
 
-            let listsList = document.createElement('ul');
-            listsList.setAttribute("class", "lists__list");
-            let lists = storageInfo[0].lists;
-
-            for (let i = 0; i < lists.length; i++) {
-                let li = document.createElement('li');
-                li.setAttribute("class", "lists__list-item");
-                li.setAttribute("style", `background-color: ${lists[i].color}`);
-
-                let spanText = document.createElement('span');
-                spanText.setAttribute("class", "list-text");
-                spanText.innerHTML = lists[i].category;
-
-                let spanCountTask = document.createElement('span');
-                spanCountTask.setAttribute("class", "list-count-task");
-                spanCountTask.innerHTML = `${lists[i].count} ${lists[i].count < 2 ? "task" : "tasks"}`;
-
-                li.append(spanText);
-                li.append(spanCountTask);
-                listsList.append(li);
-            }
-
+            let listsList = this.getListsList(storage);
             let divLists = document.querySelector('.lists');
             divLists.append(listsList);
+        }
+
+        createChooseCategoryContent(storage) {
+            let divChooseCategory = document.querySelector('.category-сhoose');
+            let listsList = this.getListsList(storage);
+            divChooseCategory.append(listsList);
+            let lisItems = document.querySelectorAll('.lists__list-item');
+            for (let i = 0; i < lisItems.length; i++) {
+                if (lisItems[i].dataset.category === "Inbox") {
+                    lisItems[i].classList.add("selected");
+                }
+            }
+        }
+
+        showChooseCategory() {
+            let divCategoryChoose = document.querySelector('.category-сhoose');
+            if (!divCategoryChoose.style.height || divCategoryChoose.style.height === "0px") {
+                divCategoryChoose.style.height = "310px";
+            } else {
+                divCategoryChoose.style.height = "0px";
+            }
         }
 
         visibleToggle() {
@@ -192,6 +227,26 @@ const taskerApp = (function () {
                 modalAddButton.style.right = "16px"
             }
         }
+
+        selectedCategoryToggle(category) {
+            let listItems = document.querySelectorAll('.lists__list-item');
+
+            for (let i = 0; i < listItems.length; i++) {
+                if (listItems[i].dataset.category !== category) {
+                    listItems[i].classList.remove('selected');
+
+                } else {
+                    listItems[i].classList.add('selected');
+                    document.querySelector('.category-button__text').innerHTML = category;
+                    let span = document.querySelectorAll('span[class$="color"]');
+
+                    for (let j = 0; j < span.length; j++) {
+                        span[j].style.backgroundColor = listItems[i].style.backgroundColor;
+                        span[j].className = `${category.toLowerCase()}-color`;
+                    }
+                }
+            }
+        }
     };
 
     class TaskerModel {
@@ -200,7 +255,7 @@ const taskerApp = (function () {
         }
 
         init() {
-            const storage = localStorage.getItem("userInfo");
+            const storage = localStorage.getItem("userData");
 
             if (storage === null) {
                 let storageData = [{
@@ -208,7 +263,7 @@ const taskerApp = (function () {
                     tasks: [{
                             id: 1,
                             text: "Start making a presentation",
-                            parent: "work",
+                            parent: "Work",
                             color: "#61dea4",
                             time: "",
                             checked: false,
@@ -216,7 +271,7 @@ const taskerApp = (function () {
                         {
                             id: 2,
                             text: "Pay for rent",
-                            parent: "shopping",
+                            parent: "Shopping",
                             color: "#f45e6d",
                             time: "7 pm",
                             checked: false,
@@ -224,7 +279,7 @@ const taskerApp = (function () {
                         {
                             id: 3,
                             text: "Buy a milk",
-                            parent: "shopping",
+                            parent: "Shopping",
                             color: "#f45e6d",
                             time: "",
                             checked: false,
@@ -232,7 +287,7 @@ const taskerApp = (function () {
                         {
                             id: 4,
                             text: "Don’t forget to pick up Mickael from school",
-                            parent: "inbox",
+                            parent: "Inbox",
                             color: "#ebeff5",
                             time: "",
                             checked: false,
@@ -240,42 +295,46 @@ const taskerApp = (function () {
                         {
                             id: 5,
                             text: "Buy a chocolate for Charlotte",
-                            parent: "family",
+                            parent: "Family",
                             color: "#ffe761;",
                             time: "",
                             checked: false,
                         }
                     ],
                     lists: [{
-                            category: "inbox",
+                            category: "Inbox",
                             count: 1,
                             color: "#ebeff5"
                         },
                         {
-                            category: "work",
+                            category: "Work",
                             count: 1,
                             color: "#61dea4"
                         },
                         {
-                            category: "shopping",
+                            category: "Shopping",
                             count: 2,
                             color: "#f45e6d"
                         },
                         {
-                            category: "family",
+                            category: "Family",
                             count: 1,
                             color: "#ffe761;"
                         }
                     ],
                 }, ];
-                localStorage.setItem("userInfo", JSON.stringify(storageData));
+                localStorage.setItem("userData", JSON.stringify(storageData));
             }
 
             this.updateState();
         }
 
+        getData() {
+            return JSON.parse(localStorage.getItem("userData"));
+        }
+
         initialLoad() {
-            const storage = JSON.parse(localStorage.getItem("userInfo"));
+            const storage = this.getData();
             this.view.createContent(storage);
         }
 
@@ -284,21 +343,48 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
 
             if (!hashPageName || hashPageName === "homePage") this.initialLoad();
+            if (hashPageName === "createTask") this.view.createChooseCategoryContent(this.getData());
         }
 
         updateData(targetId) {
-            const storage = JSON.parse(localStorage.getItem("userInfo"));
+            const storage = this.getData();
 
             for(let i=0; i < storage[0].tasks.length; i++) {
                 if (storage[0].tasks[i].id === targetId) {
                     storage[0].tasks[i].checked = !(storage[0].tasks[i].checked);
                 };
             }
-            localStorage.setItem("userInfo", JSON.stringify(storage));
+            localStorage.setItem("userData", JSON.stringify(storage));
         }
 
         visibleToggle() {
             this.view.visibleToggle();
+        }
+
+        show() {
+            this.view.showChooseCategory();
+        }
+
+        selectedCategoryToggle(category) {
+            this.view.selectedCategoryToggle(category);
+        }
+
+        saveTask(infoTasck) {
+            let newData = this.getData();
+            let idForTask = newData[0].tasks.length;
+            let task = {
+                id: ++idForTask,
+                text: infoTasck.message,
+                parent: infoTasck.category,
+                checked: infoTasck.checked,
+                color: newData[0].lists.find((item) => item.category === infoTasck.category).color,
+                time: infoTasck.time,
+            }
+            newData[0].tasks.push(task);
+
+            let categoryCount = newData[0].lists.find((item) => item.category === infoTasck.category).count;
+            newData[0].lists.find((item) => item.category === infoTasck.category).count = ++categoryCount;
+            localStorage.setItem("userData", JSON.stringify(newData));
         }
     };
 
@@ -323,11 +409,34 @@ const taskerApp = (function () {
                     || e.target.className === "add-list" || e.target.className === "add-button__img") {
                     this.model.visibleToggle();
                 };
+
+                if (e.target.className === 'category-button__text') this.model.show();
+
+                if (window.location.hash.slice(1) === 'createTask') {
+                    let listItems = document.querySelectorAll('.lists__list-item');
+                    for (let i = 0; i < listItems.length; i++) {
+                        listItems[i].onclick = (e) => {
+                            this.model.selectedCategoryToggle(listItems[i].dataset.category);
+                        }
+                    }
+                }
+
+                if (e.target.className === 'done-button') this.saveTask();
             })
         }
 
         updateData(targetId) {
             this.model.updateData(targetId);
+        }
+
+        saveTask() {
+            let infoTasck = {
+                message: document.querySelector('.input-text').value,
+                category: document.querySelector('.category-button__text').innerHTML,
+                checked: document.querySelector('.custom-checkbox').checked,
+                time: "",
+            }
+            this.model.saveTask(infoTasck);
         }
     };
 
