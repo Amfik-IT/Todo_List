@@ -30,6 +30,19 @@ const taskerApp = (function () {
                                 <a class="add-list">List</a>
                         </div>
                         <a class="add-button"><img class="add-button__img" src="img/plus.svg" alt="add" title="add"></a>
+                        <div class="modal-category">
+                            <a class="modal-category__close-button"></a>
+                            <div class="modal-category__header">
+                                <div class="modal-category__header-text">
+                                    <span class="modal-category__header-category"></span>
+                                    <span class="modal-category__header-count"></span>
+                                </div>
+                                <a class="edit-button"><img class="shape"></a>
+                            </div>
+                            <div class="modal-category__main">
+                                <ul class="modal-category__main-tasks"></ul>
+                            </div>
+                        </div>
                     </main>
                   `;
                 }
@@ -124,13 +137,14 @@ const taskerApp = (function () {
                 }
 
                 let spanColor = document.createElement('span');
-                spanColor.setAttribute("class", `${tasks[i].parent}-color`);
+                spanColor.setAttribute("class", `${tasks[i].parent.toLowerCase()}-color`);
                 spanColor.setAttribute("style", `background-color: ${tasks[i].color}`);
                 li.append(input);
                 li.append(pText);
                 li.append(spanColor);
 
                 let label = document.createElement('label');
+                label.setAttribute("data-category", tasks[i].parent.toLowerCase());
                 label.append(li);
                 tasksList.append(label);
             }
@@ -146,6 +160,7 @@ const taskerApp = (function () {
                 let li = document.createElement('li');
                 li.setAttribute("class", "lists__list-item");
                 li.setAttribute("style", `background-color: ${lists[i].color}`);
+                li.setAttribute("data-category", `${lists[i].category.toLowerCase()}`);
 
                 let spanText = document.createElement('span');
                 spanText.setAttribute("class", "list-text");
@@ -191,6 +206,82 @@ const taskerApp = (function () {
                 modalAddButton.style.right = "16px"
             }
         }
+
+        selectСategory(category) {
+            const listItems = document.querySelectorAll('.lists__list-item');
+
+            listItems.forEach((item) => {
+                if (item.dataset.category !== category) {
+                    item.classList.remove('selected');
+                } else {
+                    const span = document.querySelectorAll('span[class$="color"]');
+
+                    span.forEach((spanItem) => {
+                        spanItem.style.backgroundColor = item.style.backgroundColor;
+                        spanItem.className = `${category.toLowerCase()}-color`;
+                    })
+
+                    item.classList.add('selected');
+                    document.querySelector('.category-button__text').innerHTML = category;
+                }
+            })
+        }
+
+        openModalCategory(tascksArr, categoryInfo) {
+            const modal = document.querySelector('.modal-category');
+            const ul = document.querySelector('.modal-category__main-tasks');
+            ul.innerHTML = "";
+            
+            tascksArr.forEach((item) => {
+                const label = document.createElement('label');
+                const li = document.createElement('li');
+                const p = document.createElement('p');
+                const span = document.createElement('span');
+
+                label.setAttribute('for', `${item.id}`);
+                li.setAttribute('class', 'tasks__list-item');
+                span.classList.add('task-text');
+                span.setAttribute('data-id', `${item.id}`);
+
+                if (item.checked) {
+                    span.classList.add('check');
+                }
+
+                span.innerHTML = item.text;
+                p.append(span);
+
+                if (item.time) {
+                    const spanTime = document.createElement('span');
+                    spanTime.setAttribute('class', 'task-time');
+                    spanTime.innerHTML = item.time;
+                    p.append(spanTime);
+                }
+
+                li.append(p);
+                label.append(li);
+                ul.append(label);
+            });
+
+            document.querySelector('.modal-category__header-category').innerHTML = categoryInfo[0].category;
+            document.querySelector('.modal-category__header-count').innerHTML = `${categoryInfo[0].count} ${categoryInfo[0].count < 2 ? "task" : "tasks"}`;
+            document.querySelector('.shape').setAttribute('src', `${categoryInfo[0].category === "Work" 
+            || categoryInfo[0].category === "Shopping" ? "img/shapeWhite.svg" : "img/shapeBlack.svg"}`);
+            modal.style.backgroundColor = `${categoryInfo[0].color}`;
+            modal.setAttribute('data-category', `${categoryInfo[0].category.toLowerCase()}`);
+            modal.classList.remove('close')
+            modal.classList.add('open');
+
+        }
+
+        modalTaskCheck(id) {
+            document.querySelector(`[data-id='${id}']`).classList.toggle('check');
+        }
+
+        closeModalCategory() {
+            const modal = document.querySelector('.modal-category');
+            modal.classList.remove('open');
+            modal.classList.add('close');
+        }
     };
 
     class TaskerModel {
@@ -207,7 +298,7 @@ const taskerApp = (function () {
                     tasks: [{
                             id: 1,
                             text: "Start making a presentation",
-                            parent: "work",
+                            parent: "Work",
                             color: "#61dea4",
                             time: "",
                             checked: false,
@@ -215,7 +306,7 @@ const taskerApp = (function () {
                         {
                             id: 2,
                             text: "Pay for rent",
-                            parent: "shopping",
+                            parent: "Shopping",
                             color: "#f45e6d",
                             time: "7 pm",
                             checked: false,
@@ -223,7 +314,7 @@ const taskerApp = (function () {
                         {
                             id: 3,
                             text: "Buy a milk",
-                            parent: "shopping",
+                            parent: "Shopping",
                             color: "#f45e6d",
                             time: "",
                             checked: false,
@@ -231,7 +322,7 @@ const taskerApp = (function () {
                         {
                             id: 4,
                             text: "Don’t forget to pick up Mickael from school",
-                            parent: "inbox",
+                            parent: "Inbox",
                             color: "#ebeff5",
                             time: "",
                             checked: false,
@@ -239,31 +330,31 @@ const taskerApp = (function () {
                         {
                             id: 5,
                             text: "Buy a chocolate for Charlotte",
-                            parent: "family",
-                            color: "#ffe761;",
+                            parent: "Family",
+                            color: "#ffe761",
                             time: "",
                             checked: false,
                         }
                     ],
                     lists: [{
-                            category: "inbox",
+                            category: "Inbox",
                             count: 1,
                             color: "#ebeff5"
                         },
                         {
-                            category: "work",
+                            category: "Work",
                             count: 1,
                             color: "#61dea4"
                         },
                         {
-                            category: "shopping",
+                            category: "Shopping",
                             count: 2,
                             color: "#f45e6d"
                         },
                         {
-                            category: "family",
+                            category: "Family",
                             count: 1,
-                            color: "#ffe761;"
+                            color: "#ffe761"
                         }
                     ],
                 }, ];
@@ -271,6 +362,10 @@ const taskerApp = (function () {
             }
 
             this.updateState();
+        }
+
+        getData() {
+            return JSON.parse(localStorage.getItem("userData"));
         }
 
         initialLoad() {
@@ -299,6 +394,51 @@ const taskerApp = (function () {
         visibleToggle() {
             this.view.visibleToggle();
         }
+
+        show() {
+            this.view.showCategoryList();
+        }
+
+        selectСategory(category) {
+            this.view.selectСategory(category);
+        }
+
+        saveTask(infoTasck) {
+            const newData = this.getData();
+            const categoryList = newData[0].lists;
+            const id = newData[0].tasks.length + 1;
+            const task = {
+                id,
+                text: infoTasck.message,
+                parent: infoTasck.category,
+                checked: infoTasck.checked,
+                color: categoryList.find((item) => item.category.toLowerCase() === infoTasck.category).color,
+                time: infoTasck.time,
+            }
+            let categoryCount = null;
+            const foundCategoryCount = categoryList.find((item) => item.category.toLowerCase() === infoTasck.category);
+            if (!!foundCategoryCount) { 
+                categoryCount = foundCategoryCount.count + 1; 
+            };
+
+            newData[0].tasks.push(task);
+            newData[0].lists.find((item) => item.category.toLowerCase() === infoTasck.category).count = categoryCount;
+            localStorage.setItem("userData", JSON.stringify(newData));
+        }
+
+        openModalCategory(category) {
+            const tascksArr = this.getData()[0].tasks.filter((item) => item.parent.toLowerCase() === category);
+            const categoryInfo = this.getData()[0].lists.filter((item) => item.category.toLowerCase() === category);
+            this.view.openModalCategory(tascksArr, categoryInfo);
+        }
+
+        modalTaskCheck(id) {
+            this.view.modalTaskCheck(id);
+        }
+
+        closeModalCategory() {
+            this.view.closeModalCategory();
+        }
     };
 
     class TaskerController {
@@ -310,7 +450,16 @@ const taskerApp = (function () {
         init() {
             this.model.updateState();
 
-            window.addEventListener("hashchange", () => this.model.updateState());
+            window.addEventListener("hashchange", () => {
+                this.model.updateState();
+                const listItems = document.querySelectorAll('.lists__list-item');
+
+                listItems.forEach((item) => {
+                    item.onclick = () => {
+                        this.model.openModalCategory(item.dataset.category);
+                    }
+                })
+            });
 
             this.container.addEventListener('click', (e) => {
                 if (e.target.className === 'custom-checkbox') {
@@ -322,6 +471,49 @@ const taskerApp = (function () {
                     || e.target.className === "add-list" || e.target.className === "add-button__img") {
                     this.model.visibleToggle();
                 };
+
+                if (e.target.className === 'category-button__text') this.model.show();
+
+                if (window.location.hash.slice(1) === 'createTask') {
+                    const listItems = document.querySelectorAll('.lists__list-item');
+
+                    listItems.forEach((item) => {
+                        item.onclick = (e) => {
+                            this.model.selectСategory(item.dataset.category);
+                        }
+                    });
+                }
+
+                if (e.target.className === 'done-button') this.saveTask();
+
+                if (!window.location.hash.slice(1) || window.location.hash.slice(1) === "homePage") {
+                    const listItems = document.querySelectorAll('.lists__list-item');
+                    const labels = document.querySelectorAll('[for]');
+
+                    listItems.forEach((item) => {
+                        item.onclick = () => {
+                            this.model.openModalCategory(item.dataset.category);
+                        }
+                    })
+
+                    labels.forEach((item) => {
+                        item.onclick = (e) => {
+                            this.model.modalTaskCheck(item.htmlFor);
+                        }
+                    })
+                } 
+                
+                document.querySelector('.modal-category__close-button').onclick = () => {
+                    this.model.closeModalCategory();
+                }
+            })
+            
+            const listItems = document.querySelectorAll('.lists__list-item');
+
+            listItems.forEach((item) => {
+                item.onclick = () => {
+                    this.model.openModalCategory(item.dataset.category);
+                }
             })
         }
 

@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$white".
-        on line 16 of D:\Todo_List\css\index.scss
+        on line 26 of D:\Todo_List\css\index.scss
 
-11: 
-12: #container {
-13:     position: relative;
-14:     max-width: 546px;
-15:     width: 100%;
-16:     background-color: $white;
-17: }
-18: 
-19: .head {
-20:     position: absolute;
-21:     left: 0%;
+21: 
+22: #container {
+23:     position: relative;
+24:     max-width: 546px;
+25:     width: 100%;
+26:     background-color: $white;
+27:     overflow: hidden;
+28: }
+29: 
+30: .head {
+31:     display: flex;
 
 Backtrace:
-D:\Todo_List\css\index.scss:16
+D:\Todo_List\css\index.scss:26
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/script/tree/node.rb:50:in `perform'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/tree/visitors/perform.rb:402:in `visit_prop'
@@ -62,4 +62,4 @@ C:/Program Files (x86)/Koala/bin/sass:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$white\".\A         on line 16 of D:\Todo_List\css\index.scss\A \A 11: \A 12: #container {\A 13:     position: relative;\A 14:     max-width: 546px;\A 15:     width: 100%;\A 16:     background-color: $white;\A 17: }\A 18: \A 19: .head {\A 20:     position: absolute;\A 21:     left: 0%;"; }
+  content: "Error: Undefined variable: \"$white\".\A         on line 26 of D:\Todo_List\css\index.scss\A \A 21: \A 22: #container {\A 23:     position: relative;\A 24:     max-width: 546px;\A 25:     width: 100%;\A 26:     background-color: $white;\A 27:     overflow: hidden;\A 28: }\A 29: \A 30: .head {\A 31:     display: flex;"; }
