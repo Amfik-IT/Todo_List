@@ -107,7 +107,7 @@ const taskerApp = (function () {
                 let li = document.createElement('li');
                 li.setAttribute("class", "lists__list-item");
                 li.setAttribute("style", `background-color: ${lists[i].color}`);
-                li.setAttribute("data-category", `${lists[i].category}`);
+                li.setAttribute("data-category", `${lists[i].category.toLowerCase()}`);
 
                 let spanText = document.createElement('span');
                 spanText.setAttribute("class", "list-text");

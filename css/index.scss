@@ -117,15 +117,38 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     border-radius: 50%;
 }
 
+li[data-category="inbox"] .list-text,
+li[data-category="family"] .list-text {
+    color: $blackText;
+    opacity: 0.9;
+}
+
+li[data-category="work"] .list-text,
+li[data-category="shopping"] .list-text {
+    color: $white;
+    opacity: 0.9;
+}
+
+li[data-category="inbox"] .list-count-task,
+li[data-category="family"] .list-count-task {
+    color: $blackText;
+    opacity: 0.5;
+}
+
+li[data-category="work"] .list-count-task,
+li[data-category="shopping"] .list-count-task {
+    color: $white;
+    opacity: 0.5;
+}
+
+
 .lists__title {
     padding: 32px 0 15px 60px;
     font-family: SFProText;
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.385882px;
-    color: $blackText;
     mix-blend-mode: normal;
-    opacity: 0.3;
 }
 
 .lists__list-item {
@@ -152,9 +175,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 14px;
     line-height: 17px;
     letter-spacing: -0.337647px;
-    color: $blackText;
     mix-blend-mode: normal;
-    opacity: 0.5;
 }
 
 .add-button {
