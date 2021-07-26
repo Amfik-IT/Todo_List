@@ -13,7 +13,7 @@ const taskerApp = (function () {
                     return `
                     <main class="${className}">
                         <div class="head">
-                            <div class="head__day"></div>
+                            <div class="header__day"></div>
                             <a class="head__setup-button">
                             <span></span>
                             <span></span>
@@ -98,9 +98,9 @@ const taskerApp = (function () {
         }
 
         getCategoryList(storageInfo) {
-            const listsList = document.createElement('ul');
+            const сategoryList = document.createElement('ul');
             const lists = storageInfo[0].lists;
-            listsList.setAttribute("class", "lists__list");
+            сategoryList.setAttribute("class", "lists__list");
 
             lists.forEach((item) => {
                 const li = document.createElement('li');
@@ -116,10 +116,10 @@ const taskerApp = (function () {
                 spanCountTask.innerHTML = `${item.count} ${item.count < 2 ? "task" : "tasks"}`;
                 li.append(spanText);
                 li.append(spanCountTask);
-                listsList.append(li);
+                сategoryList.append(li);
             })
 
-            return listsList;
+            return сategoryList;
         }
 
         getTasksList(storageInfo) {
@@ -165,7 +165,7 @@ const taskerApp = (function () {
         }
 
         createContent(storage) {
-            const headerDay = document.querySelector('.head__day');
+            const headerDay = document.querySelector('.header__day');
             const tasksList = this.getTasksList(storage);
             const tasks = document.querySelector('.tasks');
             const categoryList = this.getCategoryList(storage);
@@ -182,7 +182,7 @@ const taskerApp = (function () {
             elementChooseCategory.append(categoryList);
             const lisItems = document.querySelectorAll('.lists__list-item');
             
-            lisItems.forEach((item) => {if (item.dataset.category === "inbox") item.classList.add("selected")});
+            lisItems.forEach((item) => item.dataset.category === "inbox" ? item.classList.add("selected") : null);
         }
 
         showCategoryList() {
@@ -368,14 +368,18 @@ const taskerApp = (function () {
             const categoryList = newData[0].lists;
             const id = newData[0].tasks.length + 1;
             const task = {
-                id: id,
+                id,
                 text: infoTasck.message,
                 parent: infoTasck.category,
                 checked: infoTasck.checked,
                 color: categoryList.find((item) => item.category.toLowerCase() === infoTasck.category).color,
                 time: infoTasck.time,
             }
-            const categoryCount = categoryList.find((item) => item.category.toLowerCase() === infoTasck.category).count + 1;
+            let categoryCount = null;
+            const foundCategoryCount = categoryList.find((item) => item.category.toLowerCase() === infoTasck.category);
+            if (!!foundCategoryCount) { 
+                categoryCount = foundCategoryCount.count + 1; 
+            };
 
             newData[0].tasks.push(task);
             newData[0].lists.find((item) => item.category.toLowerCase() === infoTasck.category).count = categoryCount;

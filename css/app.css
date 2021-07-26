@@ -18,7 +18,7 @@ body {
   justify-content: space-between;
   align-items: center; }
 
-.head__day {
+.header__day {
   margin: 16px 0px 16px 60px;
   font-family: "SFProDisplay";
   font-size: 32px;
