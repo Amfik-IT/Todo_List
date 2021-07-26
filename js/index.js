@@ -5,7 +5,6 @@ const taskerApp = (function () {
         constructor(container) {
             this.container = container;
             this.openModal = false;
-            this.listsListHeight = null;
 
             this.HomePageComponent = {
                 id: "homePage",
@@ -98,113 +97,109 @@ const taskerApp = (function () {
             this.container.innerHTML = this.router[routeName].render(`${routeName}-page`);
         }
 
-        getListsList(storageInfo) {
-            let listsList = document.createElement('ul');
+        getCategoryList(storageInfo) {
+            const listsList = document.createElement('ul');
+            const lists = storageInfo[0].lists;
             listsList.setAttribute("class", "lists__list");
-            let lists = storageInfo[0].lists;
 
-            for (let i = 0; i < lists.length; i++) {
-                let li = document.createElement('li');
+            lists.forEach((item) => {
+                const li = document.createElement('li');
+                const spanText = document.createElement('span');
+                const spanCountTask = document.createElement('span');
+
                 li.setAttribute("class", "lists__list-item");
-                li.setAttribute("style", `background-color: ${lists[i].color}`);
-                li.setAttribute("data-category", `${lists[i].category.toLowerCase()}`);
-
-                let spanText = document.createElement('span');
+                li.setAttribute("style", `background-color: ${item.color}`);
+                li.setAttribute("data-category", `${item.category.toLowerCase()}`);
                 spanText.setAttribute("class", "list-text");
-                spanText.innerHTML = lists[i].category;
-
-                let spanCountTask = document.createElement('span');
+                spanText.innerHTML = item.category;
                 spanCountTask.setAttribute("class", "list-count-task");
-                spanCountTask.innerHTML = `${lists[i].count} ${lists[i].count < 2 ? "task" : "tasks"}`;
-
+                spanCountTask.innerHTML = `${item.count} ${item.count < 2 ? "task" : "tasks"}`;
                 li.append(spanText);
                 li.append(spanCountTask);
                 listsList.append(li);
-            }
+            })
+
             return listsList;
         }
 
         getTasksList(storageInfo) {
-            let tasksList = document.createElement('ul');
+            const tasksList = document.createElement('ul');
+            const tasks = storageInfo[0].tasks;
             tasksList.setAttribute("class", "tasks__list");
-            let tasks = storageInfo[0].tasks;
 
-            for (let i = 0; i < tasks.length; i++) {
-                let li = document.createElement('li');
+            tasks.forEach((item) => {
+                const li = document.createElement('li');
+                const input = document.createElement('input');
+                const pText = document.createElement('p');
+                const spanText = document.createElement('span');
+                const spanColor = document.createElement('span');
+                const label = document.createElement('label');
+
                 li.setAttribute("class", "tasks__list-item");
-                let input = document.createElement('input');
                 input.setAttribute("type", "checkbox");
-                input.setAttribute("data-parent", tasks[i].parent);
+                input.setAttribute("data-parent", item.parent);
                 input.setAttribute("class", "custom-checkbox");
-                input.setAttribute("id", `${tasks[i].id}`);
-                input.checked = tasks[i].checked;
-
-                let pText = document.createElement('p');
-                let spanText = document.createElement('span');
+                input.setAttribute("id", `${item.id}`);
+                input.checked = item.checked;
                 spanText.setAttribute("class", "task-text");
-                spanText.innerHTML = tasks[i].text;
+                spanText.innerHTML = item.text;
                 pText.append(spanText);
 
-                if (!!tasks[i].time) {
-                    let spanTime = document.createElement('span');
+                if (!!item.time) {
+                    const spanTime = document.createElement('span');
                     spanTime.setAttribute("class", "task-time");
-                    spanTime.innerHTML = tasks[i].time;
+                    spanTime.innerHTML = item.time;
                     pText.append(spanTime);
                 }
 
-                let spanColor = document.createElement('span');
-                spanColor.setAttribute("class", `${tasks[i].parent.toLowerCase()}-color`);
-                spanColor.setAttribute("style", `background-color: ${tasks[i].color}`);
+                spanColor.setAttribute("class", `${item.parent.toLowerCase()}-color`);
+                spanColor.setAttribute("style", `background-color: ${item.color}`);
                 li.append(input);
                 li.append(pText);
                 li.append(spanColor);
-
-                let label = document.createElement('label');
                 label.append(li);
                 tasksList.append(label);
-            }
+            })
+
             return tasksList;
         }
 
         createContent(storage) {
-            let divHeadDay = document.querySelector('.head__day');
-            divHeadDay.innerHTML = storage[0].day;
+            const headerDay = document.querySelector('.head__day');
+            const tasksList = this.getTasksList(storage);
+            const tasks = document.querySelector('.tasks');
+            const categoryList = this.getCategoryList(storage);
+            const lists = document.querySelector('.lists');
 
-            let tasksList = this.getTasksList(storage);
-            let divTasks = document.querySelector('.tasks');
-            divTasks.append(tasksList);
-
-            let listsList = this.getListsList(storage);
-            let divLists = document.querySelector('.lists');
-            divLists.append(listsList);
+            headerDay.innerHTML = storage[0].day;
+            tasks.append(tasksList);
+            lists.append(categoryList);
         }
 
-        createChooseCategoryContent(storage) {
-            let divChooseCategory = document.querySelector('.category-сhoose');
-            let listsList = this.getListsList(storage);
-            divChooseCategory.append(listsList);
-            let lisItems = document.querySelectorAll('.lists__list-item');
-            for (let i = 0; i < lisItems.length; i++) {
-                if (lisItems[i].dataset.category === "Inbox") {
-                    lisItems[i].classList.add("selected");
-                }
-            }
+        createCategoryContent(storage) {
+            const elementChooseCategory = document.querySelector('.category-сhoose');
+            const categoryList = this.getCategoryList(storage);
+            elementChooseCategory.append(categoryList);
+            const lisItems = document.querySelectorAll('.lists__list-item');
+            
+            lisItems.forEach((item) => {if (item.dataset.category === "inbox") item.classList.add("selected")});
         }
 
-        showChooseCategory() {
-            let divCategoryChoose = document.querySelector('.category-сhoose');
-            if (!divCategoryChoose.style.height || divCategoryChoose.style.height === "0px") {
-                divCategoryChoose.style.height = "310px";
+        showCategoryList() {
+            const elementCategoryChoose = document.querySelector('.category-сhoose');
+
+            if (!elementCategoryChoose.style.height || elementCategoryChoose.style.height === "0px") {
+                elementCategoryChoose.style.height = "310px";
             } else {
-                divCategoryChoose.style.height = "0px";
+                elementCategoryChoose.style.height = "0px";
             }
         }
 
         visibleToggle() {
-            let modalButton = document.querySelector('.add-button');
-            let modal = document.querySelector(".modal-add");
-            let plus = document.querySelector('.add-button__img');
-            let modalAddButton = document.querySelector('.modal-add__buttons');
+            const modalButton = document.querySelector('.add-button');
+            const modal = document.querySelector(".modal-add");
+            const plus = document.querySelector('.add-button__img');
+            const modalAddButton = document.querySelector('.modal-add__buttons');
             
             if (this.openModal) {
                 this.openModal = false;
@@ -216,7 +211,6 @@ const taskerApp = (function () {
                     modal.classList.toggle("hidden");
                 }, 600);
                 modal.style.opacity = 0;
-                
             } else {
                 this.openModal = true;
                 modalButton.style.backgroundColor = "#006CFF";
@@ -228,24 +222,24 @@ const taskerApp = (function () {
             }
         }
 
-        selectedCategoryToggle(category) {
-            let listItems = document.querySelectorAll('.lists__list-item');
+        selectСategory(category) {
+            const listItems = document.querySelectorAll('.lists__list-item');
 
-            for (let i = 0; i < listItems.length; i++) {
-                if (listItems[i].dataset.category !== category) {
-                    listItems[i].classList.remove('selected');
-
+            listItems.forEach((item) => {
+                if (item.dataset.category !== category) {
+                    item.classList.remove('selected');
                 } else {
-                    listItems[i].classList.add('selected');
-                    document.querySelector('.category-button__text').innerHTML = category;
-                    let span = document.querySelectorAll('span[class$="color"]');
+                    const span = document.querySelectorAll('span[class$="color"]');
 
-                    for (let j = 0; j < span.length; j++) {
-                        span[j].style.backgroundColor = listItems[i].style.backgroundColor;
-                        span[j].className = `${category.toLowerCase()}-color`;
-                    }
+                    span.forEach((spanItem) => {
+                        spanItem.style.backgroundColor = item.style.backgroundColor;
+                        spanItem.className = `${category.toLowerCase()}-color`;
+                    })
+
+                    item.classList.add('selected');
+                    document.querySelector('.category-button__text').innerHTML = category;
                 }
-            }
+            })
         }
     };
 
@@ -343,7 +337,7 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
 
             if (!hashPageName || hashPageName === "homePage") this.initialLoad();
-            if (hashPageName === "createTask") this.view.createChooseCategoryContent(this.getData());
+            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData());
         }
 
         updateData(targetId) {
@@ -362,28 +356,29 @@ const taskerApp = (function () {
         }
 
         show() {
-            this.view.showChooseCategory();
+            this.view.showCategoryList();
         }
 
-        selectedCategoryToggle(category) {
-            this.view.selectedCategoryToggle(category);
+        selectСategory(category) {
+            this.view.selectСategory(category);
         }
 
         saveTask(infoTasck) {
-            let newData = this.getData();
-            let idForTask = newData[0].tasks.length;
-            let task = {
-                id: ++idForTask,
+            const newData = this.getData();
+            const categoryList = newData[0].lists;
+            const id = newData[0].tasks.length + 1;
+            const task = {
+                id: id,
                 text: infoTasck.message,
                 parent: infoTasck.category,
                 checked: infoTasck.checked,
-                color: newData[0].lists.find((item) => item.category === infoTasck.category).color,
+                color: categoryList.find((item) => item.category.toLowerCase() === infoTasck.category).color,
                 time: infoTasck.time,
             }
-            newData[0].tasks.push(task);
+            const categoryCount = categoryList.find((item) => item.category.toLowerCase() === infoTasck.category).count + 1;
 
-            let categoryCount = newData[0].lists.find((item) => item.category === infoTasck.category).count;
-            newData[0].lists.find((item) => item.category === infoTasck.category).count = ++categoryCount;
+            newData[0].tasks.push(task);
+            newData[0].lists.find((item) => item.category.toLowerCase() === infoTasck.category).count = categoryCount;
             localStorage.setItem("userData", JSON.stringify(newData));
         }
     };
@@ -413,12 +408,13 @@ const taskerApp = (function () {
                 if (e.target.className === 'category-button__text') this.model.show();
 
                 if (window.location.hash.slice(1) === 'createTask') {
-                    let listItems = document.querySelectorAll('.lists__list-item');
-                    for (let i = 0; i < listItems.length; i++) {
-                        listItems[i].onclick = (e) => {
-                            this.model.selectedCategoryToggle(listItems[i].dataset.category);
+                    const listItems = document.querySelectorAll('.lists__list-item');
+
+                    listItems.forEach((item) => {
+                        item.onclick = (e) => {
+                            this.model.selectСategory(item.dataset.category);
                         }
-                    }
+                    });
                 }
 
                 if (e.target.className === 'done-button') this.saveTask();
@@ -430,13 +426,13 @@ const taskerApp = (function () {
         }
 
         saveTask() {
-            let infoTasck = {
+            const infoTask = {
                 message: document.querySelector('.input-text').value,
                 category: document.querySelector('.category-button__text').innerHTML,
                 checked: document.querySelector('.custom-checkbox').checked,
                 time: "",
             }
-            this.model.saveTask(infoTasck);
+            this.model.saveTask(infoTask);
         }
     };
 
