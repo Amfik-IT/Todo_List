@@ -320,7 +320,8 @@ input[type="checkbox"]:checked + span {
   font-size: 18px;
   line-height: 21px;
   letter-spacing: -0.43px;
-  color: #006CFF; }
+  color: #006CFF;
+  font-weight: bold; }
 
 .input-text {
   font-family: "SFProText";
