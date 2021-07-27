@@ -109,7 +109,7 @@ const taskerApp = (function () {
 
                 li.setAttribute("class", "lists__list-item");
                 li.setAttribute("style", `background-color: ${item.color}`);
-                li.setAttribute("data-category", `${item.category.toLowerCase()}`);
+                li.setAttribute("data-category", `${item.category}`);
                 spanText.setAttribute("class", "list-text");
                 spanText.innerHTML = item.category;
                 spanCountTask.setAttribute("class", "list-count-task");
@@ -182,7 +182,7 @@ const taskerApp = (function () {
             elementChooseCategory.append(categoryList);
             const lisItems = document.querySelectorAll('.lists__list-item');
             
-            lisItems.forEach((item) => item.dataset.category === "inbox" ? item.classList.add("selected") : null);
+            lisItems.forEach((item) => item.dataset.category === "Inbox" ? item.classList.add("selected") : null);
         }
 
         showCategoryList() {
@@ -363,24 +363,24 @@ const taskerApp = (function () {
             this.view.selectСategory(category);
         }
 
-        saveTask(infoTask) {
+        saveTask({message: text, category: parent, checked, time}) {
             const newData = this.getData();
-            const categoryList = newData[0].lists;
-            const id = newData[0].tasks.length + 1;
-            const foundCategoryt = categoryList.find((item) => item.category.toLowerCase() === infoTask.category);
+            const {tasks, lists} = newData[0];
+            const id = tasks.length + 1;
+            const foundCategory = lists.find((item) => item.category === parent);
 
-            if (!!foundCategoryt) {
+            if (!!foundCategory) {
                 const task = {
                     id,
-                    text: infoTask.message,
-                    parent: infoTask.category,
-                    checked: infoTask.checked,
-                    color: foundCategoryt.color,
-                    time: infoTask.time,
+                    text,
+                    parent,
+                    checked,
+                    color: foundCategory.color,
+                    time,
                 }
 
-                newData[0].tasks.push(task);
-                foundCategoryt.count += 1;
+                tasks.push(task);
+                foundCategory.count += 1;
             };
 
             localStorage.setItem("userData", JSON.stringify(newData));
