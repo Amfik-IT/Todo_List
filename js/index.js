@@ -35,6 +35,7 @@ const taskerApp = (function () {
                             <div class="modal-category__header">
                                 <div class="modal-category__header-text">
                                     <span class="modal-category__header-category"></span>
+                                    <input tupe="text" class="input-text" id="input-text">
                                     <span class="modal-category__header-count"></span>
                                 </div>
                                 <a class="edit-button"><img class="shape"></a>
@@ -67,7 +68,7 @@ const taskerApp = (function () {
                                 <div>
                                     <input type="text" class="input-text" placeholder="What do you want to do?">
                                 </div>
-                                <span class="inbox-color" style="background-color: #ebeff5"></span>
+                                <span class="dot-color" style="background-color: #ebeff5"></span>
                             </div>
                         </div>
                         <div>
@@ -77,7 +78,7 @@ const taskerApp = (function () {
                                     <a class="clock-button"><img src="img/alarm.svg" alt="clock" title="clock"></a>
                                 </div>
                                 <div>
-                                    <a class="category-button"><span class="category-button__text">Inbox</span><span class="inbox-color" style="background-color: #ebeff5"></span></a>
+                                    <a class="category-button"><span class="category-button__text">Inbox</span><span class="dot-color" style="background-color: #ebeff5"></span></a>
                                 </div>
                             </div>
                             <div class="category-сhoose"></div>
@@ -165,7 +166,7 @@ const taskerApp = (function () {
                     pText.append(spanTime);
                 }
 
-                spanColor.setAttribute("class", `${item.parent.toLowerCase()}-color`);
+                spanColor.setAttribute("class", `dot-color`);
                 spanColor.setAttribute("style", `background-color: ${item.color}`);
                 li.append(input);
                 li.append(pText);
@@ -195,7 +196,12 @@ const taskerApp = (function () {
             elementChooseCategory.append(categoryList);
             const lisItems = document.querySelectorAll('.lists__list-item');
             
-            lisItems.forEach((item) => item.dataset.category === "Inbox" ? item.classList.add("selected") : null);
+            lisItems.forEach((item, index) => {
+                if (index === 0) {
+                    item.classList.add("selected");
+                    document.querySelector('.category-button__text').innerHTML = item.dataset.category;
+                }
+            });
         }
 
         showCategoryList() {
@@ -246,7 +252,7 @@ const taskerApp = (function () {
 
                     span.forEach((spanItem) => {
                         spanItem.style.backgroundColor = item.style.backgroundColor;
-                        spanItem.className = `${category.toLowerCase()}-color`;
+                        spanItem.className = `dot-color`;
                     })
 
                     item.classList.add('selected');
@@ -258,6 +264,7 @@ const taskerApp = (function () {
         openModalCategory(tascksArr, categoryInfo) {
             const modal = document.querySelector('.modal-category');
             const ul = document.querySelector('.modal-category__main-tasks');
+            const categorySpan = document.querySelector('.modal-category__header-category');
             ul.innerHTML = "";
             
             tascksArr.forEach((item) => {
@@ -290,7 +297,8 @@ const taskerApp = (function () {
                 ul.append(label);
             });
 
-            document.querySelector('.modal-category__header-category').innerHTML = categoryInfo[0].category;
+            categorySpan.innerHTML = categoryInfo[0].category;
+            categorySpan.setAttribute('data-category', `${categoryInfo[0].category}`);
             document.querySelector('.modal-category__header-count').innerHTML = `${categoryInfo[0].count} ${categoryInfo[0].count < 2 ? "task" : "tasks"}`;
             document.querySelector('.shape').setAttribute('src', `${categoryInfo[0].category === "Work" 
             || categoryInfo[0].category === "Shopping" ? "img/shapeWhite.svg" : "img/shapeBlack.svg"}`);
@@ -309,6 +317,33 @@ const taskerApp = (function () {
             const modal = document.querySelector('.modal-category');
             modal.classList.remove('open');
             modal.classList.add('close');
+        }
+
+        changeCategoryName() {
+            const categorySpan = document.querySelector('.modal-category__header-category');
+            const category = categorySpan.dataset.category;
+            const input = document.querySelector('#input-text');
+
+            input.value = categorySpan.innerHTML;
+            categorySpan.style.display = "none";
+            input.setAttribute('style', `display: block; color: ${category === "Work" || category === "Shopping" ? "#ffffff" : "#252a31"}`)
+
+            input.focus();
+        }
+
+        inputBlur() {
+            const categorySpan = document.querySelector('.modal-category__header-category');
+            const input = document.querySelector('#input-text');
+            const li = document.querySelector(`.lists__list-item[data-category="${categorySpan.innerHTML}"]`);
+            const span = document.querySelector(`.lists__list-item[data-category="${categorySpan.innerHTML}"] .list-text`);
+            const tasksArr = document.querySelectorAll(`input[data-parent="${categorySpan.innerHTML}"]`);
+
+            categorySpan.innerHTML = input.value;
+            span.innerHTML = input.value;
+            li.dataset.category = input.value;
+            tasksArr.forEach((item) => item.dataset.parent = input.value);
+            input.style.display = "none";
+            categorySpan.style.display = "block";
         }
     };
 
@@ -468,6 +503,18 @@ const taskerApp = (function () {
         closeModalCategory() {
             this.view.closeModalCategory();
         }
+
+        changeCategoryName() {
+            this.view.changeCategoryName();
+        }
+
+        replaceCategoryName(categoryOld, categoryNew) {
+            const newData = this.getData();
+            newData[0].lists.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
+            newData[0].tasks.forEach((item) => item.parent === categoryOld ? item.parent = categoryNew : null);
+            localStorage.setItem("userData", JSON.stringify(newData));
+            this.view.inputBlur();
+        }
     };
 
     class TaskerController {
@@ -534,6 +581,16 @@ const taskerApp = (function () {
                 
                 document.querySelector('.modal-category__close-button').onclick = () => {
                     this.model.closeModalCategory();
+                }
+
+                document.querySelector('.edit-button').onclick = () => {
+                    this.model.changeCategoryName();
+                }
+
+                document.querySelector('#input-text').onblur = () => {
+                    const categoryOld = document.querySelector('.modal-category__header-category').innerHTML;
+                    const categoryNew = document.querySelector('#input-text').value;
+                    this.model.replaceCategoryName(categoryOld, categoryNew);
                 }
             })
             

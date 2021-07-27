@@ -101,10 +101,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   background-position: center;
   border-width: 0; }
 
-.work-color,
-.shopping-color,
-.inbox-color,
-.family-color {
+.dot-color {
   position: absolute;
   right: 16px;
   margin-left: 16px;
@@ -472,6 +469,9 @@ input[type="checkbox"]:checked + span {
   animation: down 0.6s linear;
   animation-fill-mode: forwards; }
 
+.shape {
+  cursor: pointer; }
+
 main {
   overflow: scroll;
   height: 100vh; }
@@ -519,5 +519,20 @@ li[data-category="Work"] .list-count-task,
 li[data-category="Shopping"] .list-count-task {
   color: #ffffff;
   opacity: 0.5; }
+
+#input-text {
+  display: none;
+  font-family: 'SFProDisplay';
+  font-size: 32px;
+  line-height: 41px;
+  letter-spacing: 0.01em;
+  color: #252a31;
+  border: none;
+  outline: none;
+  caret-color: #006CFF;
+  background-color: transparent; }
+  #input-text::placeholder {
+    color: #252a31;
+    opacity: 0.4; }
 
 /*# sourceMappingURL=app.css.map */
