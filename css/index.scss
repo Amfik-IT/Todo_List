@@ -27,22 +27,23 @@ body {
     overflow: hidden;
 }
 
-.head {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.head__day {
+.header__day {
     margin: 16px 0px 16px 60px;
     font-family: "SFProDisplay";
     font-size: 32px;
+    font-weight: bold;
     line-height: 41px;
     letter-spacing: 0.01em;
     color: $blackText;
 }
 
-.head__setup-button {
+.header__setup-button {
     cursor: pointer;
     display: flex;
     justify-content: space-around;
@@ -65,7 +66,7 @@ body {
     align-items: center;
 
     input {
-        margin: 0 18px;
+        margin: 0 23.6px;
     }
 
     p {
@@ -90,9 +91,9 @@ body {
                 height: 24px;
                 background-color: transparent;
                 margin-right: 5px;
-                border: 1px solid $inputBorder;
+                border: 2px solid $inputBorder;
                 border-radius: 50%;
-                left: -34px;
+                left: -42px;
                 top: 29%;
             }
         }
@@ -101,14 +102,14 @@ body {
             &:first-child:before {
                 content: " ";
                 position: absolute;
-                left: -34px;
+                left: -40px;
                 top: 29%;
                 display: block;
                 width: 24px;
                 height: 24px;
-                background-color: transparent;
+                background-color: white;
                 margin-right: 5px;
-                border: 1px solid $inputBorder;
+                border: 0px solid $inputBorder;
                 background-image: url('../img/arrow.svg');
                 background-position: center;
                 border-radius: 50%;
@@ -124,6 +125,7 @@ body {
 input[type="checkbox"]:checked + p > span:first-child:before {
     background-image: url('../img/arrow.svg');
     background-position: center;
+    border-width: 0;
 }
 
 .work-color,
@@ -138,15 +140,38 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     border-radius: 50%;
 }
 
+li[data-category="inbox"] .list-text,
+li[data-category="family"] .list-text {
+    color: $blackText;
+    opacity: 0.9;
+}
+
+li[data-category="work"] .list-text,
+li[data-category="shopping"] .list-text {
+    color: $white;
+    opacity: 0.9;
+}
+
+li[data-category="inbox"] .list-count-task,
+li[data-category="family"] .list-count-task {
+    color: $blackText;
+    opacity: 0.5;
+}
+
+li[data-category="work"] .list-count-task,
+li[data-category="shopping"] .list-count-task {
+    color: $white;
+    opacity: 0.5;
+}
+
+
 .lists__title {
     padding: 32px 0 15px 60px;
     font-family: SFProText;
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.385882px;
-    color: $blackText;
     mix-blend-mode: normal;
-    opacity: 0.3;
 }
 
 .lists__list-item {
@@ -173,9 +198,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     font-size: 14px;
     line-height: 17px;
     letter-spacing: -0.337647px;
-    color: $blackText;
     mix-blend-mode: normal;
-    opacity: 0.5;
 }
 
 .add-button {
@@ -250,7 +273,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
     bottom: 124px;
     display: flex;
     flex-direction: column;
-    width: 58.66%;
+    width: 220px;
     filter: drop-shadow(0px 10px 30px $modalAddButtonsShadow);
     border-radius: 10px;
     transition-duration: 0.6s;
@@ -354,6 +377,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
 input[type="checkbox"]:checked + span {
     background-image: url(../img/arrow.svg);
     background-position: center;
+    border-width: 0;
 }
 
 .category-color {
@@ -367,7 +391,7 @@ input[type="checkbox"]:checked + span {
     height: 22px;
     background: $white;
     margin-right: 5px;
-    border: 1px solid $inputBorder;
+    border: 2px solid $inputBorder;
     border-radius: 50%;
     display: inline-block;
 }
@@ -378,6 +402,7 @@ input[type="checkbox"]:checked + span {
     line-height: 21px;
     letter-spacing: -0.43px;
     color: $blue;
+    font-weight: bold;
 }
 
 .input-text {
@@ -400,7 +425,7 @@ input[type="checkbox"]:checked + span {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 17px 14px;
+    padding: 20px 14px;
     border-top: solid 1px $hr;
 }
 
@@ -543,48 +568,53 @@ main {
     }
 }
 
-.modal-category[data-category="inbox"] .modal-category__header-category, 
-.modal-category[data-category="family"] .modal-category__header-category {
+.modal-category[data-category="Inbox"] .modal-category__header-category, 
+.modal-category[data-category="Family"] .modal-category__header-category {
     color: $blackText;
 }
 
-.modal-category[data-category="inbox"] .modal-category__header-count, 
-.modal-category[data-category="family"] .modal-category__header-count {
+.modal-category[data-category="Inbox"] .modal-category__header-count, 
+.modal-category[data-category="Family"] .modal-category__header-count {
     color: $blackText;
     opacity: 0.5;
 }
 
-.modal-category[data-category="work"] .modal-category__header-category, 
-.modal-category[data-category="shopping"] .modal-category__header-category {
+.modal-category[data-category="Work"] .modal-category__header-category, 
+.modal-category[data-category="Shopping"] .modal-category__header-category {
     color: $white;
 }
 
-.modal-category[data-category="work"] .modal-category__header-count, 
-.modal-category[data-category="shopping"] .modal-category__header-count {
+.modal-category[data-category="Work"] .modal-category__header-count, 
+.modal-category[data-category="Shopping"] .modal-category__header-count {
     color: $white;
     opacity: 0.5;
 }
 
-li[data-category="inbox"] .list-text,
-li[data-category="family"] .list-text {
+.modal-category[data-category="Work"] .task-text,
+.modal-category[data-category="Shopping"] .task-text {
+    color: $white;
+}
+
+li[data-category="Inbox"] .list-text,
+li[data-category="Family"] .list-text {
     color: $blackText;
     opacity: 0.9;
 }
 
-li[data-category="work"] .list-text,
-li[data-category="shopping"] .list-text {
+li[data-category="Work"] .list-text,
+li[data-category="Shopping"] .list-text {
     color: $white;
     opacity: 0.9;
 }
 
-li[data-category="inbox"] .list-count-task,
-li[data-category="family"] .list-count-task {
+li[data-category="Inbox"] .list-count-task,
+li[data-category="Family"] .list-count-task {
     color: $blackText;
     opacity: 0.5;
 }
 
-li[data-category="work"] .list-count-task,
-li[data-category="shopping"] .list-count-task {
+li[data-category="Work"] .list-count-task,
+li[data-category="Shopping"] .list-count-task {
     color: $white;
     opacity: 0.5;
 }

@@ -11,7 +11,7 @@ Error: Undefined variable: "$white".
 27:     overflow: hidden;
 28: }
 29: 
-30: .head {
+30: .header {
 31:     display: flex;
 
 Backtrace:
@@ -62,4 +62,4 @@ C:/Program Files (x86)/Koala/bin/sass:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$white\".\A         on line 26 of D:\Todo_List\css\index.scss\A \A 21: \A 22: #container {\A 23:     position: relative;\A 24:     max-width: 546px;\A 25:     width: 100%;\A 26:     background-color: $white;\A 27:     overflow: hidden;\A 28: }\A 29: \A 30: .head {\A 31:     display: flex;"; }
+  content: "Error: Undefined variable: \"$white\".\A         on line 26 of D:\Todo_List\css\index.scss\A \A 21: \A 22: #container {\A 23:     position: relative;\A 24:     max-width: 546px;\A 25:     width: 100%;\A 26:     background-color: $white;\A 27:     overflow: hidden;\A 28: }\A 29: \A 30: .header {\A 31:     display: flex;"; }
