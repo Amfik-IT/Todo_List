@@ -111,7 +111,7 @@ const taskerApp = (function () {
             this.container.innerHTML = this.router[routeName].render(`${routeName}-page`);
         }
 
-        getCategoryList(storageInfo) {
+        getCategoryList(storageInfo, colors) {
             const сategoryList = document.createElement('ul');
             const lists = storageInfo[0].lists;
             сategoryList.setAttribute("class", "lists__list");
@@ -120,13 +120,17 @@ const taskerApp = (function () {
                 const li = document.createElement('li');
                 const spanText = document.createElement('span');
                 const spanCountTask = document.createElement('span');
+                const colorText = colors.find((element) => element.category === item.category).textColor;
+                const colorBack = colors.find((element) => element.category === item.category).backColor;
 
                 li.setAttribute("class", "lists__list-item");
-                li.setAttribute("style", `background-color: ${item.color}`);
+                li.setAttribute("style", `background-color: ${colorBack}`);
                 li.setAttribute("data-category", `${item.category}`);
                 spanText.setAttribute("class", "list-text");
+                spanText.setAttribute("style", `color: ${colorText}`);
                 spanText.innerHTML = item.category;
                 spanCountTask.setAttribute("class", "list-count-task");
+                spanCountTask.setAttribute("style", `color: ${colorText}`);
                 spanCountTask.innerHTML = `${item.count} ${item.count < 2 ? "task" : "tasks"}`;
                 li.append(spanText);
                 li.append(spanCountTask);
@@ -136,7 +140,7 @@ const taskerApp = (function () {
             return сategoryList;
         }
 
-        getTasksList(storageInfo) {
+        getTasksList(storageInfo, colors) {
             const tasksList = document.createElement('ul');
             const tasks = storageInfo[0].tasks;
             tasksList.setAttribute("class", "tasks__list");
@@ -148,6 +152,7 @@ const taskerApp = (function () {
                 const spanText = document.createElement('span');
                 const spanColor = document.createElement('span');
                 const label = document.createElement('label');
+                const colorBack = colors.find((element) => element.category === item.parent).backColor;
 
                 li.setAttribute("class", "tasks__list-item");
                 input.setAttribute("type", "checkbox");
@@ -166,8 +171,8 @@ const taskerApp = (function () {
                     pText.append(spanTime);
                 }
 
-                spanColor.setAttribute("class", `dot-color`);
-                spanColor.setAttribute("style", `background-color: ${item.color}`);
+                spanColor.setAttribute("class", "dot-color");
+                spanColor.setAttribute("style", `background-color: ${colorBack}`);
                 li.append(input);
                 li.append(pText);
                 li.append(spanColor);
@@ -178,11 +183,11 @@ const taskerApp = (function () {
             return tasksList;
         }
 
-        createContent(storage) {
+        createContent(storage, colors) {
             const headerDay = document.querySelector('.header__day');
-            const tasksList = this.getTasksList(storage);
+            const tasksList = this.getTasksList(storage, colors);
             const tasks = document.querySelector('.tasks');
-            const categoryList = this.getCategoryList(storage);
+            const categoryList = this.getCategoryList(storage, colors);
             const lists = document.querySelector('.lists');
 
             headerDay.innerHTML = storage[0].day;
@@ -190,18 +195,15 @@ const taskerApp = (function () {
             lists.append(categoryList);
         }
 
-        createCategoryContent(storage) {
+        createCategoryContent(storage, colors) {
             const elementChooseCategory = document.querySelector('.category-сhoose');
-            const categoryList = this.getCategoryList(storage);
+            const categoryList = this.getCategoryList(storage, colors);
             elementChooseCategory.append(categoryList);
             const lisItems = document.querySelectorAll('.lists__list-item');
+            const categoryButton = document.querySelector('.category-button__text');
             
-            lisItems.forEach((item, index) => {
-                if (index === 0) {
-                    item.classList.add("selected");
-                    document.querySelector('.category-button__text').innerHTML = item.dataset.category;
-                }
-            });
+            lisItems[0].classList.add("selected");
+            categoryButton.innerHTML = lisItems[0].dataset.category;
         }
 
         showCategoryList() {
@@ -249,6 +251,7 @@ const taskerApp = (function () {
                     item.classList.remove('selected');
                 } else {
                     const span = document.querySelectorAll('span[class$="color"]');
+                    const categoryButton = document.querySelector('.category-button__text');
 
                     span.forEach((spanItem) => {
                         spanItem.style.backgroundColor = item.style.backgroundColor;
@@ -256,18 +259,26 @@ const taskerApp = (function () {
                     })
 
                     item.classList.add('selected');
-                    document.querySelector('.category-button__text').innerHTML = category;
+                    categoryButton.innerHTML = category;
                 }
             })
         }
 
-        openModalCategory(tascksArr, categoryInfo) {
+        openModalCategory(tasksArr, categoryInfo, colors) {
             const modal = document.querySelector('.modal-category');
             const ul = document.querySelector('.modal-category__main-tasks');
             const categorySpan = document.querySelector('.modal-category__header-category');
+            const countSpan = document.querySelector('.modal-category__header-count');
+            const shape = document.querySelector('.shape');
+            const colorText = colors.find((item) => item.category === categoryInfo[0].category).textColor;
+            const colorBack = colors.find((item) => item.category === categoryInfo[0].category).backColor;
+            const colorImg = colors.find((item) => item.category === categoryInfo[0].category).img;
+
             ul.innerHTML = "";
-            
-            tascksArr.forEach((item) => {
+            categorySpan.setAttribute('style', `color: ${colorText}`);
+            countSpan.setAttribute('style', `color: ${colorText}`);
+
+            tasksArr.forEach((item) => {
                 const label = document.createElement('label');
                 const li = document.createElement('li');
                 const p = document.createElement('p');
@@ -277,6 +288,7 @@ const taskerApp = (function () {
                 li.setAttribute('class', 'tasks__list-item');
                 span.classList.add('task-text');
                 span.setAttribute('data-id', `${item.id}`);
+                span.setAttribute('style', `color: ${colorText}`);
 
                 if (item.checked) {
                     span.classList.add('check');
@@ -288,6 +300,7 @@ const taskerApp = (function () {
                 if (item.time) {
                     const spanTime = document.createElement('span');
                     spanTime.setAttribute('class', 'task-time');
+                    spanTime.setAttribute('style', `color: ${colorText}`);
                     spanTime.innerHTML = item.time;
                     p.append(spanTime);
                 }
@@ -299,10 +312,9 @@ const taskerApp = (function () {
 
             categorySpan.innerHTML = categoryInfo[0].category;
             categorySpan.setAttribute('data-category', `${categoryInfo[0].category}`);
-            document.querySelector('.modal-category__header-count').innerHTML = `${categoryInfo[0].count} ${categoryInfo[0].count < 2 ? "task" : "tasks"}`;
-            document.querySelector('.shape').setAttribute('src', `${categoryInfo[0].category === "Work" 
-            || categoryInfo[0].category === "Shopping" ? "img/shapeWhite.svg" : "img/shapeBlack.svg"}`);
-            modal.style.backgroundColor = `${categoryInfo[0].color}`;
+            countSpan.innerHTML = `${categoryInfo[0].count} ${categoryInfo[0].count < 2 ? "task" : "tasks"}`;
+            shape.setAttribute('src', `${colorImg}`);
+            modal.style.backgroundColor = `${colorBack}`;
             modal.setAttribute('data-category', `${categoryInfo[0].category}`);
             modal.classList.remove('close')
             modal.classList.add('open');
@@ -321,12 +333,11 @@ const taskerApp = (function () {
 
         changeCategoryName() {
             const categorySpan = document.querySelector('.modal-category__header-category');
-            const category = categorySpan.dataset.category;
             const input = document.querySelector('#input-text');
 
             input.value = categorySpan.innerHTML;
             categorySpan.style.display = "none";
-            input.setAttribute('style', `display: block; color: ${category === "Work" || category === "Shopping" ? "#ffffff" : "#252a31"}`)
+            input.setAttribute('style', `display: block; color: ${categorySpan.style.color}`)
 
             input.focus();
         }
@@ -354,6 +365,37 @@ const taskerApp = (function () {
 
         init() {
             const storage = localStorage.getItem("userData");
+            const storageColor = localStorage.getItem("colors");
+
+            if(storageColor === null) {
+                let colorsData = [
+                {
+                    category: "Work",
+                    backColor: "#61dea4",
+                    textColor: "#FFFFFF",
+                    img: "img/shapeWhite.svg",
+                },
+                {
+                    category: "Shopping",
+                    backColor: "#f45e6d",
+                    textColor: "#FFFFFF",
+                    img: "img/shapeWhite.svg",
+                },
+                {
+                    category: "Inbox",
+                    backColor: "#ebeff5",
+                    textColor: "#252A31",
+                    img: "img/shapeBlack.svg",
+                },
+                {
+                    category: "Family",
+                    backColor: "#ffe761",
+                    textColor: "#252A31",
+                    img: "img/shapeBlack.svg",
+                },
+            ]
+            localStorage.setItem("colors", JSON.stringify(colorsData));
+            }
 
             if (storage === null) {
                 let storageData = [{
@@ -431,9 +473,12 @@ const taskerApp = (function () {
             return JSON.parse(localStorage.getItem("userData"));
         }
 
+        getColorsData() {
+            return JSON.parse(localStorage.getItem("colors"));
+        }
+
         initialLoad() {
-            const storage = this.getData();
-            this.view.createContent(storage);
+            this.view.createContent(this.getData(), this.getColorsData());
         }
 
         updateState() {
@@ -441,7 +486,7 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
 
             if (!hashPageName || hashPageName === "homePage") this.initialLoad();
-            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData());
+            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData(), this.getColorsData());
         }
 
         updateData(targetId) {
@@ -491,9 +536,9 @@ const taskerApp = (function () {
         }
 
         openModalCategory(category) {
-            const tascksArr = this.getData()[0].tasks.filter((item) => item.parent === category);
+            const tasksArr = this.getData()[0].tasks.filter((item) => item.parent === category);
             const categoryInfo = this.getData()[0].lists.filter((item) => item.category === category);
-            this.view.openModalCategory(tascksArr, categoryInfo);
+            this.view.openModalCategory(tasksArr, categoryInfo, this.getColorsData());
         }
 
         modalTaskCheck(id) {
@@ -510,9 +555,14 @@ const taskerApp = (function () {
 
         replaceCategoryName(categoryOld, categoryNew) {
             const newData = this.getData();
-            newData[0].lists.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
-            newData[0].tasks.forEach((item) => item.parent === categoryOld ? item.parent = categoryNew : null);
+            const {tasks, lists} = newData[0];
+            const newColorsData = this.getColorsData();
+            console.log(newColorsData);
+            lists.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
+            tasks.forEach((item) => item.parent === categoryOld ? item.parent = categoryNew : null);
+            newColorsData.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
             localStorage.setItem("userData", JSON.stringify(newData));
+            localStorage.setItem("colors", JSON.stringify(newColorsData));
             this.view.inputBlur();
         }
     };

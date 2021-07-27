@@ -72,8 +72,8 @@ body {
       display: block;
       width: 24px;
       height: 24px;
-      background-color: transparent;
       margin-right: 5px;
+      background-color: transparent;
       border: 2px solid #cccccc;
       border-radius: 50%;
       left: -42px;
@@ -86,8 +86,8 @@ body {
       display: block;
       width: 24px;
       height: 24px;
-      background-color: white;
       margin-right: 5px;
+      background-color: white;
       border: 0px solid #cccccc;
       background-image: url("../img/arrow.svg");
       background-position: center;
@@ -159,7 +159,8 @@ li[data-category="shopping"] .list-count-task {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.337647px;
-  mix-blend-mode: normal; }
+  mix-blend-mode: normal;
+  opacity: 0.5; }
 
 .add-button {
   cursor: pointer;
@@ -194,7 +195,8 @@ li[data-category="shopping"] .list-count-task {
   color: rgba(37, 42, 49, 0.3);
   mix-blend-mode: normal;
   padding-left: 18px;
-  margin-top: 5px; }
+  margin-top: 5px;
+  opacity: 0.5; }
   .task-time::before {
     position: absolute;
     left: 0px;
@@ -429,7 +431,7 @@ input[type="checkbox"]:checked + span {
   left: 50%;
   width: 37px;
   height: 5px;
-  background: #252A31;
+  background: #252a31;
   mix-blend-mode: normal;
   opacity: 0.2;
   border-radius: 3px; }
@@ -457,7 +459,7 @@ input[type="checkbox"]:checked + span {
   font-size: 16px;
   line-height: 19px;
   letter-spacing: -0.02em;
-  color: #FFFFFF;
+  color: #ffffff;
   mix-blend-mode: normal;
   opacity: 0.5; }
 
@@ -478,47 +480,19 @@ main {
   main::-webkit-scrollbar {
     width: 0; }
 
-.modal-category[data-category="Inbox"] .modal-category__header-category,
-.modal-category[data-category="Family"] .modal-category__header-category {
-  color: #252a31; }
-
-.modal-category[data-category="Inbox"] .modal-category__header-count,
-.modal-category[data-category="Family"] .modal-category__header-count {
-  color: #252a31;
-  opacity: 0.5; }
-
-.modal-category[data-category="Work"] .modal-category__header-category,
-.modal-category[data-category="Shopping"] .modal-category__header-category {
-  color: #ffffff; }
-
-.modal-category[data-category="Work"] .modal-category__header-count,
-.modal-category[data-category="Shopping"] .modal-category__header-count {
-  color: #ffffff;
-  opacity: 0.5; }
-
-.modal-category[data-category="Work"] .task-text,
-.modal-category[data-category="Shopping"] .task-text {
-  color: #ffffff; }
-
-li[data-category="Inbox"] .list-text,
-li[data-category="Family"] .list-text {
-  color: #252a31;
-  opacity: 0.9; }
-
-li[data-category="Work"] .list-text,
-li[data-category="Shopping"] .list-text {
-  color: #ffffff;
-  opacity: 0.9; }
-
-li[data-category="Inbox"] .list-count-task,
-li[data-category="Family"] .list-count-task {
-  color: #252a31;
-  opacity: 0.5; }
-
-li[data-category="Work"] .list-count-task,
-li[data-category="Shopping"] .list-count-task {
-  color: #ffffff;
-  opacity: 0.5; }
+.modal-category .task-time::before {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  content: " ";
+  display: block;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  background-image: url(../img/clockWhite.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 13px; }
 
 #input-text {
   display: none;

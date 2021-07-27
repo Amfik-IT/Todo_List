@@ -89,8 +89,8 @@ body {
                 display: block;
                 width: 24px;
                 height: 24px;
-                background-color: transparent;
                 margin-right: 5px;
+                background-color: transparent;
                 border: 2px solid $inputBorder;
                 border-radius: 50%;
                 left: -42px;
@@ -98,22 +98,20 @@ body {
             }
         }
 
-        span.check {
-            &:first-child:before {
-                content: " ";
-                position: absolute;
-                left: -40px;
-                top: 29%;
-                display: block;
-                width: 24px;
-                height: 24px;
-                background-color: white;
-                margin-right: 5px;
-                border: 0px solid $inputBorder;
-                background-image: url('../img/arrow.svg');
-                background-position: center;
-                border-radius: 50%;
-            }
+        span.check:first-child:before {
+            content: " ";
+            position: absolute;
+            left: -40px;
+            top: 29%;
+            display: block;
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+            background-color: white;
+            border: 0px solid $inputBorder;
+            background-image: url('../img/arrow.svg');
+            background-position: center;
+            border-radius: 50%;
         }
     }
 }
@@ -196,6 +194,7 @@ li[data-category="shopping"] .list-count-task {
     line-height: 17px;
     letter-spacing: -0.337647px;
     mix-blend-mode: normal;
+    opacity: 0.5;
 }
 
 .add-button {
@@ -235,6 +234,7 @@ li[data-category="shopping"] .list-count-task {
     mix-blend-mode: normal;
     padding-left: 18px;
     margin-top: 5px;
+    opacity: 0.5;
 
     &::before {
         position: absolute;
@@ -510,7 +510,7 @@ input[type="checkbox"]:checked + span {
     left: 50%;
     width: 37px;
     height: 5px;
-    background: #252A31;
+    background: $blackText;
     mix-blend-mode: normal;
     opacity: 0.2;
     border-radius: 3px;
@@ -542,7 +542,7 @@ input[type="checkbox"]:checked + span {
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: $white;
     mix-blend-mode: normal;
     opacity: 0.5;
 }
@@ -569,55 +569,21 @@ main {
     }
 }
 
-.modal-category[data-category="Inbox"] .modal-category__header-category, 
-.modal-category[data-category="Family"] .modal-category__header-category {
-    color: $blackText;
-}
-
-.modal-category[data-category="Inbox"] .modal-category__header-count, 
-.modal-category[data-category="Family"] .modal-category__header-count {
-    color: $blackText;
-    opacity: 0.5;
-}
-
-.modal-category[data-category="Work"] .modal-category__header-category, 
-.modal-category[data-category="Shopping"] .modal-category__header-category {
-    color: $white;
-}
-
-.modal-category[data-category="Work"] .modal-category__header-count, 
-.modal-category[data-category="Shopping"] .modal-category__header-count {
-    color: $white;
-    opacity: 0.5;
-}
-
-.modal-category[data-category="Work"] .task-text,
-.modal-category[data-category="Shopping"] .task-text {
-    color: $white;
-}
-
-li[data-category="Inbox"] .list-text,
-li[data-category="Family"] .list-text {
-    color: $blackText;
-    opacity: 0.9;
-}
-
-li[data-category="Work"] .list-text,
-li[data-category="Shopping"] .list-text {
-    color: $white;
-    opacity: 0.9;
-}
-
-li[data-category="Inbox"] .list-count-task,
-li[data-category="Family"] .list-count-task {
-    color: $blackText;
-    opacity: 0.5;
-}
-
-li[data-category="Work"] .list-count-task,
-li[data-category="Shopping"] .list-count-task {
-    color: $white;
-    opacity: 0.5;
+.modal-category .task-time {
+    &::before {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        content: " ";
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        background-image: url(../img/clockWhite.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 13px;
+    }
 }
 
 #input-text {
