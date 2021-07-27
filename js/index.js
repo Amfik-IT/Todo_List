@@ -35,7 +35,7 @@ const taskerApp = (function () {
                             <div class="modal-category__header">
                                 <div class="modal-category__header-text">
                                     <span class="modal-category__header-category"></span>
-                                    <input tupe="text" class="input-text" id="input-text">
+                                    <input type="text" class="input-text" id="input-text">
                                     <span class="modal-category__header-count"></span>
                                 </div>
                                 <a class="edit-button"><img class="shape"></a>
