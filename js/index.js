@@ -201,7 +201,7 @@ const taskerApp = (function () {
             elementChooseCategory.append(categoryList);
             const lisItems = document.querySelectorAll('.lists__list-item');
             const categoryButton = document.querySelector('.category-button__text');
-            
+
             lisItems[0].classList.add("selected");
             categoryButton.innerHTML = lisItems[0].dataset.category;
         }
@@ -221,7 +221,7 @@ const taskerApp = (function () {
             const modal = document.querySelector(".modal-add");
             const plus = document.querySelector('.add-button__img');
             const modalAddButton = document.querySelector('.modal-add__buttons');
-            
+
             if (this.openModal) {
                 this.openModal = false;
                 modalButton.style.backgroundColor = "#ffffff";
@@ -367,34 +367,33 @@ const taskerApp = (function () {
             const storage = localStorage.getItem("userData");
             const storageColor = localStorage.getItem("colors");
 
-            if(storageColor === null) {
-                let colorsData = [
-                {
-                    category: "Work",
-                    backColor: "#61dea4",
-                    textColor: "#FFFFFF",
-                    img: "img/shapeWhite.svg",
-                },
-                {
-                    category: "Shopping",
-                    backColor: "#f45e6d",
-                    textColor: "#FFFFFF",
-                    img: "img/shapeWhite.svg",
-                },
-                {
-                    category: "Inbox",
-                    backColor: "#ebeff5",
-                    textColor: "#252A31",
-                    img: "img/shapeBlack.svg",
-                },
-                {
-                    category: "Family",
-                    backColor: "#ffe761",
-                    textColor: "#252A31",
-                    img: "img/shapeBlack.svg",
-                },
-            ]
-            localStorage.setItem("colors", JSON.stringify(colorsData));
+            if (storageColor === null) {
+                let colorsData = [{
+                        category: "Work",
+                        backColor: "#61dea4",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        category: "Shopping",
+                        backColor: "#f45e6d",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        category: "Inbox",
+                        backColor: "#ebeff5",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                    {
+                        category: "Family",
+                        backColor: "#ffe761",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                ]
+                localStorage.setItem("colors", JSON.stringify(colorsData));
             }
 
             if (storage === null) {
@@ -492,7 +491,7 @@ const taskerApp = (function () {
         updateData(targetId) {
             const storage = this.getData();
 
-            for(let i=0; i < storage[0].tasks.length; i++) {
+            for (let i = 0; i < storage[0].tasks.length; i++) {
                 if (storage[0].tasks[i].id === targetId) {
                     storage[0].tasks[i].checked = !(storage[0].tasks[i].checked);
                 };
@@ -512,9 +511,17 @@ const taskerApp = (function () {
             this.view.selectСategory(category);
         }
 
-        saveTask({message: text, category: parent, checked, time}) {
+        saveTask({
+            message: text,
+            category: parent,
+            checked,
+            time
+        }) {
             const newData = this.getData();
-            const {tasks, lists} = newData[0];
+            const {
+                tasks,
+                lists
+            } = newData[0];
             const id = tasks.length + 1;
             const foundCategory = lists.find((item) => item.category === parent);
 
@@ -555,9 +562,11 @@ const taskerApp = (function () {
 
         replaceCategoryName(categoryOld, categoryNew) {
             const newData = this.getData();
-            const {tasks, lists} = newData[0];
+            const {
+                tasks,
+                lists
+            } = newData[0];
             const newColorsData = this.getColorsData();
-            console.log(newColorsData);
             lists.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
             tasks.forEach((item) => item.parent === categoryOld ? item.parent = categoryNew : null);
             newColorsData.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
@@ -592,9 +601,9 @@ const taskerApp = (function () {
                     const targetId = Number(e.target.id);
                     this.updateData(targetId);
                 };
-                
-                if (e.target.className === 'add-button' || e.target.className === "add-task" 
-                    || e.target.className === "add-list" || e.target.className === "add-button__img") {
+
+                if (e.target.className === 'add-button' || e.target.className === "add-task" ||
+                    e.target.className === "add-list" || e.target.className === "add-button__img") {
                     this.model.visibleToggle();
                 };
 
@@ -627,8 +636,8 @@ const taskerApp = (function () {
                             this.model.modalTaskCheck(item.htmlFor);
                         }
                     })
-                } 
-                
+                }
+
                 document.querySelector('.modal-category__close-button').onclick = () => {
                     this.model.closeModalCategory();
                 }
@@ -643,7 +652,7 @@ const taskerApp = (function () {
                     this.model.replaceCategoryName(categoryOld, categoryNew);
                 }
             })
-            
+
             const listItems = document.querySelectorAll('.lists__list-item');
 
             listItems.forEach((item) => {
