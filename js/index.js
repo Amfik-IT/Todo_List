@@ -12,9 +12,9 @@ const taskerApp = (function () {
                 render: (className = "tasker-page", ...rest) => {
                     return `
                     <main class="${className}">
-                        <div class="head">
+                        <div class="header">
                             <div class="header__day"></div>
-                            <a class="head__setup-button">
+                            <a class="header__setup-button">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -363,26 +363,26 @@ const taskerApp = (function () {
             this.view.selectСategory(category);
         }
 
-        saveTask(infoTasck) {
+        saveTask(infoTask) {
             const newData = this.getData();
             const categoryList = newData[0].lists;
             const id = newData[0].tasks.length + 1;
-            const task = {
-                id,
-                text: infoTasck.message,
-                parent: infoTasck.category,
-                checked: infoTasck.checked,
-                color: categoryList.find((item) => item.category.toLowerCase() === infoTasck.category).color,
-                time: infoTasck.time,
-            }
-            let categoryCount = null;
-            const foundCategoryCount = categoryList.find((item) => item.category.toLowerCase() === infoTasck.category);
-            if (!!foundCategoryCount) { 
-                categoryCount = foundCategoryCount.count + 1; 
+            const foundCategoryt = categoryList.find((item) => item.category.toLowerCase() === infoTask.category);
+
+            if (!!foundCategoryt) {
+                const task = {
+                    id,
+                    text: infoTask.message,
+                    parent: infoTask.category,
+                    checked: infoTask.checked,
+                    color: foundCategoryt.color,
+                    time: infoTask.time,
+                }
+
+                newData[0].tasks.push(task);
+                foundCategoryt.count += 1;
             };
 
-            newData[0].tasks.push(task);
-            newData[0].lists.find((item) => item.category.toLowerCase() === infoTasck.category).count = categoryCount;
             localStorage.setItem("userData", JSON.stringify(newData));
         }
     };

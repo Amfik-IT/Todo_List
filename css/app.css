@@ -9,7 +9,7 @@ body {
   width: 100%;
   background-color: #ffffff; }
 
-.head {
+.header {
   position: absolute;
   left: 0%;
   right: 0%;
@@ -27,7 +27,7 @@ body {
   letter-spacing: 0.01em;
   color: #252a31; }
 
-.head__setup-button {
+.header__setup-button {
   cursor: pointer;
   display: flex;
   justify-content: space-around;
@@ -35,7 +35,7 @@ body {
   width: 24px;
   height: 24px;
   margin-right: 12px; }
-  .head__setup-button span {
+  .header__setup-button span {
     width: 5px;
     height: 5px;
     border-radius: 50%;

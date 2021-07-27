@@ -16,7 +16,7 @@ body {
     background-color: $white;
 }
 
-.head {
+.header {
     position: absolute;
     left: 0%;
     right: 0%;
@@ -36,7 +36,7 @@ body {
     color: $blackText;
 }
 
-.head__setup-button {
+.header__setup-button {
     cursor: pointer;
     display: flex;
     justify-content: space-around;
