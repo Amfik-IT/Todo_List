@@ -1,4 +1,14 @@
 @charset "UTF-8";
+@keyframes up {
+  from {
+    bottom: -100%; }
+  to {
+    bottom: 0%; } }
+@keyframes down {
+  from {
+    bottom: 0%; }
+  to {
+    bottom: -100%; } }
 body {
   display: flex;
   justify-content: center; }
@@ -7,13 +17,10 @@ body {
   position: relative;
   max-width: 546px;
   width: 100%;
-  background-color: #ffffff; }
+  background-color: #ffffff;
+  overflow: hidden; }
 
 .header {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
   display: flex;
   justify-content: space-between;
   align-items: center; }
@@ -41,9 +48,6 @@ body {
     border-radius: 50%;
     background-color: #006CFF; }
 
-.tasks {
-  margin-top: 73px; }
-
 .tasks__list-item {
   position: relative;
   display: flex;
@@ -68,12 +72,26 @@ body {
       display: block;
       width: 24px;
       height: 24px;
-      background: #ffffff;
       margin-right: 5px;
+      background-color: transparent;
       border: 2px solid #cccccc;
       border-radius: 50%;
       left: -42px;
       top: 29%; }
+    .tasks__list-item p span.check:first-child:before {
+      content: " ";
+      position: absolute;
+      left: -40px;
+      top: 29%;
+      display: block;
+      width: 24px;
+      height: 24px;
+      margin-right: 5px;
+      background-color: white;
+      border: none;
+      background-image: url("../img/arrow.svg");
+      background-position: center;
+      border-radius: 50%; }
 
 .custom-checkbox {
   visibility: hidden; }
@@ -83,10 +101,7 @@ input[type="checkbox"]:checked + p > span:first-child:before {
   background-position: center;
   border-width: 0; }
 
-.work-color,
-.shopping-color,
-.inbox-color,
-.family-color {
+.dot-color {
   position: absolute;
   right: 16px;
   margin-left: 16px;
@@ -144,7 +159,8 @@ li[data-category="shopping"] .list-count-task {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.337647px;
-  mix-blend-mode: normal; }
+  mix-blend-mode: normal;
+  opacity: 0.5; }
 
 .add-button {
   cursor: pointer;
@@ -179,7 +195,8 @@ li[data-category="shopping"] .list-count-task {
   color: rgba(37, 42, 49, 0.3);
   mix-blend-mode: normal;
   padding-left: 18px;
-  margin-top: 5px; }
+  margin-top: 5px;
+  opacity: 0.5; }
   .task-time::before {
     position: absolute;
     left: 0px;
@@ -392,5 +409,104 @@ input[type="checkbox"]:checked + span {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 22px; }
+
+.modal-category {
+  position: absolute;
+  bottom: -100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 98%;
+  padding-left: 60px;
+  box-sizing: border-box;
+  border-radius: 10px 10px 0px 0px;
+  transition-property: bottom;
+  transition-duration: 0.6s; }
+
+.modal-category__close-button {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 37px;
+  height: 5px;
+  background: #252a31;
+  mix-blend-mode: normal;
+  opacity: 0.2;
+  border-radius: 3px; }
+
+.modal-category__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 14px 16px 0px; }
+
+.modal-category__header-text {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 16px 0px; }
+
+.modal-category__header-category {
+  font-family: "SFProDisplay";
+  font-size: 32px;
+  line-height: 41px;
+  letter-spacing: 0.01em;
+  color: #ffffff; }
+
+.modal-category__header-count {
+  font-family: "SFProText";
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  mix-blend-mode: normal;
+  opacity: 0.5; }
+
+.open {
+  animation: up 0.6s linear;
+  animation-fill-mode: forwards; }
+
+.close {
+  animation: down 0.6s linear;
+  animation-fill-mode: forwards; }
+
+.shape {
+  cursor: pointer; }
+
+main {
+  overflow: scroll;
+  height: 100vh; }
+  main::-webkit-scrollbar {
+    width: 0; }
+
+.modal-category .task-time::before {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  content: " ";
+  display: block;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  background-image: url(../img/clockWhite.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 13px; }
+
+#input-text {
+  display: none;
+  font-family: "SFProDisplay";
+  font-size: 32px;
+  line-height: 41px;
+  letter-spacing: 0.01em;
+  color: #252a31;
+  border: none;
+  outline: none;
+  caret-color: #006CFF;
+  background-color: transparent; }
+  #input-text::placeholder {
+    color: #252a31;
+    opacity: 0.4; }
 
 /*# sourceMappingURL=app.css.map */
