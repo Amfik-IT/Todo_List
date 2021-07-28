@@ -258,6 +258,34 @@ li[data-category="shopping"] .list-count-task {
     }
 }
 
+.task-date {
+    position: relative;
+    display: inline-block;
+    padding-left: 18px;
+    margin-top: 5px;
+    margin-right: 14px;
+    font-family: "SFProText";
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -0.337647px;
+    color: $timeText;
+    mix-blend-mode: normal;
+
+    &::before {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        content: " ";
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        background-image: url(../img/calendar.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 13px;
+    }
+}
 .modal-add {
     width: 100vw;
     height: 100vh;
@@ -488,6 +516,28 @@ input[type="checkbox"]:checked + span {
     }
 }
 
+.date-сhoose {
+    width: 100%;
+    height: 0px;
+    overflow: scroll;
+    transition-property: height;
+    transition-duration: 0.6s;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+}
+
+.datepicker {
+    width: 100%;
+    height: 230px;
+    border: none;
+}
+
+.datepicker--nav {
+    border-bottom: none;
+}
+
 .category-сhoose .lists__list .lists__list-item {
     position: relative;
     margin: 0 16px 8px 16px;
@@ -592,6 +642,25 @@ main {
     }
 }
 
+.modal-category[data-category="Inbox"] .task-time,
+.modal-category[data-category="Family"] .task-time {
+    color: $timeText !important;
+    &::before {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        content: " ";
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        background-image: url(../img/clock.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 13px;
+    }
+}
+
 .modal-category .task-time {
     color: $modalTime !important;
     &::before {
@@ -604,6 +673,43 @@ main {
         height: 15px;
         margin-right: 5px;
         background-image: url(../img/clockWhite.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 13px;
+    }
+}
+
+.modal-category[data-category="Inbox"] .task-date,
+.modal-category[data-category="Family"] .task-date {
+    color: $timeText !important;
+    &::before {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        content: " ";
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        background-image: url(../img/calendar.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 13px;
+    }
+}
+
+.modal-category .task-date {
+    color: $modalTime !important;
+    &::before {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        content: " ";
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        background-image: url(../img/calendarWhite.svg);
         background-position: center;
         background-repeat: no-repeat;
         background-size: 13px;
