@@ -398,9 +398,9 @@ const taskerApp = (function () {
         }
 
         selectColor(id) {
-            const colorsArr = document.querySelectorAll('.color');
+            const colors = document.querySelectorAll('.color');
 
-            colorsArr.forEach((item) => item.id === id ? item.classList.add("selectedColor") : item.classList.remove("selectedColor"))
+            colors.forEach((item) => item.id === id ? item.classList.add("selectedColor") : item.classList.remove("selectedColor"))
         }
     };
 
@@ -410,9 +410,9 @@ const taskerApp = (function () {
         }
 
         init() {
-            const storage = localStorage.getItem("userData");
-            const storageColor = localStorage.getItem("colors");
-            const storageNewColor = localStorage.getItem("newColors");
+            const storage = this.getData();
+            const storageColor = this.getColorsData();
+            const storageNewColor = this.getNewColors();
 
             if (storageColor === null) {
                 let colorsData = [{
@@ -588,7 +588,7 @@ const taskerApp = (function () {
             return JSON.parse(localStorage.getItem("colors"));
         }
 
-        getNewColorsData() {
+        getNewColors() {
             return JSON.parse(localStorage.getItem("newColors"));
         }
 
@@ -602,7 +602,7 @@ const taskerApp = (function () {
 
             if (!hashPageName || hashPageName === "homePage") this.initialLoad();
             if (hashPageName === "createTask") this.view.createCategoryContent(this.getData(), this.getColorsData());
-            if (hashPageName === "createCategory") this.view.createColorsElement(this.getNewColorsData());
+            if (hashPageName === "createCategory") this.view.createColorsElement(this.getNewColors());
         }
 
         updateData(targetId) {
@@ -820,7 +820,6 @@ const taskerApp = (function () {
                         img: selectedColor.img,
                     }
                     this.model.saveColor(selectedColorData);
-                    console.log(selectedColorData);
                 };
             })
 
