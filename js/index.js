@@ -423,12 +423,11 @@ const taskerApp = (function () {
         addTime(value) {
             const inputText = document.querySelector('.input-text');
             const dot = document.querySelector('.dot-color');
-            const valueNumber = Number(value.split(':')[0]);
             const span = document.querySelector('.task-time');
 
             const spanTime = document.createElement('span');
             spanTime.setAttribute('class', 'task-time');
-            spanTime.innerHTML = valueNumber >= 12 && valueNumber <= 23 ? value + " pm" : value + " am";
+            spanTime.innerHTML = value;
             span ? span.replaceWith(spanTime) : inputText.after(spanTime);
         }
     };
@@ -805,7 +804,13 @@ const taskerApp = (function () {
                     if (!this.clockShow && !this.calendarShow) {
                         this.model.show();
                         this.model.createCategoryContent();
-                        this.categoryShow ? this.categoryShow = false : this.categoryShow = true;
+
+                        if (this.categoryShow) {
+                            this.categoryShow = false;
+                        } else {
+                            this.categoryShow = true;
+                        }
+
                     } else {
                         const inputTime = document.querySelector('#clock');
 
@@ -816,11 +821,17 @@ const taskerApp = (function () {
                         this.model.show();
                         this.clockShow = false;
                         this.calendarShow = false;
+
                         setTimeout(() => {
                             this.model.createCategoryContent();
                             this.model.show()
                         }, 600);
-                        this.categoryShow ? this.categoryShow = false : this.categoryShow = true;
+
+                        if (this.categoryShow) {
+                            this.categoryShow = false;
+                        } else {
+                            this.categoryShow = true;
+                        }
                     }
                 };
 
@@ -877,7 +888,13 @@ const taskerApp = (function () {
 
                         this.model.createTimeContent();
                         this.model.show();
-                        this.clockShow ? this.clockShow = false : this.clockShow = true;
+
+                        if (this.clockShow) {
+                            this.clockShow = false;
+                        } else {
+                            this.clockShow = true;
+                        }
+
                     } else {
                         this.model.show();
                         this.categoryShow = false;
@@ -886,7 +903,12 @@ const taskerApp = (function () {
                             this.model.createTimeContent();
                             this.model.show()
                         }, 600);
-                        this.clockShow ? this.clockShow = false : this.clockShow = true;
+
+                        if (this.clockShow) {
+                            this.clockShow = false;
+                        } else {
+                            this.clockShow = true;
+                        }
                     }
                 };
 
