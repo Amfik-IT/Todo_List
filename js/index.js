@@ -552,7 +552,7 @@ const taskerApp = (function () {
                             text: "Pay for rent",
                             parent: "Shopping",
                             color: "#f45e6d",
-                            time: "7 pm",
+                            time: "20:10",
                             checked: false,
                         },
                         {
