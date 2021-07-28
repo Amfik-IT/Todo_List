@@ -27,7 +27,7 @@ const taskerApp = (function () {
                         <div class="modal-add hidden"></div>
                         <div class="modal-add__buttons">
                                 <a class="add-task" href="#createTask">Task</a>
-                                <a class="add-list">List</a>
+                                <a class="add-list" href="#createCategory">List</a>
                         </div>
                         <a class="add-button"><img class="add-button__img" src="img/plus.svg" alt="add" title="add"></a>
                         <div class="modal-category">
@@ -89,9 +89,33 @@ const taskerApp = (function () {
                 }
             };
 
+            this.CreateCategory = {
+                id: "createCategory",
+                title: "Tasker",
+                render: (className = "create-category-page", ...rest) => {
+                    return `
+                    <main class="${className}">
+                        <div>
+                            <div class="create-category__header">
+                                <a class="cancel-button" href="#homePage">Cancel</a>
+                                <a class="create-category__done-button" href="#homePage">Done</a>
+                            </div>
+                            <div class="create-category__body">
+                                <input type="text" class="input-text" placeholder="Enter category name">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="create-category__buttons create-category__colors"></div>
+                        </div>
+                    </main>
+                  `;
+                }
+            };
+
             this.router = {
                 homePage: this.HomePageComponent,
                 createTask: this.CreateTask,
+                createCategory: this.CreateCategory,
                 default: this.HomePageComponent,
             };
         }
@@ -356,6 +380,28 @@ const taskerApp = (function () {
             input.style.display = "none";
             categorySpan.style.display = "block";
         }
+
+        createColorsElement(newColors) {
+            const colorsContainer = document.querySelector('.create-category__colors');
+
+            newColors.forEach((item, index) => {
+                const span = document.createElement('span');
+                span.style.backgroundColor = item.backColor;
+                span.setAttribute('data-backColor', item.backColor);
+                span.setAttribute('data-textColor', item.textColor);
+                span.setAttribute('data-img', item.img);
+                span.setAttribute('id', `${index}`);
+                span.classList.add('color');
+                if (index === 0) span.classList.add('selectedColor');
+                colorsContainer.append(span);
+            })
+        }
+
+        selectColor(id) {
+            const colors = document.querySelectorAll('.color');
+
+            colors.forEach((item) => item.id === id ? item.classList.add("selectedColor") : item.classList.remove("selectedColor"))
+        }
     };
 
     class TaskerModel {
@@ -364,8 +410,9 @@ const taskerApp = (function () {
         }
 
         init() {
-            const storage = localStorage.getItem("userData");
-            const storageColor = localStorage.getItem("colors");
+            const storage = this.getData();
+            const storageColor = this.getColors();
+            const storageNewColor = this.getNewColors();
 
             if (storageColor === null) {
                 let colorsData = [{
@@ -394,6 +441,71 @@ const taskerApp = (function () {
                     },
                 ]
                 localStorage.setItem("colors", JSON.stringify(colorsData));
+            }
+
+            if (storageNewColor === null) {
+                let newColors = [{
+                        backColor: "#61dea4",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        backColor: "#f45e6d",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        backColor: "#ebeff5",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                    {
+                        backColor: "#ffe761",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                    {
+                        backColor: "#de6195",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        backColor: "#dc61de",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        backColor: "#9161de",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        backColor: "#616bde",
+                        textColor: "#FFFFFF",
+                        img: "img/shapeWhite.svg",
+                    },
+                    {
+                        backColor: "#61bbde",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                    {
+                        backColor: "#61de82",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                    {
+                        backColor: "#bfde61",
+                        textColor: "#252A31",
+                        img: "img/shapeBlack.svg",
+                    },
+                    {
+                        backColor: "#607d8b",
+                        textColor: "#252A31",
+                        img: "img/shapeWhite.svg",
+                    },
+                ]
+                localStorage.setItem("newColors", JSON.stringify(newColors));
             }
 
             if (storage === null) {
@@ -472,12 +584,16 @@ const taskerApp = (function () {
             return JSON.parse(localStorage.getItem("userData"));
         }
 
-        getColorsData() {
+        getColors() {
             return JSON.parse(localStorage.getItem("colors"));
         }
 
+        getNewColors() {
+            return JSON.parse(localStorage.getItem("newColors"));
+        }
+
         initialLoad() {
-            this.view.createContent(this.getData(), this.getColorsData());
+            this.view.createContent(this.getData(), this.getColors());
         }
 
         updateState() {
@@ -485,7 +601,8 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
 
             if (!hashPageName || hashPageName === "homePage") this.initialLoad();
-            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData(), this.getColorsData());
+            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData(), this.getColors());
+            if (hashPageName === "createCategory") this.view.createColorsElement(this.getNewColors());
         }
 
         updateData(targetId) {
@@ -545,7 +662,7 @@ const taskerApp = (function () {
         openModalCategory(category) {
             const tasksArr = this.getData()[0].tasks.filter((item) => item.parent === category);
             const categoryInfo = this.getData()[0].lists.filter((item) => item.category === category);
-            this.view.openModalCategory(tasksArr, categoryInfo, this.getColorsData());
+            this.view.openModalCategory(tasksArr, categoryInfo, this.getColors());
         }
 
         modalTaskCheck(id) {
@@ -566,13 +683,44 @@ const taskerApp = (function () {
                 tasks,
                 lists
             } = newData[0];
-            const newColorsData = this.getColorsData();
+            const newColors = this.getColors();
             lists.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
             tasks.forEach((item) => item.parent === categoryOld ? item.parent = categoryNew : null);
-            newColorsData.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
+            newColors.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
             localStorage.setItem("userData", JSON.stringify(newData));
-            localStorage.setItem("colors", JSON.stringify(newColorsData));
+            localStorage.setItem("colors", JSON.stringify(newColors));
             this.view.inputBlur();
+        }
+
+        selectColor(id) {
+            this.view.selectColor(id);
+        }
+
+        saveColor({
+            category,
+            backColor,
+            textColor,
+            img
+        }) {
+            const newColor = {
+                category,
+                backColor,
+                textColor,
+                img,
+            }
+            const newCategory = {
+                category,
+                count: 0,
+                color: backColor,
+            }
+            const newColorsData = this.getColors();
+            const newData = this.getData();
+            const lists = newData[0].lists;
+
+            lists.push(newCategory);
+            newColorsData.push(newColor);
+            localStorage.setItem("colors", JSON.stringify(newColorsData));
+            localStorage.setItem("userData", JSON.stringify(newData));
         }
     };
 
@@ -636,21 +784,43 @@ const taskerApp = (function () {
                             this.model.modalTaskCheck(item.htmlFor);
                         }
                     })
+
+                    document.querySelector('.modal-category__close-button').onclick = () => {
+                        this.model.closeModalCategory();
+                    }
+
+                    document.querySelector('.edit-button').onclick = () => {
+                        this.model.changeCategoryName();
+                    }
+
+                    document.querySelector('#input-text').onblur = () => {
+                        const categoryOld = document.querySelector('.modal-category__header-category').innerHTML;
+                        const categoryNew = document.querySelector('#input-text').value;
+                        this.model.replaceCategoryName(categoryOld, categoryNew);
+                    }
                 }
 
-                document.querySelector('.modal-category__close-button').onclick = () => {
-                    this.model.closeModalCategory();
+                if (window.location.hash.slice(1) === 'createCategory') {
+                    const colorsArr = document.querySelectorAll('.color');
+
+                    colorsArr.forEach((item) => {
+                        item.onclick = () => {
+                            this.model.selectColor(item.id);
+                        }
+                    })
                 }
 
-                document.querySelector('.edit-button').onclick = () => {
-                    this.model.changeCategoryName();
-                }
-
-                document.querySelector('#input-text').onblur = () => {
-                    const categoryOld = document.querySelector('.modal-category__header-category').innerHTML;
-                    const categoryNew = document.querySelector('#input-text').value;
-                    this.model.replaceCategoryName(categoryOld, categoryNew);
-                }
+                if (e.target.className === 'create-category__done-button') {
+                    const selectedColor = document.querySelector('.selectedColor').dataset;
+                    const inputValue = document.querySelector('.input-text').value;
+                    const selectedColorData = {
+                        category: !!inputValue ? inputValue : "New Category",
+                        backColor: selectedColor.backcolor,
+                        textColor: selectedColor.textcolor,
+                        img: selectedColor.img,
+                    }
+                    this.model.saveColor(selectedColorData);
+                };
             })
 
             const listItems = document.querySelectorAll('.lists__list-item');

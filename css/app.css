@@ -281,13 +281,15 @@ li[data-category="shopping"] .list-count-task {
   transition-property: opacity;
   transition-duration: 0.3s; }
 
-.createTask-page {
+.createTask-page,
+.createCategory-page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh; }
 
-.create-task__header {
+.create-task__header,
+.create-category__header {
   display: flex;
   justify-content: space-between;
   padding: 16px; }
@@ -299,16 +301,19 @@ li[data-category="shopping"] .list-count-task {
   letter-spacing: -0.43px;
   color: #006CFF; }
 
-.create-task__body {
+.create-task__body,
+.create-category__body {
   display: flex;
   padding: 18px;
   align-items: center; }
-  .create-task__body label {
+  .create-task__body label,
+  .create-category__body label {
     position: relative;
     width: 24px;
     height: 24px;
     padding-right: 18px; }
-    .create-task__body label input {
+    .create-task__body label input,
+    .create-category__body label input {
       position: absolute;
       top: 27%;
       left: 15%; }
@@ -332,7 +337,8 @@ input[type="checkbox"]:checked + span {
   border-radius: 50%;
   display: inline-block; }
 
-.done-button {
+.done-button,
+.create-category__done-button {
   font-family: "SFProText";
   font-size: 18px;
   line-height: 21px;
@@ -354,6 +360,13 @@ input[type="checkbox"]:checked + span {
     opacity: 0.4; }
 
 .create-task__buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 14px;
+  border-top: solid 1px rgba(37, 42, 49, 0.1); }
+
+.create-category__buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -508,5 +521,23 @@ main {
   #input-text::placeholder {
     color: #252a31;
     opacity: 0.4; }
+
+.create-category__colors {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box; }
+  .create-category__colors span {
+    width: 50px;
+    height: 50px;
+    margin: 27px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16); }
+
+span.selectedColor {
+  border: 1px solid #252a31;
+  transform: scale(1.3); }
 
 /*# sourceMappingURL=app.css.map */
