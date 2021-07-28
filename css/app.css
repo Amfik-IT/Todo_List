@@ -195,8 +195,7 @@ li[data-category="shopping"] .list-count-task {
   color: rgba(37, 42, 49, 0.3);
   mix-blend-mode: normal;
   padding-left: 18px;
-  margin-top: 5px;
-  opacity: 0.5; }
+  margin-top: 5px; }
   .task-time::before {
     position: absolute;
     left: 0px;
@@ -397,6 +396,12 @@ input[type="checkbox"]:checked + span {
   opacity: 0.4; }
 
 .category-сhoose {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 310px;
   height: 0px;
   overflow: scroll;
   transition-property: height;
@@ -493,19 +498,21 @@ main {
   main::-webkit-scrollbar {
     width: 0; }
 
-.modal-category .task-time::before {
-  position: absolute;
-  left: 0px;
-  top: 0;
-  content: " ";
-  display: block;
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
-  background-image: url(../img/clockWhite.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 13px; }
+.modal-category .task-time {
+  color: rgba(255, 255, 255, 0.5) !important; }
+  .modal-category .task-time::before {
+    position: absolute;
+    left: 0px;
+    top: 0;
+    content: " ";
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background-image: url(../img/clockWhite.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px; }
 
 #input-text {
   display: none;
@@ -539,5 +546,31 @@ main {
 span.selectedColor {
   border: 1px solid #252a31;
   transform: scale(1.3); }
+
+.category-сhoose .lists__list {
+  width: 100%; }
+
+.clock {
+  width: 137px;
+  font-family: "SFProText";
+  font-size: 26px;
+  line-height: 30px;
+  letter-spacing: -0.627059px;
+  color: #252a31;
+  outline: none;
+  border: none;
+  z-index: 2; }
+
+.range-line {
+  position: absolute;
+  width: 100%;
+  height: 41px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  opacity: 0.2; }
+
+.input-info {
+  display: flex;
+  flex-direction: column; }
 
 /*# sourceMappingURL=app.css.map */

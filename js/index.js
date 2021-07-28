@@ -65,7 +65,7 @@ const taskerApp = (function () {
                                     <input type="checkbox" class="custom-checkbox">
                                     <span class="task-checkbox"></span>
                                 </label>
-                                <div>
+                                <div class="input-info">
                                     <input type="text" class="input-text" placeholder="What do you want to do?">
                                 </div>
                                 <span class="dot-color" style="background-color: #ebeff5"></span>
@@ -75,7 +75,9 @@ const taskerApp = (function () {
                             <div class="create-task__buttons">
                                 <div>
                                     <a class="calendar-button"><img src="img/calendar.svg" alt="calendar" title="calendar"></a>
-                                    <a class="clock-button"><img src="img/alarm.svg" alt="clock" title="clock"></a>
+                                    <label for="clock">
+                                        <a class="clock-button"><img class="clock-button" src="img/alarm.svg" alt="clock" title="clock"></a>
+                                    </label>
                                 </div>
                                 <div>
                                     <a class="category-button"><span class="category-button__text">Inbox</span><span class="dot-color" style="background-color: #ebeff5"></span></a>
@@ -222,6 +224,7 @@ const taskerApp = (function () {
         createCategoryContent(storage, colors) {
             const elementChooseCategory = document.querySelector('.category-сhoose');
             const categoryList = this.getCategoryList(storage, colors);
+            elementChooseCategory.innerHTML = "";
             elementChooseCategory.append(categoryList);
             const lisItems = document.querySelectorAll('.lists__list-item');
             const categoryButton = document.querySelector('.category-button__text');
@@ -402,6 +405,31 @@ const taskerApp = (function () {
 
             colors.forEach((item) => item.id === id ? item.classList.add("selectedColor") : item.classList.remove("selectedColor"))
         }
+
+        createTimeContent() {
+            const timeContainer = document.querySelector('.category-сhoose');
+            const inputTime = document.createElement('input');
+            const rangeLine = document.createElement('div');
+
+            timeContainer.innerHTML = "";
+            inputTime.setAttribute("type", "time");
+            inputTime.setAttribute("id", "clock");
+            inputTime.classList.add("clock");
+            rangeLine.classList.add('range-line');
+            timeContainer.append(rangeLine);
+            timeContainer.append(inputTime);
+        }
+
+        addTime(value) {
+            const inputText = document.querySelector('.input-text');
+            const dot = document.querySelector('.dot-color');
+            const span = document.querySelector('.task-time');
+
+            const spanTime = document.createElement('span');
+            spanTime.setAttribute('class', 'task-time');
+            spanTime.innerHTML = value;
+            span ? span.replaceWith(spanTime) : inputText.after(spanTime);
+        }
     };
 
     class TaskerModel {
@@ -524,7 +552,7 @@ const taskerApp = (function () {
                             text: "Pay for rent",
                             parent: "Shopping",
                             color: "#f45e6d",
-                            time: "7 pm",
+                            time: "20:10",
                             checked: false,
                         },
                         {
@@ -722,12 +750,29 @@ const taskerApp = (function () {
             localStorage.setItem("colors", JSON.stringify(newColorsData));
             localStorage.setItem("userData", JSON.stringify(newData));
         }
+
+        createTimeContent() {
+            this.view.createTimeContent();
+        }
+
+        createCategoryContent() {
+            this.view.createCategoryContent(this.getData(), this.getColors());
+        }
+
+        addTime(value) {
+            if (value) {
+                this.view.addTime(value);
+            }
+        }
     };
 
     class TaskerController {
         constructor(model, container) {
             this.model = model;
             this.container = container;
+            this.categoryShow = false;
+            this.clockShow = false;
+            this.calendarShow = false;
         }
 
         init() {
@@ -755,7 +800,40 @@ const taskerApp = (function () {
                     this.model.visibleToggle();
                 };
 
-                if (e.target.className === 'category-button__text') this.model.show();
+                if (e.target.className === 'category-button__text') {
+                    if (!this.clockShow && !this.calendarShow) {
+                        this.model.show();
+                        this.model.createCategoryContent();
+
+                        if (this.categoryShow) {
+                            this.categoryShow = false;
+                        } else {
+                            this.categoryShow = true;
+                        }
+
+                    } else {
+                        const inputTime = document.querySelector('#clock');
+
+                        if (inputTime) {
+                            this.model.addTime(inputTime.value);
+                        };
+
+                        this.model.show();
+                        this.clockShow = false;
+                        this.calendarShow = false;
+
+                        setTimeout(() => {
+                            this.model.createCategoryContent();
+                            this.model.show()
+                        }, 600);
+
+                        if (this.categoryShow) {
+                            this.categoryShow = false;
+                        } else {
+                            this.categoryShow = true;
+                        }
+                    }
+                };
 
                 if (window.location.hash.slice(1) === 'createTask') {
                     const listItems = document.querySelectorAll('.lists__list-item');
@@ -800,6 +878,40 @@ const taskerApp = (function () {
                     }
                 }
 
+                if (e.target.className === 'clock-button') {
+                    if (!this.categoryShow && !this.calendarShow) {
+                        const inputTime = document.querySelector('#clock');
+
+                        if (inputTime) {
+                            this.model.addTime(inputTime.value);
+                        };
+
+                        this.model.createTimeContent();
+                        this.model.show();
+
+                        if (this.clockShow) {
+                            this.clockShow = false;
+                        } else {
+                            this.clockShow = true;
+                        }
+
+                    } else {
+                        this.model.show();
+                        this.categoryShow = false;
+                        this.calendarShow = false;
+                        setTimeout(() => {
+                            this.model.createTimeContent();
+                            this.model.show()
+                        }, 600);
+
+                        if (this.clockShow) {
+                            this.clockShow = false;
+                        } else {
+                            this.clockShow = true;
+                        }
+                    }
+                };
+
                 if (window.location.hash.slice(1) === 'createCategory') {
                     const colorsArr = document.querySelectorAll('.color');
 
@@ -837,11 +949,19 @@ const taskerApp = (function () {
         }
 
         saveTask() {
+            if (this.clockShow) {
+                const inputTime = document.querySelector('#clock');
+
+                if (inputTime) {
+                    this.model.addTime(inputTime.value);
+                };
+            }
+
             const infoTask = {
                 message: document.querySelector('.input-text').value,
                 category: document.querySelector('.category-button__text').innerHTML,
                 checked: document.querySelector('.custom-checkbox').checked,
-                time: "",
+                time: document.querySelector('.task-time').innerHTML,
             }
             this.model.saveTask(infoTask);
         }
