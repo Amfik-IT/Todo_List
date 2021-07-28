@@ -88,7 +88,7 @@ body {
       height: 24px;
       margin-right: 5px;
       background-color: white;
-      border: 0px solid #cccccc;
+      border: none;
       background-image: url("../img/arrow.svg");
       background-position: center;
       border-radius: 50%; }
@@ -448,14 +448,14 @@ input[type="checkbox"]:checked + span {
   padding: 16px 16px 16px 0px; }
 
 .modal-category__header-category {
-  font-family: 'SFProDisplay';
+  font-family: "SFProDisplay";
   font-size: 32px;
   line-height: 41px;
   letter-spacing: 0.01em;
   color: #ffffff; }
 
 .modal-category__header-count {
-  font-family: 'SFProText';
+  font-family: "SFProText";
   font-size: 16px;
   line-height: 19px;
   letter-spacing: -0.02em;
@@ -496,7 +496,7 @@ main {
 
 #input-text {
   display: none;
-  font-family: 'SFProDisplay';
+  font-family: "SFProDisplay";
   font-size: 32px;
   line-height: 41px;
   letter-spacing: 0.01em;
