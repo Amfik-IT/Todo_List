@@ -411,7 +411,7 @@ const taskerApp = (function () {
 
         init() {
             const storage = this.getData();
-            const storageColor = this.getColorsData();
+            const storageColor = this.getColors();
             const storageNewColor = this.getNewColors();
 
             if (storageColor === null) {
@@ -444,7 +444,7 @@ const taskerApp = (function () {
             }
 
             if (storageNewColor === null) {
-                let newColorsData = [{
+                let newColors = [{
                         backColor: "#61dea4",
                         textColor: "#FFFFFF",
                         img: "img/shapeWhite.svg",
@@ -505,7 +505,7 @@ const taskerApp = (function () {
                         img: "img/shapeWhite.svg",
                     },
                 ]
-                localStorage.setItem("newColors", JSON.stringify(newColorsData));
+                localStorage.setItem("newColors", JSON.stringify(newColors));
             }
 
             if (storage === null) {
@@ -584,7 +584,7 @@ const taskerApp = (function () {
             return JSON.parse(localStorage.getItem("userData"));
         }
 
-        getColorsData() {
+        getColors() {
             return JSON.parse(localStorage.getItem("colors"));
         }
 
@@ -593,7 +593,7 @@ const taskerApp = (function () {
         }
 
         initialLoad() {
-            this.view.createContent(this.getData(), this.getColorsData());
+            this.view.createContent(this.getData(), this.getColors());
         }
 
         updateState() {
@@ -601,7 +601,7 @@ const taskerApp = (function () {
             this.view.renderContent(hashPageName);
 
             if (!hashPageName || hashPageName === "homePage") this.initialLoad();
-            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData(), this.getColorsData());
+            if (hashPageName === "createTask") this.view.createCategoryContent(this.getData(), this.getColors());
             if (hashPageName === "createCategory") this.view.createColorsElement(this.getNewColors());
         }
 
@@ -662,7 +662,7 @@ const taskerApp = (function () {
         openModalCategory(category) {
             const tasksArr = this.getData()[0].tasks.filter((item) => item.parent === category);
             const categoryInfo = this.getData()[0].lists.filter((item) => item.category === category);
-            this.view.openModalCategory(tasksArr, categoryInfo, this.getColorsData());
+            this.view.openModalCategory(tasksArr, categoryInfo, this.getColors());
         }
 
         modalTaskCheck(id) {
@@ -683,12 +683,12 @@ const taskerApp = (function () {
                 tasks,
                 lists
             } = newData[0];
-            const newColorsData = this.getColorsData();
+            const newColors = this.getColors();
             lists.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
             tasks.forEach((item) => item.parent === categoryOld ? item.parent = categoryNew : null);
-            newColorsData.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
+            newColors.forEach((item) => item.category === categoryOld ? item.category = categoryNew : null);
             localStorage.setItem("userData", JSON.stringify(newData));
-            localStorage.setItem("colors", JSON.stringify(newColorsData));
+            localStorage.setItem("colors", JSON.stringify(newColors));
             this.view.inputBlur();
         }
 
@@ -713,7 +713,7 @@ const taskerApp = (function () {
                 count: 0,
                 color: backColor,
             }
-            const newColorsData = this.getColorsData();
+            const newColorsData = this.getColors();
             const newData = this.getData();
             const lists = newData[0].lists;
 
