@@ -35,7 +35,7 @@ const taskerApp = (function () {
                             <div class="modal-category__header">
                                 <div class="modal-category__header-text">
                                     <span class="modal-category__header-category"></span>
-                                    <input type="text" class="input-text" id="input-text">
+                                    <input type="text" class="input-text" id="input-text" maxlength="16">
                                     <span class="modal-category__header-count"></span>
                                 </div>
                                 <a class="edit-button"><img class="shape"></a>
@@ -67,6 +67,7 @@ const taskerApp = (function () {
                                 </label>
                                 <div class="input-info">
                                     <input type="text" class="input-text" placeholder="What do you want to do?">
+                                    <span class="date-time"></span>
                                 </div>
                                 <span class="dot-color" style="background-color: #ebeff5"></span>
                             </div>
@@ -74,7 +75,7 @@ const taskerApp = (function () {
                         <div>
                             <div class="create-task__buttons">
                                 <div>
-                                    <a class="calendar-button"><img src="img/calendar.svg" alt="calendar" title="calendar"></a>
+                                    <a class="calendar-button"><img class="calendar-button" src="img/calendar.svg" alt="calendar" title="calendar"></a>
                                     <label for="clock">
                                         <a class="clock-button"><img class="clock-button" src="img/alarm.svg" alt="clock" title="clock"></a>
                                     </label>
@@ -84,6 +85,7 @@ const taskerApp = (function () {
                                 </div>
                             </div>
                             <div class="category-сhoose"></div>
+                            <div class="date-сhoose datepicker-here"></div>
                         </div>
                         
                     </main>
@@ -103,7 +105,7 @@ const taskerApp = (function () {
                                 <a class="create-category__done-button" href="#homePage">Done</a>
                             </div>
                             <div class="create-category__body">
-                                <input type="text" class="input-text" placeholder="Enter category name">
+                                <input type="text" class="input-text" placeholder="Enter category name" maxlength="16">
                             </div>
                         </div>
                         <div>
@@ -178,6 +180,7 @@ const taskerApp = (function () {
                 const spanText = document.createElement('span');
                 const spanColor = document.createElement('span');
                 const label = document.createElement('label');
+                const dateTime = document.createElement('span');
                 const colorBack = colors.find((element) => element.category === item.parent).backColor;
 
                 li.setAttribute("class", "tasks__list-item");
@@ -188,15 +191,24 @@ const taskerApp = (function () {
                 input.checked = item.checked;
                 spanText.setAttribute("class", "task-text");
                 spanText.innerHTML = item.text;
+                dateTime.classList.add('date-time');
                 pText.append(spanText);
+
+                if (item.date) {
+                    const date = document.createElement('div');
+                    date.setAttribute('class', 'task-date');
+                    date.innerHTML = item.date;
+                    dateTime.append(date);
+                }
 
                 if (!!item.time) {
                     const spanTime = document.createElement('span');
                     spanTime.setAttribute("class", "task-time");
                     spanTime.innerHTML = item.time;
-                    pText.append(spanTime);
+                    dateTime.append(spanTime);
                 }
 
+                pText.append(dateTime);
                 spanColor.setAttribute("class", "dot-color");
                 spanColor.setAttribute("style", `background-color: ${colorBack}`);
                 li.append(input);
@@ -310,12 +322,15 @@ const taskerApp = (function () {
                 const li = document.createElement('li');
                 const p = document.createElement('p');
                 const span = document.createElement('span');
+                const dateTime = document.createElement('span');
 
                 label.setAttribute('for', `${item.id}`);
                 li.setAttribute('class', 'tasks__list-item');
                 span.classList.add('task-text');
                 span.setAttribute('data-id', `${item.id}`);
                 span.setAttribute('style', `color: ${colorText}`);
+                dateTime.classList.add('date-time');
+
 
                 if (item.checked) {
                     span.classList.add('check');
@@ -324,14 +339,23 @@ const taskerApp = (function () {
                 span.innerHTML = item.text;
                 p.append(span);
 
+                if (item.date) {
+                    const date = document.createElement('div');
+                    date.setAttribute('class', 'task-date');
+                    date.setAttribute('style', `color: ${colorText}`);
+                    date.innerHTML = item.date;
+                    dateTime.append(date);
+                }
+
                 if (item.time) {
                     const spanTime = document.createElement('span');
                     spanTime.setAttribute('class', 'task-time');
                     spanTime.setAttribute('style', `color: ${colorText}`);
                     spanTime.innerHTML = item.time;
-                    p.append(spanTime);
+                    dateTime.append(spanTime);
                 }
 
+                p.append(dateTime);
                 li.append(p);
                 label.append(li);
                 ul.append(label);
@@ -408,27 +432,52 @@ const taskerApp = (function () {
 
         createTimeContent() {
             const timeContainer = document.querySelector('.category-сhoose');
+            const wrapper = document.createElement('div');
             const inputTime = document.createElement('input');
             const rangeLine = document.createElement('div');
 
             timeContainer.innerHTML = "";
+            wrapper.classList.add("wrapper");
             inputTime.setAttribute("type", "time");
             inputTime.setAttribute("id", "clock");
             inputTime.classList.add("clock");
             rangeLine.classList.add('range-line');
-            timeContainer.append(rangeLine);
-            timeContainer.append(inputTime);
+            wrapper.append(rangeLine);
+            wrapper.append(inputTime);
+            timeContainer.append(wrapper);
         }
 
         addTime(value) {
-            const inputText = document.querySelector('.input-text');
-            const dot = document.querySelector('.dot-color');
+            const dateTime = document.querySelector('.date-time');
             const span = document.querySelector('.task-time');
 
             const spanTime = document.createElement('span');
             spanTime.setAttribute('class', 'task-time');
             spanTime.innerHTML = value;
-            span ? span.replaceWith(spanTime) : inputText.after(spanTime);
+            span ? span.replaceWith(spanTime) : dateTime.append(spanTime);
+        }
+
+        showCalendarContent() {
+            const calendarContainer = document.querySelector('.date-сhoose');
+            $('.date-сhoose').datepicker({
+                language: 'en'
+            });
+
+            if (!calendarContainer.style.height || calendarContainer.style.height === "0px") {
+                calendarContainer.style.height = "248px";
+            } else {
+                calendarContainer.style.height = "0px";
+            }
+        }
+
+        addDate(value) {
+            const dateTime = document.querySelector('.date-time');
+            const dateContainer = document.querySelector('.task-date');
+
+            const date = document.createElement('div');
+            date.setAttribute('class', 'task-date');
+            date.innerHTML = value;
+            dateContainer ? dateContainer.replaceWith(date) : dateTime.prepend(date);
         }
     };
 
@@ -545,6 +594,7 @@ const taskerApp = (function () {
                             parent: "Work",
                             color: "#61dea4",
                             time: "",
+                            date: "",
                             checked: false,
                         },
                         {
@@ -553,6 +603,7 @@ const taskerApp = (function () {
                             parent: "Shopping",
                             color: "#f45e6d",
                             time: "20:10",
+                            date: "17.06.2021",
                             checked: false,
                         },
                         {
@@ -561,6 +612,7 @@ const taskerApp = (function () {
                             parent: "Shopping",
                             color: "#f45e6d",
                             time: "",
+                            date: "",
                             checked: false,
                         },
                         {
@@ -569,6 +621,7 @@ const taskerApp = (function () {
                             parent: "Inbox",
                             color: "#ebeff5",
                             time: "",
+                            date: "",
                             checked: false,
                         },
                         {
@@ -577,6 +630,7 @@ const taskerApp = (function () {
                             parent: "Family",
                             color: "#ffe761",
                             time: "",
+                            date: "",
                             checked: false,
                         }
                     ],
@@ -660,7 +714,8 @@ const taskerApp = (function () {
             message: text,
             category: parent,
             checked,
-            time
+            time,
+            date,
         }) {
             const newData = this.getData();
             const {
@@ -678,6 +733,7 @@ const taskerApp = (function () {
                     checked,
                     color: foundCategory.color,
                     time,
+                    date,
                 }
 
                 tasks.push(task);
@@ -764,6 +820,16 @@ const taskerApp = (function () {
                 this.view.addTime(value);
             }
         }
+
+        showCalendarContent() {
+            this.view.showCalendarContent();
+        }
+
+        addDate(value) {
+            if (value) {
+                this.view.addDate(value);
+            }
+        }
     };
 
     class TaskerController {
@@ -818,7 +884,23 @@ const taskerApp = (function () {
                             this.model.addTime(inputTime.value);
                         };
 
-                        this.model.show();
+                        if (this.clockShow) {
+                            this.model.show();
+                        } else {
+                            const selectedDate = document.querySelector('.-selected-');
+
+                            if (selectedDate) {
+                                const dataset = selectedDate.dataset;
+                                const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
+                                const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
+                                const year = dataset.year;
+                                const value = `${date}.${month}.${year}`
+                                this.model.addDate(value);
+                            };
+
+                            this.model.showCalendarContent();
+                        }
+
                         this.clockShow = false;
                         this.calendarShow = false;
 
@@ -845,7 +927,25 @@ const taskerApp = (function () {
                     });
                 }
 
-                if (e.target.className === 'done-button') this.saveTask();
+                if (e.target.className === 'done-button') {
+
+                    if (this.categoryShow) {
+                        this.model.show();
+                        this.categoryShow = false;
+                    }
+
+                    if (this.clockShow) {
+                        this.model.show();
+                        this.clockShow = false;
+                    }
+
+                    if (this.calendarShow) {
+                        this.model.showCalendarContent();
+                        this.calendarShow = false;
+                    }
+
+                    this.saveTask();
+                };
 
                 if (!window.location.hash.slice(1) || window.location.hash.slice(1) === "homePage") {
                     const listItems = document.querySelectorAll('.lists__list-item');
@@ -896,18 +996,73 @@ const taskerApp = (function () {
                         }
 
                     } else {
-                        this.model.show();
+                        if (this.categoryShow) {
+                            this.model.show();
+                        } else {
+                            const selectedDate = document.querySelector('.-selected-');
+
+                            if (selectedDate) {
+                                const dataset = selectedDate.dataset;
+                                const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
+                                const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
+                                const year = dataset.year;
+                                const value = `${date}.${month}.${year}`
+                                this.model.addDate(value);
+                            };
+
+                            this.model.showCalendarContent();
+                        }
+
                         this.categoryShow = false;
                         this.calendarShow = false;
+
                         setTimeout(() => {
                             this.model.createTimeContent();
                             this.model.show()
-                        }, 600);
+                        }, 700);
 
                         if (this.clockShow) {
                             this.clockShow = false;
                         } else {
                             this.clockShow = true;
+                        }
+                    }
+                };
+
+                if (e.target.className === 'calendar-button') {
+                    if (!this.categoryShow && !this.clockShow) {
+                        const selectedDate = document.querySelector('.-selected-');
+
+                        if (selectedDate) {
+                            const dataset = selectedDate.dataset;
+                            const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
+                            const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
+                            const year = dataset.year;
+                            const value = `${date}.${month}.${year}`
+                            this.model.addDate(value);
+                        };
+
+                        this.model.showCalendarContent();
+
+                        if (this.calendarShow) {
+                            this.calendarShow = false;
+                        } else {
+                            this.calendarShow = true;
+                        }
+
+                    } else {
+                        this.model.show();
+                        this.categoryShow = false;
+                        this.clockShow = false;
+
+                        setTimeout(() => {
+                            this.model.showCalendarContent();
+                        }, 600);
+
+                        if (this.calendarShow) {
+                            this.calendarShow = false;
+                        } else {
+                            this.calendarShow = true;
                         }
                     }
                 };
@@ -957,11 +1112,30 @@ const taskerApp = (function () {
                 };
             }
 
+            if (this.calendarShow) {
+                const selectedDate = document.querySelector('.-selected-');
+
+                if (selectedDate) {
+                    const dataset = selectedDate.dataset;
+                    const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
+                    const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
+                    const year = dataset.year;
+                    const value = `${date}.${month}.${year}`
+                    this.model.addDate(value);
+                };
+            }
+
+            const time = document.querySelector('.task-time');
+            const date = document.querySelector('.task-date');
+            const timeValue = time ? time.innerHTML : "";
+            const dateValue = date ? date.innerHTML : "";
+
             const infoTask = {
                 message: document.querySelector('.input-text').value,
                 category: document.querySelector('.category-button__text').innerHTML,
                 checked: document.querySelector('.custom-checkbox').checked,
-                time: document.querySelector('.task-time').innerHTML,
+                time: timeValue,
+                date: dateValue,
             }
             this.model.saveTask(infoTask);
         }

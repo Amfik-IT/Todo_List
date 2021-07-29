@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(datepicker.css);
 @keyframes up {
   from {
     bottom: -100%; }
@@ -210,6 +211,32 @@ li[data-category="shopping"] .list-count-task {
     background-repeat: no-repeat;
     background-size: 13px; }
 
+.task-date {
+  position: relative;
+  display: inline-block;
+  padding-left: 18px;
+  margin-top: 5px;
+  margin-right: 14px;
+  font-family: "SFProText";
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.337647px;
+  color: rgba(37, 42, 49, 0.3);
+  mix-blend-mode: normal; }
+  .task-date::before {
+    content: " ";
+    position: absolute;
+    left: 0px;
+    top: 0;
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background-image: url(../img/calendar.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px; }
+
 .modal-add {
   width: 100vw;
   height: 100vh;
@@ -359,6 +386,7 @@ input[type="checkbox"]:checked + span {
     opacity: 0.4; }
 
 .create-task__buttons {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -397,10 +425,6 @@ input[type="checkbox"]:checked + span {
 
 .category-сhoose {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   height: 310px;
   height: 0px;
   overflow: scroll;
@@ -408,6 +432,29 @@ input[type="checkbox"]:checked + span {
   transition-duration: 0.6s; }
   .category-сhoose::-webkit-scrollbar {
     width: 0; }
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; }
+
+.date-сhoose {
+  width: 100%;
+  height: 0px;
+  overflow: scroll;
+  transition-property: height;
+  transition-duration: 0.6s; }
+  .date-сhoose::-webkit-scrollbar {
+    width: 0; }
+
+.datepicker {
+  width: 100%;
+  height: 230px;
+  border: none; }
+
+.datepicker--nav {
+  border-bottom: none; }
 
 .category-сhoose .lists__list .lists__list-item {
   position: relative;
@@ -498,6 +545,24 @@ main {
   main::-webkit-scrollbar {
     width: 0; }
 
+.modal-category[data-category="Inbox"] .task-time,
+.modal-category[data-category="Family"] .task-time {
+  color: rgba(37, 42, 49, 0.3) !important; }
+  .modal-category[data-category="Inbox"] .task-time::before,
+  .modal-category[data-category="Family"] .task-time::before {
+    content: " ";
+    position: absolute;
+    left: 0px;
+    top: 0;
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background-image: url(../img/clock.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px; }
+
 .modal-category .task-time {
   color: rgba(255, 255, 255, 0.5) !important; }
   .modal-category .task-time::before {
@@ -510,6 +575,40 @@ main {
     height: 15px;
     margin-right: 5px;
     background-image: url(../img/clockWhite.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px; }
+
+.modal-category[data-category="Inbox"] .task-date,
+.modal-category[data-category="Family"] .task-date {
+  color: rgba(37, 42, 49, 0.3) !important; }
+  .modal-category[data-category="Inbox"] .task-date::before,
+  .modal-category[data-category="Family"] .task-date::before {
+    content: " ";
+    position: absolute;
+    left: 0px;
+    top: 0;
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background-image: url(../img/calendar.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px; }
+
+.modal-category .task-date {
+  color: rgba(255, 255, 255, 0.5) !important; }
+  .modal-category .task-date::before {
+    content: " ";
+    position: absolute;
+    left: 0px;
+    top: 0;
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background-image: url(../img/calendarWhite.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 13px; }
