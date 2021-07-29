@@ -868,8 +868,9 @@ const taskerApp = (function () {
 
                 if (e.target.className === 'category-button__text') {
                     if (!this.clockShow && !this.calendarShow) {
+                        const content = document.querySelector('.lists__list');
+                        if (!content) this.model.createCategoryContent();
                         this.model.show();
-                        this.model.createCategoryContent();
 
                         if (this.categoryShow) {
                             this.categoryShow = false;
