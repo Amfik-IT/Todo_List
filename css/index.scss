@@ -90,20 +90,8 @@ body {
         letter-spacing: -0.02em;
         color: $blackText;
 
-        span {
-            &:first-child:before {
-                content: " ";
-                position: absolute;
-                display: block;
-                width: 24px;
-                height: 24px;
-                margin-right: 5px;
-                background-color: transparent;
-                border: 2px solid $inputBorder;
-                border-radius: 50%;
-                left: -42px;
-                top: 29%;
-            }
+        span.check {
+            color: $checkText !important;
         }
 
         span.check:first-child:before {
@@ -124,8 +112,34 @@ body {
     }
 }
 
+.tasks__list-item p {
+    .task-text {
+        color: $blackText;
+        transition-property: color;
+        transition-duration: 0.6s;
+
+        &:first-child:before {
+            content: " ";
+            position: absolute;
+            display: block;
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+            background-color: transparent;
+            border: 2px solid $inputBorder;
+            border-radius: 50%;
+            left: -42px;
+            top: 29%;
+        }
+    }
+}
+
 .custom-checkbox {
     visibility: hidden;
+}
+
+input[type="checkbox"]:checked + p > span.task-text {
+    color: $checkText;
 }
 
 input[type="checkbox"]:checked + p > span:first-child:before {
