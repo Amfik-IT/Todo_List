@@ -35,7 +35,7 @@ const taskerApp = (function () {
                             <div class="modal-category__header">
                                 <div class="modal-category__header-text">
                                     <span class="modal-category__header-category"></span>
-                                    <input type="text" class="input-text" id="input-text">
+                                    <input type="text" class="input-text" id="input-text" maxlength="16">
                                     <span class="modal-category__header-count"></span>
                                 </div>
                                 <a class="edit-button"><img class="shape"></a>
@@ -105,7 +105,7 @@ const taskerApp = (function () {
                                 <a class="create-category__done-button" href="#homePage">Done</a>
                             </div>
                             <div class="create-category__body">
-                                <input type="text" class="input-text" placeholder="Enter category name">
+                                <input type="text" class="input-text" placeholder="Enter category name" maxlength="16">
                             </div>
                         </div>
                         <div>
@@ -432,16 +432,19 @@ const taskerApp = (function () {
 
         createTimeContent() {
             const timeContainer = document.querySelector('.category-сhoose');
+            const wrapper = document.createElement('div');
             const inputTime = document.createElement('input');
             const rangeLine = document.createElement('div');
 
             timeContainer.innerHTML = "";
+            wrapper.classList.add("wrapper");
             inputTime.setAttribute("type", "time");
             inputTime.setAttribute("id", "clock");
             inputTime.classList.add("clock");
             rangeLine.classList.add('range-line');
-            timeContainer.append(rangeLine);
-            timeContainer.append(inputTime);
+            wrapper.append(rangeLine);
+            wrapper.append(inputTime);
+            timeContainer.append(wrapper);
         }
 
         addTime(value) {

@@ -272,10 +272,10 @@ li[data-category="shopping"] .list-count-task {
     mix-blend-mode: normal;
 
     &::before {
+        content: " ";
         position: absolute;
         left: 0px;
         top: 0;
-        content: " ";
         display: block;
         width: 15px;
         height: 15px;
@@ -456,6 +456,7 @@ input[type="checkbox"]:checked + span {
 }
 
 .create-task__buttons {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -501,10 +502,6 @@ input[type="checkbox"]:checked + span {
 
 .category-сhoose {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     height: 310px;
     height: 0px;
     overflow: scroll;
@@ -514,6 +511,13 @@ input[type="checkbox"]:checked + span {
     &::-webkit-scrollbar {
         width: 0;
     }
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .date-сhoose {
@@ -646,10 +650,10 @@ main {
 .modal-category[data-category="Family"] .task-time {
     color: $timeText !important;
     &::before {
+        content: " ";
         position: absolute;
         left: 0px;
         top: 0;
-        content: " ";
         display: block;
         width: 15px;
         height: 15px;
@@ -683,10 +687,10 @@ main {
 .modal-category[data-category="Family"] .task-date {
     color: $timeText !important;
     &::before {
+        content: " ";
         position: absolute;
         left: 0px;
         top: 0;
-        content: " ";
         display: block;
         width: 15px;
         height: 15px;
@@ -701,10 +705,10 @@ main {
 .modal-category .task-date {
     color: $modalTime !important;
     &::before {
+        content: " ";
         position: absolute;
         left: 0px;
         top: 0;
-        content: " ";
         display: block;
         width: 15px;
         height: 15px;

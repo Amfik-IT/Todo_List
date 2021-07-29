@@ -224,10 +224,10 @@ li[data-category="shopping"] .list-count-task {
   color: rgba(37, 42, 49, 0.3);
   mix-blend-mode: normal; }
   .task-date::before {
+    content: " ";
     position: absolute;
     left: 0px;
     top: 0;
-    content: " ";
     display: block;
     width: 15px;
     height: 15px;
@@ -386,6 +386,7 @@ input[type="checkbox"]:checked + span {
     opacity: 0.4; }
 
 .create-task__buttons {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -424,10 +425,6 @@ input[type="checkbox"]:checked + span {
 
 .category-сhoose {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   height: 310px;
   height: 0px;
   overflow: scroll;
@@ -435,6 +432,12 @@ input[type="checkbox"]:checked + span {
   transition-duration: 0.6s; }
   .category-сhoose::-webkit-scrollbar {
     width: 0; }
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; }
 
 .date-сhoose {
   width: 100%;
@@ -547,10 +550,10 @@ main {
   color: rgba(37, 42, 49, 0.3) !important; }
   .modal-category[data-category="Inbox"] .task-time::before,
   .modal-category[data-category="Family"] .task-time::before {
+    content: " ";
     position: absolute;
     left: 0px;
     top: 0;
-    content: " ";
     display: block;
     width: 15px;
     height: 15px;
@@ -581,10 +584,10 @@ main {
   color: rgba(37, 42, 49, 0.3) !important; }
   .modal-category[data-category="Inbox"] .task-date::before,
   .modal-category[data-category="Family"] .task-date::before {
+    content: " ";
     position: absolute;
     left: 0px;
     top: 0;
-    content: " ";
     display: block;
     width: 15px;
     height: 15px;
@@ -597,10 +600,10 @@ main {
 .modal-category .task-date {
   color: rgba(255, 255, 255, 0.5) !important; }
   .modal-category .task-date::before {
+    content: " ";
     position: absolute;
     left: 0px;
     top: 0;
-    content: " ";
     display: block;
     width: 15px;
     height: 15px;
