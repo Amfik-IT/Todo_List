@@ -1115,18 +1115,29 @@ const taskerApp = (function () {
             this.model.updateData(targetId);
         }
 
+        getDate() {
+            const selectedDate = document.querySelector('.-selected-');
+
+            if (selectedDate) {
+                const dataset = selectedDate.dataset;
+                const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
+                const monthCorrect = Number(dataset.month) + 1;
+                const month = String(monthCorrect).length == 1 ? "0" + monthCorrect : "" + monthCorrect;
+                const year = dataset.year;
+                const value = `${date}.${month}.${year}`
+                return value;
+            } else return "";
+        }
+
         saveTask() {
             const time = document.querySelector('.task-time');
-            const date = document.querySelector('.task-date');
             const timeValue = time ? time.innerHTML : "";
-            const dateValue = date ? date.innerHTML : "";
-
             const infoTask = {
                 message: document.querySelector('.input-text').value,
                 category: document.querySelector('.category-button__text').innerHTML,
                 checked: document.querySelector('.custom-checkbox').checked,
                 time: timeValue,
-                date: dateValue,
+                date: this.getDate(),
             }
             this.model.saveTask(infoTask);
         }
