@@ -580,12 +580,12 @@ input[type="checkbox"]:checked + span {
 }
 
 .modal-category {
-    position: absolute;
+    position: fixed;
     bottom: -100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 100%;
+    width: 100vw;
     height: 98%;
     padding-left: 60px;
     box-sizing: border-box;
