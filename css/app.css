@@ -79,7 +79,7 @@ body {
       height: 24px;
       margin-right: 5px;
       background-color: white;
-      border: none;
+      border: 2px solid #006cff;
       background-image: url("../img/arrow.svg");
       background-position: center;
       border-radius: 50%; }
@@ -109,8 +109,8 @@ input[type="checkbox"]:checked + p > span.task-text {
 
 input[type="checkbox"]:checked + p > span:first-child:before {
   background-image: url("../img/arrow.svg");
-  background-position: center;
-  border-width: 0; }
+  border: 2px solid #006cff;
+  background-position: center; }
 
 .dot-color {
   position: absolute;

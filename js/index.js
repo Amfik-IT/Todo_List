@@ -66,7 +66,7 @@ const taskerApp = (function () {
                                     <span class="task-checkbox"></span>
                                 </label>
                                 <div class="input-info">
-                                    <input type="text" class="input-text" placeholder="What do you want to do?">
+                                    <input type="text" class="input-text" onkeyup="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё0-9\\$\\s\\%\\@]/,'');" placeholder="What do you want to do?">
                                     <span class="date-time"></span>
                                 </div>
                                 <span class="dot-color" style="background-color: #ebeff5"></span>
@@ -105,7 +105,7 @@ const taskerApp = (function () {
                                 <a class="create-category__done-button" href="#homePage">Done</a>
                             </div>
                             <div class="create-category__body">
-                                <input type="text" class="input-text" placeholder="Enter category name" maxlength="16">
+                                <input type="text" class="input-text" onkeyup="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё0-9\\$\\s\\%\\@]/,'');" placeholder="Enter category name" maxlength="16">
                             </div>
                         </div>
                         <div>
@@ -168,6 +168,24 @@ const taskerApp = (function () {
             return сategoryList;
         }
 
+        getDate(itemDate) {
+            const today = new Date();
+            const year = String(today.getFullYear());
+            const month = String(today.getMonth() + 1);
+            const day = String(today.getDate());
+            const tomorrow = String(today.getDate() + 1);
+            const correctToday = `${day.length == 1 ? "0" + day : day}.${month.length == 1 ? "0" + month : month}.${year}`;
+            const correctTomorrow = `${tomorrow.length == 1 ? "0" + tomorrow : tomorrow}.${month.length == 1 ? "0" + month : month}.${year}`;
+
+            if (itemDate === correctToday) {
+                return "Today";
+            } else if (itemDate === correctTomorrow) {
+                return "Tomorrow";
+            } else {
+                return itemDate;
+            }
+        }
+
         getTasksList(storageInfo, colors) {
             const tasksList = document.createElement('ul');
             const tasks = storageInfo[0].tasks;
@@ -197,7 +215,7 @@ const taskerApp = (function () {
                 if (item.date) {
                     const date = document.createElement('div');
                     date.setAttribute('class', 'task-date');
-                    date.innerHTML = item.date;
+                    date.innerHTML = this.getDate(item.date);
                     dateTime.append(date);
                 }
 
@@ -343,7 +361,7 @@ const taskerApp = (function () {
                     const date = document.createElement('div');
                     date.setAttribute('class', 'task-date');
                     date.setAttribute('style', `color: ${colorText}`);
-                    date.innerHTML = item.date;
+                    date.innerHTML = this.getDate(item.date);
                     dateTime.append(date);
                 }
 
@@ -388,7 +406,8 @@ const taskerApp = (function () {
 
             input.value = categorySpan.innerHTML;
             categorySpan.style.display = "none";
-            input.setAttribute('style', `display: block; color: ${categorySpan.style.color}`)
+            input.setAttribute('style', `display: block; color: ${categorySpan.style.color}`);
+            input.setAttribute('onkeyup', "this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё0-9\\$\\s\\%\\@]/,'')")
 
             input.focus();
         }
@@ -450,11 +469,12 @@ const taskerApp = (function () {
         addTime(value) {
             const dateTime = document.querySelector('.date-time');
             const span = document.querySelector('.task-time');
-
+            const clockButton = document.querySelector('img.clock-button');
             const spanTime = document.createElement('span');
             spanTime.setAttribute('class', 'task-time');
             spanTime.innerHTML = value;
             span ? span.replaceWith(spanTime) : dateTime.append(spanTime);
+            clockButton.setAttribute("src", "img/alarmBlue.svg");
         }
 
         showCalendarContent() {
@@ -473,11 +493,12 @@ const taskerApp = (function () {
         addDate(value) {
             const dateTime = document.querySelector('.date-time');
             const dateContainer = document.querySelector('.task-date');
-
+            const calendarButton = document.querySelector('img.calendar-button');
             const date = document.createElement('div');
             date.setAttribute('class', 'task-date');
-            date.innerHTML = value;
+            date.innerHTML = this.getDate(value);
             dateContainer ? dateContainer.replaceWith(date) : dateTime.prepend(date);
+            calendarButton.setAttribute("src", "img/calendarBlue.svg");
         }
     };
 
@@ -888,17 +909,6 @@ const taskerApp = (function () {
                         if (this.clockShow) {
                             this.model.show();
                         } else {
-                            const selectedDate = document.querySelector('.-selected-');
-
-                            if (selectedDate) {
-                                const dataset = selectedDate.dataset;
-                                const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
-                                const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
-                                const year = dataset.year;
-                                const value = `${date}.${month}.${year}`
-                                this.model.addDate(value);
-                            };
-
                             this.model.showCalendarContent();
                         }
 
@@ -936,6 +946,8 @@ const taskerApp = (function () {
                     }
 
                     if (this.clockShow) {
+                        const inputTime = document.querySelector('#clock');
+                        this.model.addTime(inputTime.value);
                         this.model.show();
                         this.clockShow = false;
                     }
@@ -988,6 +1000,10 @@ const taskerApp = (function () {
                         };
 
                         this.model.createTimeContent();
+                        const inputClock = document.querySelector('#clock');
+                        inputClock.onclick = () => {
+                            this.model.addTime(inputClock.value);
+                        }
                         this.model.show();
 
                         if (this.clockShow) {
@@ -1000,17 +1016,6 @@ const taskerApp = (function () {
                         if (this.categoryShow) {
                             this.model.show();
                         } else {
-                            const selectedDate = document.querySelector('.-selected-');
-
-                            if (selectedDate) {
-                                const dataset = selectedDate.dataset;
-                                const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
-                                const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
-                                const year = dataset.year;
-                                const value = `${date}.${month}.${year}`
-                                this.model.addDate(value);
-                            };
-
                             this.model.showCalendarContent();
                         }
 
@@ -1030,18 +1035,24 @@ const taskerApp = (function () {
                     }
                 };
 
+                if (e.target.className === 'datepicker--cell datepicker--cell-day -focus-' ||
+                    e.target.className === 'datepicker--cell datepicker--cell-day -current- -focus-' ||
+                    e.target.className === 'datepicker--cell datepicker--cell-day -weekend- -focus-') {
+                    const selectedDate = document.querySelector('.-selected-');
+
+                    if (selectedDate) {
+                        const dataset = selectedDate.dataset;
+                        const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
+                        const monthCorrect = Number(dataset.month) + 1;
+                        const month = String(monthCorrect).length == 1 ? "0" + monthCorrect : "" + monthCorrect;
+                        const year = dataset.year;
+                        const value = `${date}.${month}.${year}`
+                        this.model.addDate(value);
+                    };
+                }
+
                 if (e.target.className === 'calendar-button') {
                     if (!this.categoryShow && !this.clockShow) {
-                        const selectedDate = document.querySelector('.-selected-');
-
-                        if (selectedDate) {
-                            const dataset = selectedDate.dataset;
-                            const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
-                            const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
-                            const year = dataset.year;
-                            const value = `${date}.${month}.${year}`
-                            this.model.addDate(value);
-                        };
 
                         this.model.showCalendarContent();
 
@@ -1105,27 +1116,6 @@ const taskerApp = (function () {
         }
 
         saveTask() {
-            if (this.clockShow) {
-                const inputTime = document.querySelector('#clock');
-
-                if (inputTime) {
-                    this.model.addTime(inputTime.value);
-                };
-            }
-
-            if (this.calendarShow) {
-                const selectedDate = document.querySelector('.-selected-');
-
-                if (selectedDate) {
-                    const dataset = selectedDate.dataset;
-                    const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
-                    const month = dataset.month.length == 1 ? "0" + dataset.month : dataset.month;
-                    const year = dataset.year;
-                    const value = `${date}.${month}.${year}`
-                    this.model.addDate(value);
-                };
-            }
-
             const time = document.querySelector('.task-time');
             const date = document.querySelector('.task-date');
             const timeValue = time ? time.innerHTML : "";
