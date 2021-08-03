@@ -1038,17 +1038,9 @@ const taskerApp = (function () {
                 if (e.target.className === 'datepicker--cell datepicker--cell-day -focus-' ||
                     e.target.className === 'datepicker--cell datepicker--cell-day -current- -focus-' ||
                     e.target.className === 'datepicker--cell datepicker--cell-day -weekend- -focus-') {
-                    const selectedDate = document.querySelector('.-selected-');
 
-                    if (selectedDate) {
-                        const dataset = selectedDate.dataset;
-                        const date = dataset.date.length == 1 ? "0" + dataset.date : dataset.date;
-                        const monthCorrect = Number(dataset.month) + 1;
-                        const month = String(monthCorrect).length == 1 ? "0" + monthCorrect : "" + monthCorrect;
-                        const year = dataset.year;
-                        const value = `${date}.${month}.${year}`
-                        this.model.addDate(value);
-                    };
+                    this.model.addDate(this.getDate());
+
                 }
 
                 if (e.target.className === 'calendar-button') {
