@@ -581,6 +581,7 @@ input[type="checkbox"]:checked + span {
 
 .modal-category {
     position: fixed;
+    right: 0;
     bottom: -100%;
     display: flex;
     flex-direction: column;
