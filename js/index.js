@@ -105,7 +105,7 @@ const taskerApp = (function () {
                                 <a class="create-category__done-button" href="#homePage">Done</a>
                             </div>
                             <div class="create-category__body">
-                                <input type="text" class="input-text" onkeyup="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё0-9\\$\\s\\%\\@]/,'');" placeholder="Enter category name" maxlength="16">
+                                <input type="text" class="input-text" onkeyup="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё]/,'');" placeholder="Enter category name" maxlength="16">
                             </div>
                         </div>
                         <div>
@@ -407,7 +407,7 @@ const taskerApp = (function () {
             input.value = categorySpan.innerHTML;
             categorySpan.style.display = "none";
             input.setAttribute('style', `display: block; color: ${categorySpan.style.color}`);
-            input.setAttribute('onkeyup', "this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё0-9\\$\\s\\%\\@]/,'')")
+            input.setAttribute('onkeyup', "this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё]/,'')")
 
             input.focus();
         }
