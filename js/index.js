@@ -31,17 +31,19 @@ const taskerApp = (function () {
                         </div>
                         <a class="add-button"><img class="add-button__img" src="img/plus.svg" alt="add" title="add"></a>
                         <div class="modal-category">
-                            <a class="modal-category__close-button"></a>
-                            <div class="modal-category__header">
-                                <div class="modal-category__header-text">
-                                    <span class="modal-category__header-category"></span>
-                                    <input type="text" class="input-text" id="input-text" maxlength="16">
-                                    <span class="modal-category__header-count"></span>
+                            <div class="modal-container">
+                                <a class="modal-category__close-button"></a>
+                                <div class="modal-category__header">
+                                    <div class="modal-category__header-text">
+                                        <span class="modal-category__header-category"></span>
+                                        <input type="text" class="input-text" id="input-text" maxlength="16">
+                                        <span class="modal-category__header-count"></span>
+                                    </div>
+                                    <a class="edit-button"><img class="shape"></a>
                                 </div>
-                                <a class="edit-button"><img class="shape"></a>
-                            </div>
-                            <div class="modal-category__main">
-                                <ul class="modal-category__main-tasks"></ul>
+                                <div class="modal-category__main">
+                                    <ul class="modal-category__main-tasks"></ul>
+                                </div>
                             </div>
                         </div>
                     </main>
@@ -323,6 +325,7 @@ const taskerApp = (function () {
 
         openModalCategory(tasksArr, categoryInfo, colors) {
             const modal = document.querySelector('.modal-category');
+            const modalContainer = document.querySelector('.modal-container')
             const ul = document.querySelector('.modal-category__main-tasks');
             const categorySpan = document.querySelector('.modal-category__header-category');
             const countSpan = document.querySelector('.modal-category__header-count');
@@ -383,7 +386,7 @@ const taskerApp = (function () {
             categorySpan.setAttribute('data-category', `${categoryInfo[0].category}`);
             countSpan.innerHTML = `${categoryInfo[0].count} ${categoryInfo[0].count < 2 ? "task" : "tasks"}`;
             shape.setAttribute('src', `${colorImg}`);
-            modal.style.backgroundColor = `${colorBack}`;
+            modalContainer.style.backgroundColor = `${colorBack}`;
             modal.setAttribute('data-category', `${categoryInfo[0].category}`);
             modal.classList.remove('close')
             modal.classList.add('open');
